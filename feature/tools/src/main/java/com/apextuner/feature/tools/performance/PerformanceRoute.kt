@@ -119,11 +119,11 @@ fun PerformanceRoute(
                     item {
                         Card(modifier = Modifier.fillMaxWidth()) {
                             Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Metric("CPU usage", data.cpuUsagePercent?.let { String.format(Locale.US, "%.1f%%", it) } ?: "Sampling…")
-                                Metric("GPU utilization", data.gpuUsagePercent?.let { String.format(Locale.US, "%.1f%%", it) } ?: "Unavailable")
-                                Metric("Thermal status", formatThermalStatus(data.thermalStatus))
-                                Metric("TCP congestion", data.tcpCongestionAlgorithm ?: "Unavailable")
-                                Metric("Root binary detected", if (data.rootPotentiallyAvailable) "Potentially — not authorized" else "No")
+                                Metric(stringResource(R.string.performance_metric_cpu_usage), data.cpuUsagePercent?.let { String.format(Locale.US, "%.1f%%", it) } ?: stringResource(R.string.performance_sampling))
+                                Metric(stringResource(R.string.performance_metric_gpu), data.gpuUsagePercent?.let { String.format(Locale.US, "%.1f%%", it) } ?: stringResource(R.string.performance_unavailable))
+                                Metric(stringResource(R.string.performance_metric_thermal), formatThermalStatus(data.thermalStatus))
+                                Metric(stringResource(R.string.performance_metric_tcp), data.tcpCongestionAlgorithm ?: stringResource(R.string.performance_unavailable))
+                                Metric(stringResource(R.string.performance_metric_root), stringResource(if (data.rootPotentiallyAvailable) R.string.performance_root_potential else R.string.performance_root_no))
                             }
                         }
                     }
@@ -143,7 +143,7 @@ fun PerformanceRoute(
                                             FilterChip(
                                                 selected = data.activeProfile == profile,
                                                 onClick = { viewModel.applyProfile(profile) },
-                                                label = { Text(profile.name) },
+                                                label = { Text(systemProfileLabel(profile)) },
                                                 modifier = Modifier.weight(1f),
                                             )
                                         }
@@ -171,7 +171,7 @@ fun PerformanceRoute(
                                 Text(stringResource(R.string.performance_core, core.core), fontWeight = FontWeight.SemiBold)
                                 Metric(stringResource(R.string.performance_current), core.currentKhz?.let { stringResource(R.string.performance_mhz, it / 1000) } ?: stringResource(R.string.performance_unavailable))
                                 Metric(stringResource(R.string.performance_range), if (core.minKhz != null && core.maxKhz != null) stringResource(R.string.performance_mhz_range, core.minKhz / 1000, core.maxKhz / 1000) else stringResource(R.string.performance_unavailable))
-                                Metric("Governor", core.governor ?: "Unavailable")
+                                Metric(stringResource(R.string.performance_metric_governor), core.governor ?: stringResource(R.string.performance_unavailable))
                             }
                         }
                     }
@@ -229,5 +229,15 @@ private fun formatThermalStatus(status: ThermalStatus): String = stringResource(
         ThermalStatus.Emergency -> R.string.performance_thermal_emergency
         ThermalStatus.Shutdown -> R.string.performance_thermal_shutdown
         ThermalStatus.Unknown -> R.string.performance_unavailable
+    },
+)
+
+@Composable
+private fun systemProfileLabel(profile: SystemProfile): String = stringResource(
+    when (profile) {
+        SystemProfile.Balanced -> R.string.system_profile_balanced
+        SystemProfile.Battery -> R.string.system_profile_battery
+        SystemProfile.Performance -> R.string.system_profile_performance
+        SystemProfile.Gaming -> R.string.system_profile_gaming
     },
 )

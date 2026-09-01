@@ -132,4 +132,34 @@
     <string name="cleaner_action_find_similar_photos">Find similar photos</string>
     <string name="cleaner_action_analyze_photo_quality">Analyze photo quality</string>
 
+
+    <string name="reencode_phase_preparing">Preparing compression</string>
+    <string name="reencode_phase_transcoding">Compressing media</string>
+    <string name="reencode_phase_saving_copy">Saving compressed copy</string>
+    <string name="reencode_phase_snapshotting">Preparing rollback snapshot</string>
+    <string name="reencode_phase_replacing">Replacing original</string>
+    <string name="reencode_phase_verifying">Verifying replacement</string>
+    <string name="reencode_phase_preparing_body">ApexTuner is validating the source and preparing a temporary staged output.</string>
+    <string name="reencode_phase_transcoding_body">The re-encode runs entirely on this device. You can cancel while transcoding.</string>
+    <string name="reencode_phase_saving_copy_body">The staged result is being copied to the selected Android storage destination.</string>
+    <string name="reencode_phase_snapshotting_body">ApexTuner is copying and verifying the original into temporary app storage. You can still cancel because the source has not been changed.</string>
+    <string name="reencode_phase_replacing_body">The destructive commit has started after explicit confirmation and verified rollback preparation. Cancellation is disabled until rollback-safe finalization finishes.</string>
+    <string name="reencode_phase_verifying_body">ApexTuner is verifying the committed bytes before reporting success.</string>
+    <string name="cleaner_duplicate_analysis_completed">Duplicate analysis completed: %1$s and %2$s, plus %3$s.</string>
+    <string name="cleaner_duplicate_analysis_truncated"> Perceptual image analysis stopped at the 100,000-image safety ceiling.</string>
+    <string name="cleaner_duplicate_analysis_cancelled">Duplicate analysis cancelled.</string>
+    <string name="cleaner_duplicate_analysis_failed">Duplicate analysis failed safely. No files were changed.</string>
+    <plurals name="cleaner_exact_groups">
+        <item quantity="one">%d exact group</item>
+        <item quantity="other">%d exact groups</item>
+    </plurals>
+    <plurals name="cleaner_near_duplicate_groups">
+        <item quantity="one">%d near-duplicate photo group</item>
+        <item quantity="other">%d near-duplicate photo groups</item>
+    </plurals>
+    <plurals name="cleaner_blurry_candidates">
+        <item quantity="one">%d blurry-photo review candidate</item>
+        <item quantity="other">%d blurry-photo review candidates</item>
+    </plurals>
 </resources>
+

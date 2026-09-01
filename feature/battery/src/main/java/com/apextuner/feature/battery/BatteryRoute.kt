@@ -53,6 +53,7 @@ import com.apextuner.core.model.BatteryHealth
 import com.apextuner.core.model.SystemProfile
 import com.apextuner.feature.battery.model.BatteryUiState
 import com.apextuner.feature.battery.model.ChargingSessionInsight
+import com.apextuner.feature.battery.model.EstimateConfidence
 import com.apextuner.feature.battery.model.ChargingHistorySummary
 import com.apextuner.feature.battery.model.RecentAppActivity
 import java.util.Locale
@@ -185,10 +186,10 @@ private fun BatteryScreen(
                                 Text(stringResource(R.string.battery_profile_body), color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 val statusText = when {
                                     !data.profileMatchesSystem && data.hasProfileRestorePoint ->
-                                        stringResource(R.string.battery_profile_status_changed_externally, data.activeProfile.name)
+                                        stringResource(R.string.battery_profile_status_changed_externally, systemProfileLabel(data.activeProfile))
                                     data.activeProfile == SystemProfile.Balanced ->
                                         stringResource(R.string.battery_profile_status_balanced)
-                                    else -> stringResource(R.string.battery_profile_status_active, data.activeProfile.name)
+                                    else -> stringResource(R.string.battery_profile_status_active, systemProfileLabel(data.activeProfile))
                                 }
                                 Text(statusText, fontWeight = FontWeight.Medium)
                                 FilledTonalButton(onClick = onApplySaver, modifier = Modifier.fillMaxWidth()) {
@@ -278,7 +279,7 @@ private fun ChargingSessionsCard(sessions: List<ChargingSessionInsight>) {
                     Text(stringResource(R.string.battery_session_level, session.startLevelPercent?.let { "$it%" } ?: "—", session.endLevelPercent?.let { "$it%" } ?: "—"), style = MaterialTheme.typography.bodySmall)
                     Text(stringResource(R.string.battery_session_added, session.estimatedAddedMah?.let { String.format(Locale.getDefault(), "%.0f mAh", it) } ?: "Unavailable"), style = MaterialTheme.typography.bodySmall)
                     Text(stringResource(R.string.battery_session_temperature, session.averageTemperatureCelsius?.let { String.format(Locale.getDefault(), "%.1f °C", it) } ?: "—", session.peakTemperatureCelsius?.let { String.format(Locale.getDefault(), "%.1f °C", it) } ?: "—"), style = MaterialTheme.typography.bodySmall)
-                    Text(stringResource(R.string.battery_session_confidence, session.confidence.name, session.sampleCount), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.battery_session_confidence, estimateConfidenceLabel(session.confidence), session.sampleCount), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
@@ -430,3 +431,22 @@ private fun formatBatteryHealth(health: BatteryHealth): String = when (health) {
     BatteryHealth.Failure -> stringResource(R.string.battery_health_failure)
     BatteryHealth.Unknown -> stringResource(R.string.battery_health_unknown)
 }
+
+@Composable
+private fun systemProfileLabel(profile: SystemProfile): String = stringResource(
+    when (profile) {
+        SystemProfile.Balanced -> R.string.system_profile_balanced
+        SystemProfile.Battery -> R.string.system_profile_battery
+        SystemProfile.Performance -> R.string.system_profile_performance
+        SystemProfile.Gaming -> R.string.system_profile_gaming
+    },
+)
+
+@Composable
+private fun estimateConfidenceLabel(confidence: EstimateConfidence): String = stringResource(
+    when (confidence) {
+        EstimateConfidence.Low -> R.string.battery_confidence_low
+        EstimateConfidence.Medium -> R.string.battery_confidence_medium
+        EstimateConfidence.High -> R.string.battery_confidence_high
+    },
+)

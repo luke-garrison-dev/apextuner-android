@@ -343,10 +343,10 @@ private fun AppCard(app: AppSummary, onClick: () -> Unit) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text(app.label, modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                Text(if (app.isSystem) "System" else "User", style = MaterialTheme.typography.labelMedium)
+                Text(stringResource(if (app.isSystem) R.string.apps_kind_system else R.string.apps_kind_user), style = MaterialTheme.typography.labelMedium)
             }
             Text(app.packageName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            val usage = app.lastUsedTimeMillis?.let(::formatDateTime) ?: stringResource(R.string.apps_usage_unavailable)
+            val usage = app.lastUsedTimeMillis?.let { formatDateTime(it) } ?: stringResource(R.string.apps_usage_unavailable)
             Text(stringResource(R.string.apps_permission_summary, usage, app.grantedDangerousPermissionCount, app.dangerousPermissionCount), style = MaterialTheme.typography.bodySmall)
             Text(
                 stringResource(
@@ -383,22 +383,22 @@ private fun AppDetailDialog(
         text = {
             when {
                 loading -> Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) { CircularProgressIndicator() }
-                detail == null -> Text(fallbackMessage ?: "Details are unavailable.")
+                detail == null -> Text(fallbackMessage ?: stringResource(R.string.apps_details_unavailable))
                 else -> Column(
                     modifier = Modifier.widthIn(max = 620.dp).verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     Text(detail.summary.packageName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    MetricRow("Version", "${detail.summary.versionName ?: "?"} (${detail.summary.versionCode})")
-                    MetricRow("Target / min SDK", "${detail.targetSdk} / ${detail.minSdk}")
-                    MetricRow("Installed", formatDateTime(detail.summary.firstInstallTimeMillis))
-                    MetricRow("Updated", formatDateTime(detail.summary.lastUpdateTimeMillis))
-                    MetricRow("Installer", detail.installerPackage ?: "Unavailable")
+                    MetricRow(stringResource(R.string.apps_metric_version), "${detail.summary.versionName ?: stringResource(R.string.apps_version_unknown)} (${detail.summary.versionCode})")
+                    MetricRow(stringResource(R.string.apps_metric_sdk), "${detail.targetSdk} / ${detail.minSdk}")
+                    MetricRow(stringResource(R.string.apps_metric_installed), formatDateTime(detail.summary.firstInstallTimeMillis))
+                    MetricRow(stringResource(R.string.apps_metric_updated), formatDateTime(detail.summary.lastUpdateTimeMillis))
+                    MetricRow(stringResource(R.string.apps_metric_installer), detail.installerPackage ?: stringResource(R.string.apps_datetime_unavailable))
                     detail.storage?.let {
                         Text(stringResource(R.string.ui_storage), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                        MetricRow("App", ByteSizeFormatter.format(it.appBytes))
-                        MetricRow("Data", ByteSizeFormatter.format(it.dataBytes))
-                        MetricRow("Cache", ByteSizeFormatter.format(it.cacheBytes))
+                        MetricRow(stringResource(R.string.apps_metric_app), ByteSizeFormatter.format(it.appBytes))
+                        MetricRow(stringResource(R.string.apps_metric_data), ByteSizeFormatter.format(it.dataBytes))
+                        MetricRow(stringResource(R.string.apps_metric_cache), ByteSizeFormatter.format(it.cacheBytes))
                     } ?: detail.storageDiagnostic?.let { InfoCard(it) }
                     detail.network?.let {
                         Text(stringResource(R.string.apps_network_period, it.periodDays), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
@@ -484,33 +484,43 @@ private fun MetricRow(label: String, value: String) {
     ApexMetricRow(label = label, value = value)
 }
 
-private fun AppKindFilter.displayName(): String = when (this) {
-    AppKindFilter.All -> "All apps"
-    AppKindFilter.User -> "User apps"
-    AppKindFilter.System -> "System apps"
-}
+@Composable
+private fun AppKindFilter.displayName(): String = stringResource(
+    when (this) {
+        AppKindFilter.All -> R.string.apps_filter_all
+        AppKindFilter.User -> R.string.apps_filter_user
+        AppKindFilter.System -> R.string.apps_filter_system
+    },
+)
 
-private fun AppSort.displayName(): String = when (this) {
-    AppSort.Name -> "Name"
-    AppSort.ReviewPriority -> "Review priority"
-    AppSort.LastUsed -> "Last used"
-    AppSort.RecentlyUpdated -> "Updated"
-    AppSort.PermissionExposure -> "Permissions"
-    AppSort.TargetSdk -> "Target SDK"
-}
+@Composable
+private fun AppSort.displayName(): String = stringResource(
+    when (this) {
+        AppSort.Name -> R.string.apps_sort_name
+        AppSort.ReviewPriority -> R.string.apps_sort_review
+        AppSort.LastUsed -> R.string.apps_sort_last_used
+        AppSort.RecentlyUpdated -> R.string.apps_sort_updated
+        AppSort.PermissionExposure -> R.string.apps_sort_permissions
+        AppSort.TargetSdk -> R.string.apps_sort_target_sdk
+    },
+)
 
-private fun AppInsightFilter.displayName(): String = when (this) {
-    AppInsightFilter.All -> "All"
-    AppInsightFilter.ReviewRecommended -> "Review"
-    AppInsightFilter.Unused30Days -> "Unused 30d"
-    AppInsightFilter.PermissionHeavy -> "Permission-heavy"
-    AppInsightFilter.RecentlyInstalled -> "Installed 30d"
-    AppInsightFilter.RecentlyUpdated -> "Updated 30d"
-    AppInsightFilter.LegacyTarget -> "Legacy target"
-    AppInsightFilter.InstallerUnknown -> "Installer unknown"
-}
+@Composable
+private fun AppInsightFilter.displayName(): String = stringResource(
+    when (this) {
+        AppInsightFilter.All -> R.string.apps_insight_all
+        AppInsightFilter.ReviewRecommended -> R.string.apps_insight_review
+        AppInsightFilter.Unused30Days -> R.string.apps_insight_unused
+        AppInsightFilter.PermissionHeavy -> R.string.apps_insight_permission_heavy
+        AppInsightFilter.RecentlyInstalled -> R.string.apps_insight_installed
+        AppInsightFilter.RecentlyUpdated -> R.string.apps_insight_updated
+        AppInsightFilter.LegacyTarget -> R.string.apps_insight_legacy
+        AppInsightFilter.InstallerUnknown -> R.string.apps_insight_installer_unknown
+    },
+)
 
-private fun formatDateTime(value: Long): String = if (value <= 0L) "Unavailable" else DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(Date(value))
+@Composable
+private fun formatDateTime(value: Long): String = if (value <= 0L) stringResource(R.string.apps_datetime_unavailable) else DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(Date(value))
 
 private fun Context.launchApp(app: AppSummary) {
     val cls = app.mainActivityClassName ?: return

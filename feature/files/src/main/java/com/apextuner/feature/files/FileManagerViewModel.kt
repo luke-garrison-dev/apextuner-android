@@ -1,10 +1,13 @@
 package com.apextuner.feature.files
 
+import android.content.Context
 import android.net.Uri
 import android.provider.DocumentsContract
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -16,6 +19,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class FileManagerViewModel @Inject constructor(
     private val repository: SafFileRepository,
+    @ApplicationContext private val appContext: Context,
 ) : ViewModel() {
     private val _state = MutableStateFlow<FileManagerUiState>(FileManagerUiState.Loading(null))
     val state: StateFlow<FileManagerUiState> = _state.asStateFlow()
@@ -36,20 +40,20 @@ class FileManagerViewModel @Inject constructor(
         operationJob = viewModelScope.launch {
             try {
                 if (!repository.persistTree(uri)) {
-                    reportGrantFailure("Android did not grant persistent access to this folder.")
+                    reportGrantFailure(str(R.string.file_grant_not_persistent))
                     return@launch
                 }
                 val roots = repository.persistedTrees()
                 val selected = roots.firstOrNull { sameTree(it.uri, uri) }
                 if (selected == null) {
-                    reportGrantFailure("Android granted access, but this folder could not be resolved safely.")
+                    reportGrantFailure(str(R.string.file_grant_unresolved))
                 } else {
                     openLocation(selected, clearHistory = true)
                 }
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Throwable) {
-                reportGrantFailure(error.message ?: "Folder access could not be saved.")
+                reportGrantFailure(error.message ?: str(R.string.file_grant_save_failed))
             }
         }
     }
@@ -72,7 +76,7 @@ class FileManagerViewModel @Inject constructor(
         if (operationJob?.isActive == true) {
             val ready = _state.value as? FileManagerUiState.Ready
             if (ready != null) {
-                publishReady(ready.copy(message = "Cancel the active file operation before navigating."))
+                publishReady(ready.copy(message = str(R.string.file_cancel_before_navigate)))
             }
             return true
         }
@@ -96,15 +100,15 @@ class FileManagerViewModel @Inject constructor(
         publishReady(ready.copy(selected = if (ready.selected?.uri == node.uri) null else node))
     }
 
-    fun createFolder(name: String) = runOperation("Creating folder…") { ready ->
+    fun createFolder(name: String) = runOperation(str(R.string.file_creating_folder)) { ready ->
         repository.createFolder(Uri.parse(ready.location.uri), name)
-        "Folder created."
+        str(R.string.file_folder_created)
     }
 
-    fun renameSelected(name: String) = runOperation("Renaming…") { ready ->
-        val node = requireNotNull(ready.selected) { "Select a file or folder first." }
+    fun renameSelected(name: String) = runOperation(str(R.string.file_renaming)) { ready ->
+        val node = requireNotNull(ready.selected) { str(R.string.file_select_item_first) }
         repository.rename(Uri.parse(node.uri), name)
-        "Renamed successfully."
+        str(R.string.file_renamed)
     }
 
     fun stageCopy() = stageTransfer(move = false)
@@ -115,24 +119,24 @@ class FileManagerViewModel @Inject constructor(
         transferSource = null
         transferMove = false
         val ready = _state.value as? FileManagerUiState.Ready ?: return
-        publishReady(ready.copy(transferSource = null, transferMove = false, message = "Pending transfer cleared."))
+        publishReady(ready.copy(transferSource = null, transferMove = false, message = str(R.string.file_transfer_cleared)))
     }
 
-    fun pasteHere() = runOperation(if (transferMove) "Moving…" else "Copying…") { ready ->
-        val source = requireNotNull(transferSource) { "Choose a source item first." }
-        require(source.uri != ready.location.uri) { "Source and destination cannot be the same document." }
+    fun pasteHere() = runOperation(if (transferMove) str(R.string.file_moving) else str(R.string.file_copying)) { ready ->
+        val source = requireNotNull(transferSource) { str(R.string.file_choose_source_first) }
+        require(source.uri != ready.location.uri) { str(R.string.file_same_source_destination) }
         if (transferMove) repository.move(Uri.parse(source.uri), Uri.parse(ready.location.uri))
         else repository.copy(Uri.parse(source.uri), Uri.parse(ready.location.uri))
-        val action = if (transferMove) "Move" else "Copy"
+        val complete = if (transferMove) str(R.string.file_move_complete) else str(R.string.file_copy_complete)
         transferSource = null
         transferMove = false
-        "$action complete."
+        complete
     }
 
     private fun stageTransfer(move: Boolean) {
         val ready = _state.value as? FileManagerUiState.Ready ?: return
         val source = ready.selected ?: run {
-            publishReady(ready.copy(message = "Select a file or folder first."))
+            publishReady(ready.copy(message = str(R.string.file_select_item_first)))
             return
         }
         transferSource = source
@@ -142,23 +146,22 @@ class FileManagerViewModel @Inject constructor(
                 transferSource = source,
                 transferMove = move,
                 selected = null,
-                message = if (move) "Move staged. Open the destination folder, then tap Paste here."
-                else "Copy staged. Open the destination folder, then tap Paste here.",
+                message = str(if (move) R.string.file_move_staged else R.string.file_copy_staged),
             ),
         )
     }
 
-    fun zipSelected(name: String) = runOperation("Creating ZIP…") { ready ->
-        val node = requireNotNull(ready.selected) { "Select a file or folder first." }
+    fun zipSelected(name: String) = runOperation(str(R.string.file_creating_zip)) { ready ->
+        val node = requireNotNull(ready.selected) { str(R.string.file_select_item_first) }
         repository.zip(Uri.parse(node.uri), Uri.parse(ready.location.uri), name)
-        "ZIP archive created."
+        str(R.string.file_zip_created)
     }
 
-    fun extractSelected() = runOperation("Extracting ZIP…") { ready ->
-        val node = requireNotNull(ready.selected) { "Select a ZIP archive first." }
-        require(node.displayName.endsWith(".zip", ignoreCase = true)) { "The selected file is not a ZIP archive." }
+    fun extractSelected() = runOperation(str(R.string.file_extracting_zip)) { ready ->
+        val node = requireNotNull(ready.selected) { str(R.string.file_select_zip_first) }
+        require(node.displayName.endsWith(".zip", ignoreCase = true)) { str(R.string.file_not_a_zip) }
         val count = repository.extractZip(Uri.parse(node.uri), Uri.parse(ready.location.uri))
-        "Extracted $count entries."
+        appContext.resources.getQuantityString(R.plurals.file_extracted_entries, count, count)
     }
 
     fun cancelOperation() {
@@ -191,9 +194,9 @@ class FileManagerViewModel @Inject constructor(
         } catch (error: Throwable) {
             val fallback = lastReady
             if (fallback != null) {
-                publishReady(fallback.copy(busyMessage = null, message = error.message ?: "This folder could not be read."))
+                publishReady(fallback.copy(busyMessage = null, message = error.message ?: str(R.string.file_folder_unreadable)))
             } else {
-                _state.value = FileManagerUiState.Error(error.message ?: "This folder could not be read.")
+                _state.value = FileManagerUiState.Error(error.message ?: str(R.string.file_folder_unreadable))
             }
         }
     }
@@ -239,12 +242,12 @@ class FileManagerViewModel @Inject constructor(
                         transferSource = transferSource,
                         transferMove = transferMove,
                         busyMessage = null,
-                        message = "Operation cancelled.",
+                        message = str(R.string.file_operation_cancelled),
                     ),
                 )
                 throw cancelled
             } catch (error: Throwable) {
-                publishReady(ready.copy(busyMessage = null, message = error.message ?: "File operation failed."))
+                publishReady(ready.copy(busyMessage = null, message = error.message ?: str(R.string.file_operation_failed)))
             }
         }
     }
@@ -260,6 +263,8 @@ class FileManagerViewModel @Inject constructor(
         val documentId = runCatching { DocumentsContract.getTreeDocumentId(uri) }.getOrNull() ?: return null
         return SafTreeIdentity(authority, documentId)
     }
+
+    private fun str(@StringRes id: Int): String = appContext.getString(id)
 
     override fun onCleared() {
         operationJob?.cancel()

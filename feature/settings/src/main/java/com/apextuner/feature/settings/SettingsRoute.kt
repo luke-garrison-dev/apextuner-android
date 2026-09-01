@@ -196,11 +196,11 @@ fun SettingsRoute(
                     )
                     val notificationStatus = when {
                         !notificationHistoryAvailability.available ->
-                            notificationHistoryAvailability.reason ?: "Unavailable on this Android profile/device"
-                        !entitlement.isPremium -> "Paused • Premium required for new collection"
-                        !notificationHistorySettings.enabled -> "Off • no notification data is collected"
-                        !notificationHistoryAccessGranted -> "Waiting for Android notification access"
-                        else -> "Active • local Room storage only"
+                            notificationHistoryAvailability.reason ?: stringResource(R.string.settings_notification_unavailable)
+                        !entitlement.isPremium -> stringResource(R.string.settings_notification_premium)
+                        !notificationHistorySettings.enabled -> stringResource(R.string.settings_notification_off)
+                        !notificationHistoryAccessGranted -> stringResource(R.string.settings_notification_waiting)
+                        else -> stringResource(R.string.settings_notification_active)
                     }
                     Text(
                         notificationStatus,
@@ -235,7 +235,7 @@ fun SettingsRoute(
             item {
                 SectionCard(stringResource(R.string.ui_real_time_monitor_premium)) {
                     Text(stringResource(R.string.ui_a_draggable_on_device_overlay_with_cpu_ram_battery_temp))
-                    Text(stringResource(R.string.monitor_status_summary, monitor.state.name, monitor.lastError?.let { " • $it" } ?: ""), style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.monitor_status_summary, monitorStateLabel(monitor.state), monitor.lastError?.let { " • $it" } ?: ""), style = MaterialTheme.typography.bodySmall)
                     if (!overlayGranted) OutlinedButton(onClick = { openOverlaySettings(context) }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.ui_grant_display_over_other_apps_access)) }
                     if (!notificationsGranted) {
                         OutlinedButton(onClick = { notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS) }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.ui_allow_monitor_notifications)) }
@@ -270,7 +270,7 @@ fun SettingsRoute(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         MaintenanceCadence.entries.forEach { cadence ->
-                            FilterChip(selected = prefs.maintenanceCadence == cadence, onClick = { viewModel.setMaintenanceCadence(cadence) }, enabled = entitlement.isPremium && prefs.scheduledMaintenanceEnabled, label = { Text(cadence.name) })
+                            FilterChip(selected = prefs.maintenanceCadence == cadence, onClick = { viewModel.setMaintenanceCadence(cadence) }, enabled = entitlement.isPremium && prefs.scheduledMaintenanceEnabled, label = { Text(maintenanceCadenceLabel(cadence)) })
                         }
                     }
                     if (!canWriteSystemSettings) {
@@ -463,7 +463,7 @@ fun SettingsRoute(
                     OutlinedButton(
                         onClick = { if (entitlement.isPremium) scheduledBackupTree.launch(null) else onPremium() },
                         modifier = Modifier.fillMaxWidth(),
-                    ) { Text(if (prefs.scheduledBackupTreeUri == null) "Choose backup folder" else "Change backup folder") }
+                    ) { Text(stringResource(if (prefs.scheduledBackupTreeUri == null) R.string.settings_choose_backup_folder else R.string.settings_change_backup_folder)) }
                     if (prefs.scheduledBackupTreeUri != null) {
                         Text(stringResource(R.string.ui_folder_grant_saved_locally),
                             style = MaterialTheme.typography.bodySmall,
@@ -488,7 +488,7 @@ fun SettingsRoute(
                                 selected = prefs.scheduledBackupCadence == cadence,
                                 onClick = { viewModel.setScheduledBackupCadence(cadence) },
                                 enabled = entitlement.isPremium && prefs.scheduledBackupTreeUri != null,
-                                label = { Text(cadence.name) },
+                                label = { Text(maintenanceCadenceLabel(cadence)) },
                             )
                         }
                     }
@@ -515,7 +515,7 @@ fun SettingsRoute(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        listOf(2_000L to "2 s", 5_000L to "5 s", 10_000L to "10 s").forEach { (millis, label) ->
+                        listOf(2_000L to stringResource(R.string.settings_telemetry_2s), 5_000L to stringResource(R.string.settings_telemetry_5s), 10_000L to stringResource(R.string.settings_telemetry_10s)).forEach { (millis, label) ->
                             FilterChip(selected = prefs.telemetryRefreshMillis == millis, onClick = { viewModel.setTelemetryRefresh(millis) }, label = { Text(label) })
                         }
                     }
@@ -580,7 +580,7 @@ fun SettingsRoute(
         )
         is BackupUiState.Message -> AlertDialog(
             onDismissRequest = viewModel::dismissBackupState,
-            title = { Text(if (backup.isError) "Backup issue" else "Backup complete") },
+            title = { Text(stringResource(if (backup.isError) R.string.settings_backup_issue else R.string.settings_backup_complete)) },
             text = { Text(backup.message) },
             confirmButton = { TextButton(onClick = viewModel::dismissBackupState) { Text(stringResource(R.string.ui_close)) } },
         )
@@ -594,7 +594,7 @@ fun SettingsRoute(
                 ) {
                     Text(stringResource(R.string.backup_preview_version, backup.preview.sourceVersion))
                     Text(stringResource(R.string.backup_preview_visible_apps, backup.preview.visibleAppCount))
-                    Text(stringResource(R.string.backup_preview_theme_telemetry, backup.preview.preferences.themeMode.name, backup.preview.preferences.telemetryRefreshMillis / 1000))
+                    Text(stringResource(R.string.backup_preview_theme_telemetry, themeModeLabel(backup.preview.preferences.themeMode), backup.preview.preferences.telemetryRefreshMillis / 1000))
                     backup.preview.warnings.forEach { Text(stringResource(R.string.backup_preview_warning, it), style = MaterialTheme.typography.bodySmall) }
                 }
             },
@@ -677,5 +677,23 @@ private fun themeModeLabel(mode: ThemeMode): String = stringResource(
         ThemeMode.Dark -> R.string.settings_theme_dark
         ThemeMode.Light -> R.string.settings_theme_light
         ThemeMode.System -> R.string.settings_theme_system
+    },
+)
+
+@Composable
+private fun maintenanceCadenceLabel(cadence: MaintenanceCadence): String = stringResource(
+    when (cadence) {
+        MaintenanceCadence.Daily -> R.string.settings_cadence_daily
+        MaintenanceCadence.Weekly -> R.string.settings_cadence_weekly
+    },
+)
+
+@Composable
+private fun monitorStateLabel(state: MonitorRuntimeState): String = stringResource(
+    when (state) {
+        MonitorRuntimeState.Stopped -> R.string.monitor_state_stopped
+        MonitorRuntimeState.Starting -> R.string.monitor_state_starting
+        MonitorRuntimeState.Active -> R.string.monitor_state_active
+        MonitorRuntimeState.Error -> R.string.monitor_state_error
     },
 )

@@ -54,16 +54,21 @@ fun AdvancedToolsRoute(
 
     pending?.let { action ->
         val (title, body) = when (action) {
-            is PendingPrivilegedAction.Freeze -> "Freeze ${action.label}?" to
-                "ApexTuner will disable only ${action.packageName} for the current user through the selected privileged backend. The exact prior enabled state is saved for explicit restoration."
-            is PendingPrivilegedAction.Unfreeze -> "Restore ${action.label}?" to
-                "ApexTuner will restore the PackageManager enabled state saved when this app was frozen."
-            is PendingPrivilegedAction.ForceStop -> "Force-stop ${action.label}?" to
-                "ApexTuner will ask Android to force-stop only ${action.packageName}. This is a one-time user action and is never scheduled or used as a RAM booster."
-            is PendingPrivilegedAction.Profile -> "Apply ${action.profile.name} CPU profile?" to
-                "ApexTuner will snapshot verified CPU governor/frequency values, change only allow-listed cpufreq policy controls, and retain a rollback baseline. Android thermal protections remain enabled and platform-managed."
-            PendingPrivilegedAction.RestoreProfile -> "Restore privileged tuning?" to
-                "ApexTuner will restore the saved CPU governor/frequency baseline and the normal system-profile baseline. Thermal protections are never modified."
+            is PendingPrivilegedAction.Freeze ->
+                stringResource(R.string.advanced_confirm_freeze, action.label) to
+                    stringResource(R.string.advanced_confirm_freeze_body, action.packageName)
+            is PendingPrivilegedAction.Unfreeze ->
+                stringResource(R.string.advanced_confirm_unfreeze, action.label) to
+                    stringResource(R.string.advanced_confirm_unfreeze_body)
+            is PendingPrivilegedAction.ForceStop ->
+                stringResource(R.string.advanced_confirm_force_stop, action.label) to
+                    stringResource(R.string.advanced_confirm_force_stop_body, action.packageName)
+            is PendingPrivilegedAction.Profile ->
+                stringResource(R.string.advanced_confirm_profile, systemProfileLabel(action.profile)) to
+                    stringResource(R.string.advanced_confirm_profile_body)
+            PendingPrivilegedAction.RestoreProfile ->
+                stringResource(R.string.advanced_confirm_restore) to
+                    stringResource(R.string.advanced_confirm_restore_body)
         }
         AlertDialog(
             onDismissRequest = { pending = null },
@@ -93,7 +98,7 @@ fun AdvancedToolsRoute(
         contentColor = MaterialTheme.colorScheme.onBackground,
     ) {
         when (val current = state) {
-            AdvancedToolsUiState.Loading -> CenteredStatus("Checking advanced access…")
+            AdvancedToolsUiState.Loading -> CenteredStatus(stringResource(R.string.advanced_checking_access))
             is AdvancedToolsUiState.Error -> CenteredStatus(current.message, action = viewModel::refresh)
             is AdvancedToolsUiState.Ready -> LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -118,12 +123,12 @@ fun AdvancedToolsRoute(
                                     FilterChip(
                                         selected = current.selectedBackend == backend,
                                         onClick = { viewModel.setBackend(backend) },
-                                        label = { Text(backend.name) },
+                                        label = { Text(privilegedBackendLabel(backend)) },
                                     )
                                 }
                             }
                             Text(stringResource(R.string.advanced_shizuku_permission, stringResource(if (current.status.shizukuPermissionGranted) R.string.advanced_permission_granted else R.string.advanced_permission_not_granted)))
-                            Text(stringResource(R.string.advanced_root_status, current.status.lastRootAuthorization.name))
+                            Text(stringResource(R.string.advanced_root_status, rootAuthorizationLabel(current.status.lastRootAuthorization)))
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 OutlinedButton(onClick = viewModel::requestShizukuPermission, enabled = !current.busy) { Text(stringResource(R.string.ui_request_shizuku)) }
                                 OutlinedButton(onClick = viewModel::testRoot, enabled = !current.busy) { Text(stringResource(R.string.ui_test_root)) }
@@ -228,3 +233,31 @@ private fun CenteredStatus(
         action?.let { OutlinedButton(onClick = it) { Text(stringResource(R.string.ui_retry)) } }
     }
 }
+
+@Composable
+private fun systemProfileLabel(profile: SystemProfile): String = stringResource(
+    when (profile) {
+        SystemProfile.Balanced -> R.string.system_profile_balanced
+        SystemProfile.Battery -> R.string.system_profile_battery
+        SystemProfile.Performance -> R.string.system_profile_performance
+        SystemProfile.Gaming -> R.string.system_profile_gaming
+    },
+)
+
+@Composable
+private fun privilegedBackendLabel(backend: PrivilegedBackend): String = stringResource(
+    when (backend) {
+        PrivilegedBackend.Shizuku -> R.string.advanced_backend_shizuku
+        PrivilegedBackend.Root -> R.string.advanced_backend_root
+    },
+)
+
+@Composable
+private fun rootAuthorizationLabel(state: RootAuthorizationState): String = stringResource(
+    when (state) {
+        RootAuthorizationState.NotChecked -> R.string.advanced_root_not_checked
+        RootAuthorizationState.Granted -> R.string.advanced_root_granted
+        RootAuthorizationState.DeniedOrUnavailable -> R.string.advanced_root_denied
+        RootAuthorizationState.TimedOut -> R.string.advanced_root_timed_out
+    },
+)

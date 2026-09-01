@@ -484,8 +484,8 @@ private fun FirewallHeader(
                     Text(stringResource(R.string.ui_selected_apps_only_packets_dropped_locally), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
-            Metric("State", snapshot.firewallStatus.runtimeState.name)
-            Metric("Selected apps", snapshot.firewallStatus.selectedPackages.size.toString())
+            Metric(stringResource(R.string.network_metric_state), firewallRuntimeLabel(snapshot.firewallStatus.runtimeState))
+            Metric(stringResource(R.string.network_metric_selected_apps), snapshot.firewallStatus.selectedPackages.size.toString())
             Text(stringResource(R.string.firewall_profiles), fontWeight = FontWeight.SemiBold)
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 FirewallProfile.entries.forEach { profile ->
@@ -534,11 +534,24 @@ private fun FirewallAppCard(app: FirewallApp, enabled: Boolean, onToggle: (Boole
     }
 }
 
-private fun FirewallProfile.displayName(): String = when (this) {
-    FirewallProfile.HomeWifi -> "Home Wi‑Fi"
-    FirewallProfile.MobileData -> "Mobile data"
-    FirewallProfile.PublicWifi -> "Public Wi‑Fi"
-}
+@Composable
+private fun FirewallProfile.displayName(): String = stringResource(
+    when (this) {
+        FirewallProfile.HomeWifi -> R.string.firewall_profile_home
+        FirewallProfile.MobileData -> R.string.firewall_profile_mobile
+        FirewallProfile.PublicWifi -> R.string.firewall_profile_public
+    },
+)
+
+@Composable
+private fun firewallRuntimeLabel(state: FirewallRuntimeState): String = stringResource(
+    when (state) {
+        FirewallRuntimeState.Stopped -> R.string.firewall_state_stopped
+        FirewallRuntimeState.Starting -> R.string.firewall_state_starting
+        FirewallRuntimeState.Active -> R.string.firewall_state_active
+        FirewallRuntimeState.Error -> R.string.firewall_state_error
+    },
+)
 
 @Composable
 private fun Metric(label: String, value: String) {

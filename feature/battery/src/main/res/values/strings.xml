@@ -67,4 +67,13 @@
     <string name="battery_average_peak_temp">Average peak temperature</string>
 
     <string name="battery_health_telemetry_unavailable">Android does not expose a usable battery cycle count or charge-counter capacity estimate on this device. ApexTuner will keep checking daily, but it will not invent a battery-health history from unavailable telemetry.</string>
+
+    <string name="system_profile_balanced">Balanced</string>
+    <string name="system_profile_battery">Battery</string>
+    <string name="system_profile_performance">Performance</string>
+    <string name="system_profile_gaming">Gaming</string>
+    <string name="battery_confidence_low">Low</string>
+    <string name="battery_confidence_medium">Medium</string>
+    <string name="battery_confidence_high">High</string>
 </resources>
+

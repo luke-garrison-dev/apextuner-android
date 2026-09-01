@@ -154,4 +154,24 @@
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_system">Match system</string>
+
+    <string name="settings_cadence_daily">Daily</string>
+    <string name="settings_cadence_weekly">Weekly</string>
+    <string name="monitor_state_stopped">Stopped</string>
+    <string name="monitor_state_starting">Starting</string>
+    <string name="monitor_state_active">Active</string>
+    <string name="monitor_state_error">Error</string>
+    <string name="settings_notification_unavailable">Unavailable on this Android profile/device</string>
+    <string name="settings_notification_premium">Paused • Premium required for new collection</string>
+    <string name="settings_notification_off">Off • no notification data is collected</string>
+    <string name="settings_notification_waiting">Waiting for Android notification access</string>
+    <string name="settings_notification_active">Active • local Room storage only</string>
+    <string name="settings_choose_backup_folder">Choose backup folder</string>
+    <string name="settings_change_backup_folder">Change backup folder</string>
+    <string name="settings_backup_issue">Backup issue</string>
+    <string name="settings_backup_complete">Backup complete</string>
+    <string name="settings_telemetry_2s">2 s</string>
+    <string name="settings_telemetry_5s">5 s</string>
+    <string name="settings_telemetry_10s">10 s</string>
 </resources>
+

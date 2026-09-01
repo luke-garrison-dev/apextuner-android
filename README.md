@@ -5,7 +5,7 @@ ApexTuner is a Kotlin/Jetpack Compose Android device-health, diagnostics, optimi
 ## Product identity
 
 - Product name: **ApexTuner**
-- Release candidate source version: **1.1.6** (`versionCode 43`)
+- Release candidate source version: **1.1.7** (`versionCode 44`)
 - Before every Android Studio/CI release build, run `python tools/release_gate.py` from the project root, then run the real Gradle build (`gradlew.bat clean testDebugUnitTest assembleDebug` on Windows or `./gradlew clean testDebugUnitTest assembleDebug` on macOS/Linux).
 - Android application ID: `com.apextuner.app`
 - Kotlin/Android namespaces: `com.apextuner.*`

@@ -25,4 +25,37 @@
     <string name="file_transfer_staged">%1$s staged: %2$s</string>
     <string name="file_transfer_move">Move</string>
     <string name="file_transfer_copy">Copy</string>
+
+    <string name="file_manager_opening">Opening Files…</string>
+    <string name="file_grant_not_persistent">Android did not grant persistent access to this folder.</string>
+    <string name="file_grant_unresolved">Android granted access, but this folder could not be resolved safely.</string>
+    <string name="file_grant_save_failed">Folder access could not be saved.</string>
+    <string name="file_cancel_before_navigate">Cancel the active file operation before navigating.</string>
+    <string name="file_creating_folder">Creating folder…</string>
+    <string name="file_folder_created">Folder created.</string>
+    <string name="file_renaming">Renaming…</string>
+    <string name="file_select_item_first">Select a file or folder first.</string>
+    <string name="file_renamed">Renamed successfully.</string>
+    <string name="file_transfer_cleared">Pending transfer cleared.</string>
+    <string name="file_choose_source_first">Choose a source item first.</string>
+    <string name="file_same_source_destination">Source and destination cannot be the same document.</string>
+    <string name="file_moving">Moving…</string>
+    <string name="file_copying">Copying…</string>
+    <string name="file_move_complete">Move complete.</string>
+    <string name="file_copy_complete">Copy complete.</string>
+    <string name="file_move_staged">Move staged. Open the destination folder, then tap Paste here.</string>
+    <string name="file_copy_staged">Copy staged. Open the destination folder, then tap Paste here.</string>
+    <string name="file_creating_zip">Creating ZIP…</string>
+    <string name="file_zip_created">ZIP archive created.</string>
+    <string name="file_extracting_zip">Extracting ZIP…</string>
+    <string name="file_select_zip_first">Select a ZIP archive first.</string>
+    <string name="file_not_a_zip">The selected file is not a ZIP archive.</string>
+    <string name="file_folder_unreadable">This folder could not be read.</string>
+    <string name="file_operation_cancelled">Operation cancelled.</string>
+    <string name="file_operation_failed">File operation failed.</string>
+    <plurals name="file_extracted_entries">
+        <item quantity="one">Extracted %d entry.</item>
+        <item quantity="other">Extracted %d entries.</item>
+    </plurals>
 </resources>
+

@@ -1,6 +1,7 @@
 package com.apextuner.feature.cleaner
 
 import android.app.PendingIntent
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,7 @@ import com.apextuner.feature.cleaner.model.MediaReencodePreset
 import com.apextuner.feature.cleaner.model.MediaReencodeProgress
 import com.apextuner.feature.cleaner.model.MediaReencodeReview
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.UUID
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
@@ -53,6 +55,7 @@ class CleanerViewModel @Inject constructor(
     private val scanRepository: ScanRepository,
     private val historyRepository: OptimizationHistoryRepository,
     private val timeProvider: TimeProvider,
+    @ApplicationContext private val appContext: Context,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<CleanerUiState>(CleanerUiState.Loading)
@@ -276,21 +279,16 @@ class CleanerViewModel @Inject constructor(
                     potentialReclaimBytes = CleanerAnalyzer.potentialReclaimBytes(exactGroups, scan.suspectedJunk),
                 )
                 val completionMessage = buildString {
-                    append("Duplicate analysis completed: ")
-                    append(exactGroups.size)
-                    append(" exact group")
-                    if (exactGroups.size != 1) append('s')
-                    append(" and ")
-                    append(perceptual.groups.size)
-                    append(" near-duplicate photo group")
-                    if (perceptual.groups.size != 1) append('s')
-                    append(", plus ")
-                    append(perceptual.blurryPhotos.size)
-                    append(" blurry-photo review candidate")
-                    if (perceptual.blurryPhotos.size != 1) append('s')
-                    append('.')
+                    append(
+                        appContext.getString(
+                            R.string.cleaner_duplicate_analysis_completed,
+                            appContext.resources.getQuantityString(R.plurals.cleaner_exact_groups, exactGroups.size, exactGroups.size),
+                            appContext.resources.getQuantityString(R.plurals.cleaner_near_duplicate_groups, perceptual.groups.size, perceptual.groups.size),
+                            appContext.resources.getQuantityString(R.plurals.cleaner_blurry_candidates, perceptual.blurryPhotos.size, perceptual.blurryPhotos.size),
+                        ),
+                    )
                     if (perceptual.truncated) {
-                        append(" Perceptual image analysis stopped at the 100,000-image safety ceiling.")
+                        append(appContext.getString(R.string.cleaner_duplicate_analysis_truncated))
                     }
                 }
                 updateReady {
@@ -301,10 +299,10 @@ class CleanerViewModel @Inject constructor(
                     )
                 }
             } catch (cancellation: CancellationException) {
-                updateReady { it.copy(scanProgress = null, infoMessage = "Duplicate analysis cancelled.") }
+                updateReady { it.copy(scanProgress = null, infoMessage = appContext.getString(R.string.cleaner_duplicate_analysis_cancelled)) }
                 throw cancellation
             } catch (_: Exception) {
-                updateReady { it.copy(scanProgress = null, errorMessage = "Duplicate analysis failed safely. No files were changed.") }
+                updateReady { it.copy(scanProgress = null, errorMessage = appContext.getString(R.string.cleaner_duplicate_analysis_failed)) }
             }
         }
     }
