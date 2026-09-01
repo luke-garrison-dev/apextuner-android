@@ -49,6 +49,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.apextuner.core.ui.ApexLayout
 import com.apextuner.core.ui.ApexMetricRow
+import com.apextuner.core.model.BatteryHealth
 import com.apextuner.core.model.SystemProfile
 import com.apextuner.feature.battery.model.BatteryUiState
 import com.apextuner.feature.battery.model.ChargingSessionInsight
@@ -154,20 +155,20 @@ private fun BatteryScreen(
                         Card(modifier = Modifier.fillMaxWidth()) {
                             Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Text(stringResource(R.string.ui_live_battery), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-                                MetricRow("Charge", b.levelPercent?.let { "$it%" } ?: "Unavailable")
-                                MetricRow("Health", b.health.name)
-                                MetricRow("Temperature", b.temperatureCelsius?.let { String.format(Locale.getDefault(), "%.1f °C", it) } ?: "Unavailable")
-                                MetricRow("Voltage", b.voltageMillivolts?.let { "${it} mV" } ?: "Unavailable")
-                                MetricRow("Current", b.currentMicroamps?.let { formatCurrent(it, b.charging) } ?: "Unavailable")
-                                MetricRow("Average current", b.averageCurrentMicroamps?.let { formatCurrent(it, b.charging) } ?: "Unavailable")
-                                MetricRow("Charge counter", b.chargeCounterMicroampHours?.let { String.format(Locale.getDefault(), "%.0f mAh", it / 1000.0) } ?: "Unavailable")
-                                MetricRow("Energy counter", b.energyCounterNanowattHours?.let { String.format(Locale.getDefault(), "%.0f mWh", it / 1_000_000.0) } ?: "Unavailable")
-                                MetricRow("Battery-side power", formatBatteryPower(b.currentMicroamps, b.voltageMillivolts, b.charging))
-                                MetricRow("Cycle count", b.cycleCount?.toString() ?: "Unavailable")
-                                MetricRow("Technology", b.technology ?: "Unavailable")
-                                MetricRow("Estimated remaining", data.predictedRemainingMillis?.let(::formatDuration) ?: "Unavailable")
-                                MetricRow("Android Battery Saver", if (data.powerSaveMode) "On" else "Off")
-                                MetricRow("ApexTuner standby bucket", data.apexTunerStandbyBucket ?: "Unavailable")
+                                MetricRow(stringResource(R.string.battery_charge), b.levelPercent?.let { "$it%" } ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_health), formatBatteryHealth(b.health))
+                                MetricRow(stringResource(R.string.battery_temperature), b.temperatureCelsius?.let { String.format(Locale.getDefault(), "%.1f °C", it) } ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_voltage), b.voltageMillivolts?.let { "${it} mV" } ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_current), b.currentMicroamps?.let { formatCurrent(it, b.charging) } ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_average_current), b.averageCurrentMicroamps?.let { formatCurrent(it, b.charging) } ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_charge_counter), b.chargeCounterMicroampHours?.let { String.format(Locale.getDefault(), "%.0f mAh", it / 1000.0) } ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_energy_counter), b.energyCounterNanowattHours?.let { String.format(Locale.getDefault(), "%.0f mWh", it / 1_000_000.0) } ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_side_power), formatBatteryPower(b.currentMicroamps, b.voltageMillivolts, b.charging, stringResource(R.string.battery_unavailable)))
+                                MetricRow(stringResource(R.string.battery_cycles), b.cycleCount?.toString() ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_technology), b.technology ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_remaining), data.predictedRemainingMillis?.let(::formatDuration) ?: stringResource(R.string.battery_unavailable))
+                                MetricRow(stringResource(R.string.battery_power_save), if (data.powerSaveMode) stringResource(R.string.battery_on) else stringResource(R.string.battery_off))
+                                MetricRow(stringResource(R.string.battery_standby_bucket), data.apexTunerStandbyBucket ?: stringResource(R.string.battery_unavailable))
                             }
                         }
                     }
@@ -380,8 +381,13 @@ private fun formatCurrent(microamps: Long, charging: Boolean): String {
     return String.format(Locale.getDefault(), "%.0f mA (%s)", milliamps, batteryCurrentDirection(microamps, charging))
 }
 
-private fun formatBatteryPower(currentMicroamps: Long?, voltageMillivolts: Int?, charging: Boolean): String {
-    if (currentMicroamps == null || voltageMillivolts == null || voltageMillivolts <= 0) return "Unavailable"
+private fun formatBatteryPower(
+    currentMicroamps: Long?,
+    voltageMillivolts: Int?,
+    charging: Boolean,
+    unavailable: String,
+): String {
+    if (currentMicroamps == null || voltageMillivolts == null || voltageMillivolts <= 0) return unavailable
     val watts = abs(currentMicroamps.toDouble()) * voltageMillivolts.toDouble() / 1_000_000_000.0
     val direction = when {
         currentMicroamps == 0L -> "idle"
@@ -412,4 +418,15 @@ private fun Context.launchSettingsSafely(primary: Intent) {
                 runCatching { startActivity(fallback.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
             }
         }
+}
+
+@Composable
+private fun formatBatteryHealth(health: BatteryHealth): String = when (health) {
+    BatteryHealth.Good -> stringResource(R.string.battery_health_good)
+    BatteryHealth.Cold -> stringResource(R.string.battery_health_cold)
+    BatteryHealth.Dead -> stringResource(R.string.battery_health_dead)
+    BatteryHealth.Overheat -> stringResource(R.string.battery_health_overheat)
+    BatteryHealth.OverVoltage -> stringResource(R.string.battery_health_over_voltage)
+    BatteryHealth.Failure -> stringResource(R.string.battery_health_failure)
+    BatteryHealth.Unknown -> stringResource(R.string.battery_health_unknown)
 }

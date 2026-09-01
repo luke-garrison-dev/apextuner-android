@@ -47,6 +47,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apextuner.core.ui.ApexLayout
 import com.apextuner.core.ui.ApexMetricRow
 import com.apextuner.core.model.SystemProfile
+import com.apextuner.core.model.ThermalStatus
 import java.util.Locale
 
 @Composable
@@ -120,7 +121,7 @@ fun PerformanceRoute(
                             Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Metric("CPU usage", data.cpuUsagePercent?.let { String.format(Locale.US, "%.1f%%", it) } ?: "Sampling…")
                                 Metric("GPU utilization", data.gpuUsagePercent?.let { String.format(Locale.US, "%.1f%%", it) } ?: "Unavailable")
-                                Metric("Thermal status", data.thermalStatus.name)
+                                Metric("Thermal status", formatThermalStatus(data.thermalStatus))
                                 Metric("TCP congestion", data.tcpCongestionAlgorithm ?: "Unavailable")
                                 Metric("Root binary detected", if (data.rootPotentiallyAvailable) "Potentially — not authorized" else "No")
                             }
@@ -216,3 +217,17 @@ private fun Context.launchSafely(intent: Intent) {
             }
         }
 }
+
+@Composable
+private fun formatThermalStatus(status: ThermalStatus): String = stringResource(
+    when (status) {
+        ThermalStatus.None -> R.string.performance_thermal_none
+        ThermalStatus.Light -> R.string.performance_thermal_light
+        ThermalStatus.Moderate -> R.string.performance_thermal_moderate
+        ThermalStatus.Severe -> R.string.performance_thermal_severe
+        ThermalStatus.Critical -> R.string.performance_thermal_critical
+        ThermalStatus.Emergency -> R.string.performance_thermal_emergency
+        ThermalStatus.Shutdown -> R.string.performance_thermal_shutdown
+        ThermalStatus.Unknown -> R.string.performance_unavailable
+    },
+)

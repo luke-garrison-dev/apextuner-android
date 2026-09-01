@@ -149,7 +149,7 @@ class NetworkViewModel @Inject constructor(
     }
 
 
-    fun setMonthlyDataCap(packageName: String, megabytesText: String) {
+    fun setMonthlyDataCap(packageName: String, megabytesText: String, notificationsAllowed: Boolean = true) {
         val current = _state.value as? NetworkUiState.Ready ?: return
         val bytes = if (megabytesText.isBlank()) {
             null
@@ -185,6 +185,7 @@ class NetworkViewModel @Inject constructor(
                     ),
                     message = when {
                         bytes == null -> "Data usage alert removed."
+                        !notificationsAllowed -> "Monthly data usage alert saved, but ApexTuner cannot notify you until notification permission is granted."
                         usage == null -> "Monthly data usage alert saved. Current usage could not be refreshed yet."
                         else -> "Monthly data usage alert saved."
                     },

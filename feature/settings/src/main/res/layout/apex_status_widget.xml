@@ -9,7 +9,7 @@
         android:id="@+id/widget_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ApexTuner"
+        android:text="@string/status_widget_apextuner"
         android:textColor="#FFFFFFFF"
         android:textSize="17sp"
         android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:backgroundTint="#FF17495D"
             android:minHeight="48dp"
-            android:text="Open"
+            android:text="@string/status_widget_open"
             android:textAllCaps="false"
             android:textColor="#FFE5FAFF" />
 
@@ -55,7 +55,7 @@
             android:layout_weight="1"
             android:backgroundTint="#FF3B2F6F"
             android:minHeight="48dp"
-            android:text="Refresh"
+            android:text="@string/status_widget_refresh"
             android:textAllCaps="false"
             android:textColor="#FFF1ECFF" />
     </LinearLayout>

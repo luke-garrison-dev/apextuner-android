@@ -13,13 +13,18 @@
     <string name="ui_collection_status" formatted="false">Collection status</string>
     <string name="ui_muted_apps_stop_creating_future_apextuner_history_entri" formatted="false">Muted apps stop creating future ApexTuner history entries. Their Android notification channels are never changed.</string>
     <string name="ui_muted_in_apextuner" formatted="false">Muted in ApexTuner</string>
-    <string name="ui_notification_history" formatted="false">Notification History</string>
+    <string name="ui_notification_history" formatted="false">Notification history</string>
     <string name="ui_older_entries_are_deleted_locally_by_workmanager_changi" formatted="false">Older entries are deleted locally by WorkManager. Changing this window also prunes immediately.</string>
     <string name="ui_open_notification_history_settings" formatted="false">Open notification-history settings</string>
     <string name="ui_private_on_device_review_of_notifications_you_explicitl" formatted="false">Private, on-device review of notifications you explicitly allow ApexTuner to observe.</string>
     <string name="ui_retention" formatted="false">Retention</string>
     <string name="ui_this_permanently_deletes_all_notification_history_rows" formatted="false">This permanently deletes all notification-history rows stored by ApexTuner on this device.</string>
     <string name="ui_unmute" formatted="false">Unmute</string>
+    <string name="ui_back" formatted="false">Back</string>
+    <string name="ui_mute_in_apextuner">Mute in ApexTuner</string>
+    <string name="ui_unmute_in_apextuner">Unmute in ApexTuner</string>
+    <string name="notification_history_empty_active">No notification entries have been recorded yet.</string>
+    <string name="notification_history_empty_inactive">No stored notification history.</string>
     <string name="ui_view_apextuner_premium" formatted="false">View ApexTuner Premium</string>
     <string name="notification_retention_days_short">%1$dd</string>
     <string name="notification_delete_app_history_body">This deletes ApexTuner\'s stored entries for %1$s. It does not change the app\'s Android notification settings.</string>

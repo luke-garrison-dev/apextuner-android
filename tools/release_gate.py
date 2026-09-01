@@ -66,10 +66,10 @@ check('distributionSha256Sum=553c78f50dafcd54d65b9a444649057857469edf83643138969
 check("compileSdk = 36" in app_build and "targetSdk = 36" in app_build and "minSdk = 26" in app_build,
       "App SDK levels must remain compile/target 36 and min 26")
 check("JavaVersion.VERSION_17" in app_build, "App Java bytecode target must remain 17")
-check(re.search(r"versionCode\s*=\s*41\b", app_build) is not None, "Final candidate versionCode must be 41")
-check(re.search(r'versionName\s*=\s*"1\.1\.4"', app_build) is not None, "Version name must remain 1.1.4")
-release_identity = text("docs/RELEASE_IDENTITY_1.1.4.md")
-check("`versionCode`: `41`" in release_identity and "`versionName`: `1.1.4`" in release_identity, "Release identity note must match the final 1.1.4 / versionCode 41 candidate")
+check(re.search(r"versionCode\s*=\s*43\b", app_build) is not None, "Final candidate versionCode must be 43")
+check(re.search(r'versionName\s*=\s*"1\.1\.6"', app_build) is not None, "Version name must remain 1.1.6")
+release_identity = text("docs/RELEASE_IDENTITY_1.1.6.md")
+check("`versionCode`: `43`" in release_identity and "`versionName`: `1.1.6`" in release_identity, "Release identity note must match the final 1.1.6 / versionCode 43 candidate")
 
 # CI must exercise the exact audited wrapper and the hardened release gate, not a separately
 # installed Gradle binary or the lighter structural validator alone.
@@ -337,7 +337,7 @@ check(
     "batteryCurrentDirection" in battery_display_logic
     and 'charging -> "charging"' in battery_display_logic
     and "formatCurrent(it, b.charging)" in battery_route_full
-    and "formatBatteryPower(b.currentMicroamps, b.voltageMillivolts, b.charging)" in battery_route_full
+    and "formatBatteryPower(b.currentMicroamps, b.voltageMillivolts, b.charging, stringResource(R.string.battery_unavailable))" in battery_route_full
     and 'String.format(Locale.US, "%.0f mA' not in battery_route_full,
     "Battery current/power direction must use Android charging state and locale-aware display formatting",
 )

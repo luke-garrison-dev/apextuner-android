@@ -87,4 +87,11 @@
     <string name="data_usage_alerts_paused_usage_access">Monthly data alerts are paused because Android Usage Access is no longer granted. Restore Usage Access to resume monitoring.</string>
     <string name="data_usage_access_revoked_title">Data usage alerts paused</string>
     <string name="data_usage_access_revoked_body">ApexTuner can no longer read Android network history because Usage Access was revoked. Open ApexTuner and restore Usage Access to resume monthly data alerts.</string>
+    <string name="data_usage_notification_body">%1$s used %2$s this month, crossing your %3$s alert.</string>
+    <string name="network_search_for_app_alert">Search for an app to create a monthly data alert.</string>
+    <string name="network_no_matching_app">No matching launcher app was found.</string>
+    <string name="network_save_alert">Save alert</string>
+    <string name="network_update_remove_alert">Update / remove alert</string>
+    <string name="network_refresh">Refresh</string>
+    <string name="network_refreshing">Refreshing…</string>
 </resources>

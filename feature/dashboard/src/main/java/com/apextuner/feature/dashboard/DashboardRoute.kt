@@ -242,23 +242,25 @@ private fun DashboardHero() {
                     modifier = Modifier.height(if (compact) 48.dp else 62.dp),
                 )
                 Text(
-                    text = "ApexTuner",
+                    text = stringResource(R.string.dashboard_brand_name),
                     style = if (compact) MaterialTheme.typography.headlineMedium else MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
             }
+            val optimizePrefix = stringResource(R.string.dashboard_hero_optimize_prefix)
+            val optimizeEmphasis = stringResource(R.string.dashboard_hero_optimize_emphasis)
             Text(
                 text = buildAnnotatedString {
-                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) { append("Optimize at a ") }
-                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.secondary)) { append("glance") }
+                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) { append(optimizePrefix) }
+                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.secondary)) { append(optimizeEmphasis) }
                 },
                 style = if (compact) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
             )
             Text(
-                text = "Live CPU, memory, battery and storage insight.",
+                text = stringResource(R.string.dashboard_hero_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -370,11 +372,11 @@ private fun DashboardHeader(data: DashboardData) {
                     }
                     Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         Text(
-                            text = "Live data is sampled locally on this device.",
+                            text = stringResource(R.string.dashboard_privacy_local),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Text(
-                            text = "Your privacy stays protected.",
+                            text = stringResource(R.string.dashboard_privacy_protected),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -890,11 +892,15 @@ private fun HealthTimelineCard(
                     val maxTemp = temperaturePoints.maxOf { it.second }
                     val tempSpan = (maxTemp - minTemp).coerceAtLeast(1.0)
                     val accent = MaterialTheme.colorScheme.primary
+                    val timelineChartDesc = stringResource(
+                        R.string.dashboard_health_timeline_chart_desc,
+                        timeline.range.displayName,
+                    )
                     Canvas(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(112.dp)
-                            .semantics { contentDescription = "Battery temperature trend for ${timeline.range.displayName}" },
+                            .semantics { contentDescription = timelineChartDesc },
                     ) {
                         val count = temperaturePoints.size
                         temperaturePoints.zipWithNext().forEachIndexed { index, pair ->

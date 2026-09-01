@@ -79,6 +79,13 @@
     <string name="performance_current">Current</string>
     <string name="performance_range">Range</string>
     <string name="performance_unavailable">Unavailable</string>
+    <string name="performance_thermal_none">None</string>
+    <string name="performance_thermal_light">Light</string>
+    <string name="performance_thermal_moderate">Moderate</string>
+    <string name="performance_thermal_severe">Severe</string>
+    <string name="performance_thermal_critical">Critical</string>
+    <string name="performance_thermal_emergency">Emergency</string>
+    <string name="performance_thermal_shutdown">Shutdown</string>
     <string name="performance_mhz">%1$d MHz</string>
     <string name="performance_mhz_range">%1$d–%2$d MHz</string>
     <string name="advanced_shizuku_permission">Shizuku permission: %1$s</string>
@@ -153,5 +160,33 @@
     <string name="diagnostic_comparison_window">Comparison window: %1$s</string>
     <string name="diagnostic_delta_note">These are measured deltas, not proof that one setting caused the change. Battery, memory, temperature and network activity can vary naturally.</string>
     <string name="diagnostic_select_section_first">Select at least one report section before exporting.</string>
+
+    <string name="tools_entry_battery">Battery Intelligence</string>
+    <string name="tools_entry_battery_body">Health trends, charging sessions, current, cycles, thermal signals and reversible power profiles.</string>
+    <string name="tools_entry_memory">Memory Intelligence</string>
+    <string name="tools_entry_memory_body">RAM pressure, swap, ApexTuner process memory and Android-reported processes.</string>
+    <string name="tools_entry_performance_body">Core frequencies, governors, I/O scheduler, thermal status and safe profile planning.</string>
+    <string name="tools_entry_system_info_body">CPU, kernel, RAM, storage, battery, display, sensors, cameras, DRM and boot/security facts.</string>
+    <string name="tools_entry_network">Network &amp; Firewall</string>
+    <string name="tools_entry_network_body">Connectivity, historical app usage, Private DNS and a local per-app VPN firewall.</string>
+    <string name="tools_entry_network_diagnostics">Network diagnostics</string>
+    <string name="tools_entry_network_diagnostics_body">Network Quality Lab with dual-stack latency, jitter, DNS/TCP sampling, history and conservative local-subnet discovery.</string>
+    <string name="tools_entry_security_body">Security patch age, Android Advanced Protection, lock posture, clipboard clearing and authoritative security surfaces.</string>
+    <string name="tools_entry_files">Files</string>
+    <string name="tools_entry_files_body">Browse, rename, copy, move, create folders, ZIP and extract within SAF-granted folders.</string>
+    <string name="tools_entry_contacts">Duplicate contacts</string>
+    <string name="tools_entry_contacts_body">On-device similarity review with explicit merge confirmation and session undo.</string>
+    <string name="tools_entry_notifications">Notification history</string>
+    <string name="tools_entry_notifications_body">Premium. Opt-in, local-only notification review with retention and per-app ApexTuner muting.</string>
+    <string name="tools_entry_diagnostics_body">Capture a local device baseline, verify before/after changes, and export privacy-conscious JSON or HTML evidence.</string>
+    <string name="tools_entry_game_body">Premium. Per-game reversible profiles, thermal warnings and session analytics with safe state restoration.</string>
+    <string name="tools_entry_advanced_body">Explicit Shizuku/Sui or root diagnostics and reversible privileged settings.</string>
+    <string name="game_session_mode_profile_dnd">Gaming profile + Do Not Disturb</string>
+    <string name="game_session_mode_profile">Gaming profile active</string>
+    <string name="game_session_mode_dnd">Do Not Disturb active</string>
+    <string name="game_session_mode_none">session active; no system settings changed</string>
+    <string name="game_session_notifications_required">Enable ApexTuner notifications before starting a game session so End &amp; restore stays available after the game launches.</string>
+    <string name="ui_loading_launchable_apps">Loading launchable apps…</string>
+    <string name="ui_no_launchable_apps">No launchable apps were found on this device.</string>
 
 </resources>

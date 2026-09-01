@@ -81,26 +81,26 @@ fun ToolsRoute(
 ) {
     val accents = apexAccentPalette()
     val deviceTools = listOf(
-        ToolEntry("Battery Intelligence", "Health trends, charging sessions, current, cycles, thermal signals and reversible power profiles.", Icons.Outlined.BatteryChargingFull, accents.green, onBattery),
-        ToolEntry("Memory Intelligence", "RAM pressure, swap, ApexTuner process memory and Android-reported processes.", Icons.Outlined.Memory, accents.violet, onMemory),
-        ToolEntry("CPU & Performance", "Core frequencies, governors, I/O scheduler, thermal status and safe profile planning.", Icons.Outlined.Speed, accents.cyan, onPerformance),
-        ToolEntry("System Information", "CPU, kernel, RAM, storage, battery, display, sensors, cameras, DRM and boot/security facts.", Icons.Outlined.PhoneAndroid, accents.blue, onSystemInfo),
+        ToolEntry(stringResource(R.string.tools_entry_battery), stringResource(R.string.tools_entry_battery_body), Icons.Outlined.BatteryChargingFull, accents.green, onBattery),
+        ToolEntry(stringResource(R.string.tools_entry_memory), stringResource(R.string.tools_entry_memory_body), Icons.Outlined.Memory, accents.violet, onMemory),
+        ToolEntry(stringResource(R.string.ui_cpu_performance), stringResource(R.string.tools_entry_performance_body), Icons.Outlined.Speed, accents.cyan, onPerformance),
+        ToolEntry(stringResource(R.string.ui_system_information), stringResource(R.string.tools_entry_system_info_body), Icons.Outlined.PhoneAndroid, accents.blue, onSystemInfo),
     )
     val connectivityTools = listOf(
-        ToolEntry("Network & Firewall", "Connectivity, historical app usage, Private DNS and a local per-app VPN firewall.", Icons.Outlined.Wifi, accents.blue, onNetwork),
-        ToolEntry("Network Diagnostics", "Network Quality Lab with dual-stack latency, jitter, DNS/TCP sampling, history and conservative local-subnet discovery.", Icons.Outlined.NetworkCheck, accents.cyan, onNetworkDiagnostics),
-        ToolEntry("Privacy & Security", "Security patch age, Android Advanced Protection, lock posture, clipboard clearing and authoritative security surfaces.", Icons.Outlined.Security, accents.cyan, onSecurity),
+        ToolEntry(stringResource(R.string.tools_entry_network), stringResource(R.string.tools_entry_network_body), Icons.Outlined.Wifi, accents.blue, onNetwork),
+        ToolEntry(stringResource(R.string.tools_entry_network_diagnostics), stringResource(R.string.tools_entry_network_diagnostics_body), Icons.Outlined.NetworkCheck, accents.cyan, onNetworkDiagnostics),
+        ToolEntry(stringResource(R.string.ui_privacy_security), stringResource(R.string.tools_entry_security_body), Icons.Outlined.Security, accents.cyan, onSecurity),
     )
     val dataTools = listOf(
-        ToolEntry("Files", "Browse, rename, copy, move, create folders, ZIP and extract within SAF-granted folders.", Icons.Outlined.Folder, accents.warning, onFiles),
-        ToolEntry("Duplicate Contacts", "On-device similarity review with explicit merge confirmation and session undo.", Icons.Outlined.Contacts, accents.violet, onContacts),
-        ToolEntry("Notification History • Premium", "Opt-in, local-only notification review with retention and per-app ApexTuner muting.", Icons.Outlined.Notifications, accents.cyan, onNotificationHistory),
-        ToolEntry("Diagnostic Report", "Capture a local device baseline, verify before/after changes, and export privacy-conscious JSON or HTML evidence.", Icons.Outlined.Assessment, accents.green, onDiagnosticReport),
+        ToolEntry(stringResource(R.string.tools_entry_files), stringResource(R.string.tools_entry_files_body), Icons.Outlined.Folder, accents.warning, onFiles),
+        ToolEntry(stringResource(R.string.tools_entry_contacts), stringResource(R.string.tools_entry_contacts_body), Icons.Outlined.Contacts, accents.violet, onContacts),
+        ToolEntry(stringResource(R.string.tools_entry_notifications), stringResource(R.string.tools_entry_notifications_body), Icons.Outlined.Notifications, accents.cyan, onNotificationHistory),
+        ToolEntry(stringResource(R.string.diagnostic_report_title), stringResource(R.string.tools_entry_diagnostics_body), Icons.Outlined.Assessment, accents.green, onDiagnosticReport),
     )
     val sessionTools = buildList {
-        add(ToolEntry("Game Session Booster • Premium", "Per-game reversible profiles, thermal warnings and session analytics with safe state restoration.", Icons.Outlined.SportsEsports, accents.violet, onGameBooster))
+        add(ToolEntry(stringResource(R.string.ui_game_session_booster), stringResource(R.string.tools_entry_game_body), Icons.Outlined.SportsEsports, accents.violet, onGameBooster))
         if (showAdvancedTools) {
-            add(ToolEntry("Advanced Access", "Explicit Shizuku/Sui or root diagnostics and reversible privileged settings.", Icons.Outlined.AdminPanelSettings, accents.warning, onAdvanced))
+            add(ToolEntry(stringResource(R.string.ui_advanced_access), stringResource(R.string.tools_entry_advanced_body), Icons.Outlined.AdminPanelSettings, accents.warning, onAdvanced))
         }
     }
     val groups = listOf(

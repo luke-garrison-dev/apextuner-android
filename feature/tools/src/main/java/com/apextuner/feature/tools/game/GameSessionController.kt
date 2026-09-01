@@ -382,10 +382,10 @@ class GameSessionController @Inject constructor(
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
         val sessionMode = when {
-            state.profileChangedByApexTuner && state.dndChangedByApexTuner -> "Gaming profile + Do Not Disturb"
-            state.profileChangedByApexTuner -> "Gaming profile active"
-            state.dndChangedByApexTuner -> "Do Not Disturb active"
-            else -> "session active; no system settings changed"
+            state.profileChangedByApexTuner && state.dndChangedByApexTuner -> context.getString(com.apextuner.feature.tools.R.string.game_session_mode_profile_dnd)
+            state.profileChangedByApexTuner -> context.getString(com.apextuner.feature.tools.R.string.game_session_mode_profile)
+            state.dndChangedByApexTuner -> context.getString(com.apextuner.feature.tools.R.string.game_session_mode_dnd)
+            else -> context.getString(com.apextuner.feature.tools.R.string.game_session_mode_none)
         }
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_media_play)

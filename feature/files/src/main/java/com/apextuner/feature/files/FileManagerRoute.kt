@@ -1,7 +1,6 @@
 package com.apextuner.feature.files
 
 import androidx.compose.ui.res.stringResource
-import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -18,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
@@ -37,10 +37,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.apextuner.core.util.ByteSizeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
@@ -88,6 +90,12 @@ fun FileManagerRoute(
                 }
             }
             is FileManagerUiState.Ready -> {
+                val selected = current.selected
+                val canMutate = selected != null && current.busyMessage == null
+                val canExtract = canMutate &&
+                    selected != null &&
+                    !selected.isDirectory &&
+                    selected.displayName.endsWith(".zip", ignoreCase = true)
                 LazyColumn(
                     modifier = Modifier.fillMaxSize().padding(padding),
                     contentPadding = PaddingValues(16.dp),
@@ -136,8 +144,8 @@ fun FileManagerRoute(
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             OutlinedButton(onClick = { viewModel.createFolder(name) }) { Text(stringResource(R.string.ui_new_folder)) }
-                            OutlinedButton(onClick = { viewModel.renameSelected(name) }) { Text(stringResource(R.string.ui_rename)) }
-                            OutlinedButton(onClick = { viewModel.zipSelected(name.ifBlank { "archive.zip" }) }) { Text(stringResource(R.string.ui_zip)) }
+                            OutlinedButton(onClick = { viewModel.renameSelected(name) }, enabled = canMutate) { Text(stringResource(R.string.ui_rename)) }
+                            OutlinedButton(onClick = { viewModel.zipSelected(name.ifBlank { "archive.zip" }) }, enabled = canMutate) { Text(stringResource(R.string.ui_zip)) }
                         }
                     }
                     item {
@@ -145,31 +153,52 @@ fun FileManagerRoute(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
-                            OutlinedButton(onClick = viewModel::stageCopy) { Text(stringResource(R.string.ui_copy)) }
-                            OutlinedButton(onClick = viewModel::stageMove) { Text(stringResource(R.string.ui_move)) }
-                            OutlinedButton(onClick = viewModel::extractSelected) { Text(stringResource(R.string.ui_extract_zip)) }
+                            OutlinedButton(onClick = viewModel::stageCopy, enabled = canMutate) { Text(stringResource(R.string.ui_copy)) }
+                            OutlinedButton(onClick = viewModel::stageMove, enabled = canMutate) { Text(stringResource(R.string.ui_move)) }
+                            OutlinedButton(onClick = viewModel::extractSelected, enabled = canExtract) { Text(stringResource(R.string.ui_extract_zip)) }
                         }
                     }
                     items(current.entries, key = { it.uri }) { node ->
-                        Card(
-                            modifier = Modifier.fillMaxWidth().clickable {
-                                if (node.isDirectory) viewModel.open(node) else viewModel.select(node)
-                            },
-                        ) {
-                            Row(Modifier.padding(14.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                                Icon(
-                                    if (node.isDirectory) Icons.Outlined.Folder else Icons.AutoMirrored.Outlined.InsertDriveFile,
-                                    contentDescription = null,
-                                )
-                                Column {
-                                    Text(node.displayName)
-                                    Text(
-                                        if (node.isDirectory) "Folder" else node.sizeBytes?.let(::formatBytes) ?: node.mimeType,
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        Card(modifier = Modifier.fillMaxWidth()) {
+                            Row(
+                                Modifier.fillMaxWidth().padding(start = 14.dp, top = 6.dp, bottom = 6.dp, end = 4.dp),
+                                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .clickable { viewModel.select(node) }
+                                        .padding(vertical = 8.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Icon(
+                                        if (node.isDirectory) Icons.Outlined.Folder else Icons.AutoMirrored.Outlined.InsertDriveFile,
+                                        contentDescription = null,
                                     )
-                                    if (current.selected?.uri == node.uri) {
-                                        Text(stringResource(R.string.ui_selected), color = MaterialTheme.colorScheme.primary)
+                                    Column {
+                                        Text(node.displayName)
+                                        Text(
+                                            if (node.isDirectory) {
+                                                stringResource(R.string.file_manager_folder)
+                                            } else {
+                                                node.sizeBytes?.let(ByteSizeFormatter::format) ?: node.mimeType
+                                            },
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        )
+                                        if (current.selected?.uri == node.uri) {
+                                            Text(stringResource(R.string.ui_selected), color = MaterialTheme.colorScheme.primary)
+                                        }
+                                    }
+                                }
+                                if (node.isDirectory) {
+                                    IconButton(onClick = { viewModel.open(node) }) {
+                                        Icon(
+                                            Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+                                            contentDescription = stringResource(R.string.ui_open_folder),
+                                        )
                                     }
                                 }
                             }
@@ -188,11 +217,4 @@ private fun NoAccess(modifier: Modifier, onGrant: () -> Unit) {
         Text(stringResource(R.string.ui_choose_a_folder_with_android_s_system_picker_apextuner))
         Button(onClick = onGrant) { Text(stringResource(R.string.ui_choose_folder)) }
     }
-}
-
-private fun formatBytes(bytes: Long): String = when {
-    bytes >= 1_073_741_824L -> "%.1f GB".format(bytes / 1_073_741_824.0)
-    bytes >= 1_048_576L -> "%.1f MB".format(bytes / 1_048_576.0)
-    bytes >= 1_024L -> "%.1f KB".format(bytes / 1_024.0)
-    else -> "$bytes B"
 }

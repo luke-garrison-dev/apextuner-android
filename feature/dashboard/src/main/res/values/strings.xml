@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="dashboard_title">Dashboard</string>
+    <string name="dashboard_brand_name">ApexTuner</string>
+    <string name="dashboard_hero_optimize_prefix">Optimize at a </string>
+    <string name="dashboard_hero_optimize_emphasis">glance</string>
+    <string name="dashboard_hero_subtitle">Live CPU, memory, battery and storage insight.</string>
+    <string name="dashboard_privacy_local">Live data is sampled locally on this device.</string>
+    <string name="dashboard_privacy_protected">Your privacy stays protected.</string>
     <string name="dashboard_loading">Reading local device telemetry…</string>
     <string name="dashboard_error_title">Dashboard unavailable</string>
     <string name="dashboard_error_body">Live device statistics are temporarily unavailable. No optimization action was performed.</string>

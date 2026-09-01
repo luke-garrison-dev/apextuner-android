@@ -32,7 +32,7 @@ class ApexTunerSmokeTest {
     @Test fun toolsRouteExposesCoreFinalFeatures() {
         composeRule.onNodeWithText("Tools").performClick()
         composeRule.onNodeWithText("System Information").assertExists()
-        composeRule.onNodeWithText("Game Session Booster").assertExists()
+        composeRule.onNodeWithText("Game Session Booster", substring = true).assertExists()
         composeRule.onNodeWithText("Privacy & Security").assertExists()
     }
 

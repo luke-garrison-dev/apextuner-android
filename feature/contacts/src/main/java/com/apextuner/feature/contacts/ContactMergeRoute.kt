@@ -143,6 +143,14 @@ fun ContactMergeRoute(
                             }
                         }
                     }
+                    if (current.candidates.isEmpty()) {
+                        item {
+                            Text(
+                                stringResource(R.string.contacts_no_likely_duplicates),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
                     items(
                         current.candidates,
                         key = { "${it.first.contactId}:${it.second.contactId}" },

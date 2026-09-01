@@ -138,6 +138,25 @@ fun GameBoosterRoute(
             else -> continueToCaptureConsent()
         }
     }
+    val sessionNotificationPermissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted && NotificationManagerCompat.from(context).areNotificationsEnabled()) {
+            viewModel.startSelected()
+        } else {
+            viewModel.setUserMessage(context.getString(R.string.game_session_notifications_required))
+        }
+    }
+    val requestStartSession = {
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED -> {
+                sessionNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            !NotificationManagerCompat.from(context).areNotificationsEnabled() -> {
+                viewModel.setUserMessage(context.getString(R.string.game_session_notifications_required))
+            }
+            else -> viewModel.startSelected()
+        }
+    }
     var search by rememberSaveable { mutableStateOf("") }
     val notificationManager = context.getSystemService(NotificationManager::class.java)
     // Refresh special-access checks immediately when the user returns from Android Settings.
@@ -197,7 +216,7 @@ fun GameBoosterRoute(
                                     steps = 14,
                                 )
                                 Button(
-                                    onClick = viewModel::startSelected,
+                                    onClick = requestStartSession,
                                     enabled = !state.busy && (!state.selectedOptions.useGamingProfile || canWrite) && (!state.selectedOptions.silenceInterruptions || canDnd),
                                     modifier = Modifier.fillMaxWidth(),
                                 ) { Text(stringResource(R.string.game_launch_saved_profile)) }
@@ -223,7 +242,7 @@ fun GameBoosterRoute(
                                         }.getOrNull() != null
                                         if (!stopDelivered) {
                                             ScreenRecordingRuntime.set(
-                                                ScreenRecordingState.Recording,
+                                                recording.state,
                                                 "Android could not deliver the stop request. Keep ApexTuner visible and try again.",
                                             )
                                         }
@@ -255,7 +274,11 @@ fun GameBoosterRoute(
                     }
                 }
                 item { TextField(value = search, onValueChange = { search = it.take(120) }, label = { Text(stringResource(R.string.ui_find_a_launchable_app)) }, modifier = Modifier.fillMaxWidth(), singleLine = true) }
-                if (filtered.isEmpty()) item { Text(stringResource(R.string.ui_no_launchable_apps_match_this_filter)) }
+                when {
+                    !state.appsLoaded -> item { Text(stringResource(R.string.ui_loading_launchable_apps)) }
+                    filtered.isEmpty() && search.isBlank() -> item { Text(stringResource(R.string.ui_no_launchable_apps)) }
+                    filtered.isEmpty() -> item { Text(stringResource(R.string.ui_no_launchable_apps_match_this_filter)) }
+                }
                 items(filtered.take(250), key = { it.packageName }) { app ->
                     Card(Modifier.fillMaxWidth()) {
                         Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {

@@ -164,7 +164,7 @@ fun SettingsRoute(
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         Text(stringResource(R.string.ui_premium), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-                        Text(if (entitlement.isPremium) "${entitlement.tier.name.replace("PremiumLifetime", "Premium Lifetime")} active" else "Free edition")
+                        Text(stringResource(if (entitlement.isPremium) R.string.settings_edition_premium else R.string.settings_edition_free))
                         if (!entitlement.isPremium) Button(onClick = onPremium, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.ui_view_apextuner_premium)) }
                         else OutlinedButton(onClick = onPremium, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.ui_manage_restore_purchases)) }
                     }
@@ -178,7 +178,11 @@ fun SettingsRoute(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         ThemeMode.entries.forEach { mode ->
-                            FilterChip(selected = prefs.themeMode == mode, onClick = { viewModel.setThemeMode(mode) }, label = { Text(mode.name) })
+                            FilterChip(
+                                selected = prefs.themeMode == mode,
+                                onClick = { viewModel.setThemeMode(mode) },
+                                label = { Text(themeModeLabel(mode)) },
+                            )
                         }
                     }
                     SettingSwitch(stringResource(R.string.ui_dynamic_material_color), stringResource(R.string.ui_use_android_s_wallpaper_derived_colors_on_android_12), prefs.dynamicColor, viewModel::setDynamicColor)
@@ -666,3 +670,12 @@ private const val SMART_AUTOMATION_ITEM_INDEX = 6
 private const val PRIVACY_TEXT = "ApexTuner processes device telemetry, storage analysis and optimizer recommendations locally. Optional notification history, when explicitly enabled and granted Android Notification access, stores only notification source package, title, text and timestamp in ApexTuner's private local database. The app does not upload notification content, file contents, browsing payloads, device telemetry or diagnostic history to an ApexTuner server. Google Play Billing necessarily exchanges purchase information with Google Play. Optional VPN firewall traffic is discarded locally and is not forwarded, inspected for content, stored, sold or shared by ApexTuner."
 private const val DATA_DELETION_TEXT = "ApexTuner stores preferences, scan history, optional notification history and encrypted local entitlement state on this device. Notification History has its own Clear all action. Use Android Settings > Apps > ApexTuner > Storage > Clear storage to remove all local app data. Uninstalling ApexTuner also removes its private local data. The lifetime Premium purchase is managed by Google Play and can be restored through your Google Play account."
 private const val TERMS_TEXT = "ApexTuner never guarantees that Android will expose every requested metric or privileged setting on every OEM device. Destructive file operations require explicit review/confirmation. Root/Shizuku functionality is optional and must be intentionally authorized. Thermal protections are never disabled by the normal app."
+
+@Composable
+private fun themeModeLabel(mode: ThemeMode): String = stringResource(
+    when (mode) {
+        ThemeMode.Dark -> R.string.settings_theme_dark
+        ThemeMode.Light -> R.string.settings_theme_light
+        ThemeMode.System -> R.string.settings_theme_system
+    },
+)

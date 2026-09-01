@@ -27,7 +27,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="false"
-        android:theme="@style/Theme.ApexTuner">
+        android:theme="@style/Theme.ApexTuner"
+        android:enableOnBackInvokedCallback="true">
 
         <!--
             Ask Google Play services to make the Android Photo Picker backport available on
