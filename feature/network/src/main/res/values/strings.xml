@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="network_title">Network &amp; Firewall</string>
+    <string name="network_subtitle">Connectivity truth, historical usage, Private DNS visibility and a local per-app firewall.</string>
+    <string name="firewall_tile_label">Apex Firewall</string>
+    <string name="premium_required">Premium required</string>
+    <string name="tile_active">Active</string>
+    <string name="tile_attention">Needs attention</string>
+    <string name="tile_off">Off</string>
+    <string name="ui_active_connection" formatted="false">Active connection</string>
+    <string name="ui_android_reports_usage_in_coarse_historical_buckets_thes" formatted="false">Android reports usage in coarse historical buckets; these values are not a real-time speed meter.</string>
+    <string name="ui_android_vpn_settings" formatted="false">Android VPN settings</string>
+    <string name="ui_apextuner_creates_a_local_android_vpn_only_for_apps_you" formatted="false">ApexTuner creates a local Android VPN only for apps you select. Their packets are discarded on-device to block network access; ApexTuner does not inspect, store, forward, monetize, or share payloads or browsing content. Unselected apps bypass this tunnel. While blocking is active, selected apps will not have network access.</string>
+    <string name="ui_apextuner_performs_a_conservative_reachability_sweep_an" formatted="false">ApexTuner performs a conservative reachability sweep and does not persist discovered addresses.</string>
+    <string name="ui_apextuner_s_firewall_is_a_user_approved_local_vpn_sink" formatted="false">ApexTuner\'s firewall is a user-approved local VPN sink. It does not inspect payloads, provide a remote VPN, proxy traffic, or send network contents off-device. Unselected apps bypass the tunnel.</string>
+    <string name="ui_back_to_tools" formatted="false">Back to Tools</string>
+    <string name="ui_block_network_access_for_selected_apps_with_apextuner_s" formatted="false">Block network access for selected apps with ApexTuner\'s local on-device VPN sink. Historical network diagnostics above remain available in Free.</string>
+    <string name="ui_cancel" formatted="false">Cancel</string>
+    <string name="ui_connectivity_truth_historical_usage_and_a_local_per_app" formatted="false">Connectivity truth, historical usage and a local per-app firewall. No traffic leaves ApexTuner for analysis.</string>
+    <string name="ui_continue" formatted="false">Continue</string>
+    <string name="ui_diagnostics_run_only_when_requested_host_operations_are" formatted="false">Diagnostics run only when requested. Host operations are time-bounded; local discovery is limited to at most one /24 and six concurrent probes.</string>
+    <string name="ui_dns" formatted="false">DNS</string>
+    <string name="ui_filter_visible_apps" formatted="false">Filter visible apps</string>
+    <string name="ui_grant_optional_usage_access" formatted="false">Grant optional Usage Access</string>
+    <string name="ui_historical_data_usage" formatted="false">Historical data usage</string>
+    <string name="ui_host" formatted="false">Host</string>
+    <string name="ui_how_the_local_firewall_works" formatted="false">How the local firewall works</string>
+    <string name="ui_leave_blank_and_save_to_remove" formatted="false">Leave blank and save to remove.</string>
+    <string name="ui_local_per_app_firewall" formatted="false">Local per-app firewall</string>
+    <string name="ui_local_per_app_firewall_premium" formatted="false">Local per-app firewall • Premium</string>
+    <string name="ui_local_subnet_discovery" formatted="false">Local subnet discovery</string>
+    <string name="ui_monthly_per_app_data_alerts" formatted="false">Monthly per-app data alerts</string>
+    <string name="ui_monthly_threshold_mb" formatted="false">Monthly threshold (MB)</string>
+    <string name="ui_network_diagnostics" formatted="false">Network diagnostics</string>
+    <string name="ui_network_firewall" formatted="false">Network &amp; Firewall</string>
+    <string name="ui_open_data_usage_settings" formatted="false">Open data usage settings</string>
+    <string name="ui_open_network_settings" formatted="false">Open network settings</string>
+    <string name="ui_ping" formatted="false">Ping</string>
+    <string name="ui_privacy_networking" formatted="false">Privacy networking</string>
+    <string name="ui_scan_local_subnet" formatted="false">Scan local subnet</string>
+    <string name="ui_search_installed_apps" formatted="false">Search installed apps</string>
+    <string name="ui_selected_apps_only_packets_dropped_locally" formatted="false">Selected apps only • packets dropped locally</string>
+    <string name="ui_set_local_alert_thresholds_workmanager_checks_bounded_m" formatted="false">Set local alert thresholds. WorkManager checks bounded monthly NetworkStats periodically; ApexTuner never polls in the foreground.</string>
+    <string name="ui_start_firewall" formatted="false">Start firewall</string>
+    <string name="ui_stop_firewall" formatted="false">Stop firewall</string>
+    <string name="ui_tcp" formatted="false">TCP</string>
+    <string name="ui_tcp_port" formatted="false">TCP port</string>
+    <string name="ui_the_data_saver_value_applies_to_apextuner_itself_androi" formatted="false">The Data Saver value applies to ApexTuner itself; Android does not give ordinary apps a public API to toggle global Data Saver for the device.</string>
+    <string name="ui_top_historical_data_users" formatted="false">Top historical data users</string>
+    <string name="ui_unlock_firewall" formatted="false">Unlock firewall</string>
+    <string name="ui_usage_access_is_required_before_android_exposes_cross_a" formatted="false">Usage Access is required before Android exposes cross-app usage totals.</string>
+    <string name="ui_back" formatted="false">Back</string>
+    <string name="ui_cancel_diagnostics" formatted="false">Cancel diagnostics</string>
+    <string name="diagnostics_subnet_summary">%1$s: %2$d responsive of %3$d attempted</string>
+    <string name="firewall_tile_description">%1$s, %2$s</string>
+    <string name="network_usage_row_bytes">↓ %1$s  ↑ %2$s</string>
+    <string name="diagnostics_device_latency">%1$s • %2$d ms</string>
+    <string name="diagnostics_device_reachable">%1$s • reachable</string>
+    <string name="data_usage_channel_name">Data usage alerts</string>
+    <string name="data_usage_channel_description">Local notifications when an app crosses a user-defined monthly data threshold.</string>
+    <string name="data_usage_notification_title">Data usage threshold reached</string>
+    <string name="firewall_notification_title">ApexTuner local firewall</string>
+    <string name="firewall_notification_blocking">Blocking network access for %1$d selected %2$s.</string>
+    <string name="firewall_notification_app_singular">app</string>
+    <string name="firewall_notification_app_plural">apps</string>
+    <string name="firewall_notification_starting">Starting local firewall…</string>
+    <string name="firewall_channel_name">Local firewall</string>
+    <string name="firewall_channel_description">Required while ApexTuner\'s user-enabled local VPN firewall is active.</string>
+    <string name="firewall_notification_stop">Stop</string>
+    <string name="network_quality_lab">Network Quality Lab</string>
+    <string name="network_quality_body">Runs a bounded series of TCP handshakes after one DNS lookup. Dual-stack hosts are sampled across both IPv4 and IPv6 without increasing the total attempt budget, exposing route-family failures without transferring payload data.</string>
+    <string name="network_quality_run">Run quality test</string>
+    <string name="network_quality_summary">%1$d/%2$d successful across sampled routes • preferred median %3$s • p95 %4$s • jitter %5$s • failures %6$d%%</string>
+    <string name="network_quality_dns">DNS %1$s • IPv4 %2$d • IPv6 %3$d • %4$s</string>
+    <string name="network_quality_family">%1$s %2$d/%3$d • median %4$s • p95 %5$s • jitter %6$s</string>
+    <string name="network_quality_preferred">Best responding family: %1$s • endpoint %2$s</string>
+    <string name="network_quality_recent">Recent quality tests</string>
+    <string name="network_quality_history">%1$s:%2$d • %3$d/%4$d • preferred median %5$s</string>
+    <string name="firewall_profiles">Firewall profile</string>
+    <string name="firewall_profiles_body">Each profile keeps an independent blocked-app list. Choose the profile deliberately; ApexTuner does not infer whether a Wi‑Fi network is trusted. Stop the firewall before switching profiles.</string>
+    <string name="network_throughput_title">Bounded throughput sample</string>
+    <string name="network_throughput_body">Optional and user-triggered. Transfers at most 5 MB total (4 MB down + 1 MB up) to Cloudflare\'s public speed-test endpoint. No browsing payload or personal file is uploaded.</string>
+    <string name="network_throughput_run">Run bounded throughput test</string>
+    <string name="network_throughput_result">Download %1$s • Upload %2$s</string>
+    <string name="network_throughput_provider">Test endpoint: %1$s</string>
+
+    <string name="data_usage_alerts_paused_usage_access">Monthly data alerts are paused because Android Usage Access is no longer granted. Restore Usage Access to resume monitoring.</string>
+    <string name="data_usage_access_revoked_title">Data usage alerts paused</string>
+    <string name="data_usage_access_revoked_body">ApexTuner can no longer read Android network history because Usage Access was revoked. Open ApexTuner and restore Usage Access to resume monthly data alerts.</string>
+</resources>

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="monitor_tile_label">Apex Monitor</string>
+    <string name="widget_description">Premium ApexTuner battery, RAM and storage snapshot with quick actions.</string>
+    <string name="storage_widget_title">Storage</string>
+    <string name="storage_widget_description">Premium ApexTuner internal-storage usage widget.</string>
+    <string name="storage_widget_donut_description">Internal storage used</string>
+    <string name="storage_widget_free">Free %1$s</string>
+    <string name="battery_widget_title">Battery health trend</string>
+    <string name="battery_widget_description">Premium ApexTuner battery-capacity history widget.</string>
+    <string name="battery_widget_capacity">Estimated full charge %.0f mAh</string>
+    <string name="battery_widget_capacity_unavailable">Capacity estimate unavailable</string>
+    <string name="battery_widget_insufficient_history">Need %1$d days of history</string>
+    <string name="battery_widget_trend">Capacity change %.1f%% over recent history</string>
+    <string name="widget_premium_required">Premium required</string>
+    <string name="widget_open_apextuner">Open ApexTuner to restore or upgrade Premium</string>
+    <string name="widget_loading">Loading…</string>
+    <string name="ui_a_draggable_on_device_overlay_with_cpu_ram_battery_temp" formatted="false">A draggable on-device overlay with CPU, RAM, battery, temperature and network rates. Sampling exists only while the user-started foreground service is active.</string>
+    <string name="ui_add_apex_monitor_quick_settings_tile" formatted="false">Add Apex Monitor Quick Settings tile</string>
+    <string name="ui_allow_monitor_notifications" formatted="false">Allow monitor notifications</string>
+    <string name="ui_allow_notification_history" formatted="false">Allow notification history?</string>
+    <string name="ui_android_may_withhold_or_redact_sensitive_notification_c" formatted="false">Android may withhold or redact sensitive notification content, including detected one-time passcodes on newer releases. ApexTuner records only what Android legitimately exposes.</string>
+    <string name="ui_android_notification_access_is_broad_while_enabled_the" formatted="false">Android Notification access is broad: while enabled, the listener can receive notifications posted by other apps.</string>
+    <string name="ui_apextuner" formatted="false">ApexTuner</string>
+    <string name="ui_apextuner_backup" formatted="false">ApexTuner backup</string>
+    <string name="ui_apextuner_s_diagnostic_processing_is_local_to_the_devic" formatted="false">ApexTuner\'s diagnostic processing is local to the device. Google Play Billing communicates with Google Play, and the optional local firewall uses Android\'s VPN framework without forwarding traffic to ApexTuner servers.</string>
+    <string name="ui_apextuner_stores_only_the_source_app_package_title_text" formatted="false">ApexTuner stores only the source app package, title, text and timestamp in its private local Room database. Notification content is never uploaded, logged to analytics, included in ApexTuner backups, or shared with third parties.</string>
+    <string name="ui_appearance_premium_controls_automation_privacy_and_diag" formatted="false">Appearance, premium controls, automation, privacy and diagnostics.</string>
+    <string name="ui_cancel" formatted="false">Cancel</string>
+    <string name="ui_choose_a_folder_explicitly_apextuner_keeps_only_its_own" formatted="false">Choose a folder explicitly. ApexTuner keeps only its own versioned backup files and never deletes unrelated documents.</string>
+    <string name="ui_close" formatted="false">Close</string>
+    <string name="ui_collection_remains_off_unless_you_continue_and_then_exp" formatted="false">Collection remains off unless you continue and then explicitly grant Notification access in Android Settings.</string>
+    <string name="ui_continue_to_android_settings" formatted="false">Continue to Android settings</string>
+    <string name="ui_data_deletion_instructions" formatted="false">Data deletion instructions</string>
+    <string name="ui_disabled_by_default_apextuner_can_record_notification_t" formatted="false">Disabled by default. ApexTuner can record notification title, text, source app and timestamp only after you explicitly opt in here and Android grants Notification access.</string>
+    <string name="ui_export_apextuner_settings_and_an_informational_list_of" formatted="false">Export ApexTuner settings and an informational list of apps Android currently exposes to a local JSON file. Restore previews the backup before applying safe preferences.</string>
+    <string name="ui_export_local_backup" formatted="false">Export local backup</string>
+    <string name="ui_folder_grant_saved_locally" formatted="false">Folder grant saved locally</string>
+    <string name="ui_foreground_refresh_interval" formatted="false">Foreground refresh interval</string>
+    <string name="ui_forget_backup_folder" formatted="false">Forget backup folder</string>
+    <string name="ui_grant_display_over_other_apps_access" formatted="false">Grant display-over-other-apps access</string>
+    <string name="ui_grant_modify_system_settings" formatted="false">Grant Modify system settings</string>
+    <string name="ui_manage_android_notification_access" formatted="false">Manage Android notification access</string>
+    <string name="ui_manage_restore_purchases" formatted="false">Manage / restore purchases</string>
+    <string name="ui_premium" formatted="false">Premium</string>
+    <string name="ui_privacy_policy" formatted="false">Privacy policy</string>
+    <string name="ui_purchases_file_contents_other_apps_private_data_active" formatted="false">Purchases, file contents, other apps\' private data, active system-profile mutations, VPN state, root/Shizuku authorization, notification content and SAF grants are never exported or restored.</string>
+    <string name="ui_restore_apextuner_settings" formatted="false">Restore ApexTuner settings?</string>
+    <string name="ui_restore_from_backup" formatted="false">Restore from backup</string>
+    <string name="ui_restore_safe_settings" formatted="false">Restore safe settings</string>
+    <string name="ui_review_history_retention" formatted="false">Review history &amp; retention</string>
+    <string name="ui_scheduled_saf_backups" formatted="false">Scheduled SAF backups</string>
+    <string name="ui_settings" formatted="false">Settings</string>
+    <string name="ui_shorter_intervals_are_more_responsive_longer_intervals" formatted="false">Controls the live Dashboard and real-time overlay. The Dashboard keeps a 3-second safety minimum; Battery, Memory, and CPU diagnostics use their own conservative refresh cadence to avoid unnecessary work.</string>
+    <string name="ui_stop_monitor" formatted="false">Stop monitor</string>
+    <string name="ui_start_monitor" formatted="false">Start monitor</string>
+    <string name="ui_unlock_monitor" formatted="false">Unlock monitor</string>
+    <string name="ui_terms_safety_notes" formatted="false">Terms &amp; safety notes</string>
+    <string name="ui_the_home_screen_apextuner_status_widget_is_also_availab" formatted="false">The home-screen ApexTuner status widget is also available from your launcher\'s Widgets picker.</string>
+    <string name="ui_theme" formatted="false">Theme</string>
+    <string name="ui_view_apextuner_premium" formatted="false">View ApexTuner Premium</string>
+    <string name="ui_workmanager_schedules_are_battery_conscious_and_inexact" formatted="false">WorkManager schedules are battery-conscious and inexact by Android design. Scheduled cleaner work only analyzes/notifies; it never deletes user files unattended.</string>
+    <string name="ui_you_can_add_the_apex_monitor_tile_manually_from_android" formatted="false">You can add the Apex Monitor tile manually from Android Quick Settings edit mode.</string>
+    <string name="ui_you_choose_the_retention_window_can_clear_all_stored_hi" formatted="false">You choose the retention window, can clear all stored history at any time, and can mute individual apps only inside ApexTuner. Muting does not change Android notification channels.</string>
+    <string name="ui_appearance" formatted="false">Appearance</string>
+    <string name="ui_notification_history_premium" formatted="false">Notification history • Premium</string>
+    <string name="ui_real_time_monitor_premium" formatted="false">Real-time monitor • Premium</string>
+    <string name="ui_scheduled_automation_premium" formatted="false">Scheduled automation • Premium</string>
+    <string name="ui_backup_restore_premium" formatted="false">Backup &amp; restore • Premium</string>
+    <string name="ui_telemetry" formatted="false">Telemetry</string>
+    <string name="ui_privacy_legal" formatted="false">Privacy &amp; legal</string>
+    <string name="ui_dynamic_material_color" formatted="false">Dynamic Material color</string>
+    <string name="ui_use_android_s_wallpaper_derived_colors_on_android_12" formatted="false">Use Android\'s wallpaper-derived colors on Android 12+.</string>
+    <string name="ui_apextuner_haptics" formatted="false">ApexTuner haptics</string>
+    <string name="ui_allow_deliberate_haptic_feedback_in_apextuner_controls" formatted="false">Allow deliberate haptic feedback in ApexTuner controls.</string>
+    <string name="ui_show_advanced_tools" formatted="false">Show advanced tools</string>
+    <string name="ui_expose_shizuku_root_tools_privileged_actions_still_requ" formatted="false">Expose Shizuku/root tools. Privileged actions still require explicit authorization.</string>
+    <string name="ui_notification_history" formatted="false">Notification history</string>
+    <string name="ui_keep_a_local_review_log_muting_an_app_affects_only_apex" formatted="false">Keep a local review log. Muting an app affects only ApexTuner\'s log and never changes Android notification channels.</string>
+    <string name="ui_scheduled_storage_check" formatted="false">Scheduled storage check</string>
+    <string name="ui_run_a_bounded_low_storage_check_and_notify_when_interna" formatted="false">Run a bounded low-storage check and notify when internal free space falls below 15%.</string>
+    <string name="ui_night_battery_profile" formatted="false">Night battery profile</string>
+    <string name="ui_around_22_00_apply_apextuner_s_reversible_battery_profi" formatted="false">Around 22:00, apply ApexTuner\'s reversible Battery profile only if Balanced is active; restore the saved baseline around 07:00.</string>
+    <string name="ui_scheduled_backups" formatted="false">Scheduled backups</string>
+    <string name="ui_create_a_versioned_local_backup_on_the_selected_cadence" formatted="false">Create a versioned local backup on the selected cadence.</string>
+    <string name="monitor_status_summary">Status: %1$s%2$s</string>
+    <string name="scheduled_backup_keep_last">Keep last %1$d</string>
+    <string name="backup_preview_version">Backup version: %1$s</string>
+    <string name="backup_preview_visible_apps">Visible app inventory: %1$d apps</string>
+    <string name="backup_preview_theme_telemetry">Theme: %1$s; telemetry: %2$d s</string>
+    <string name="backup_preview_warning">• %1$s</string>
+    <string name="monitor_tile_premium_required">Premium required</string>
+    <string name="monitor_tile_active">Active</string>
+    <string name="monitor_tile_overlay_needed">Overlay access needed</string>
+    <string name="monitor_tile_attention">Needs attention</string>
+    <string name="monitor_tile_off">Off</string>
+    <string name="monitor_tile_description">%1$s, %2$s</string>
+    <string name="monitor_notification_starting">Starting monitor…</string>
+    <string name="monitor_notification_title">ApexTuner real-time monitor</string>
+    <string name="monitor_notification_stop">Stop</string>
+    <string name="monitor_channel_name">Real-time monitor</string>
+    <string name="monitor_channel_description">Persistent control for the user-started ApexTuner floating monitor.</string>
+    <string name="automation_low_storage_title">Storage needs attention</string>
+    <string name="automation_low_storage_body">ApexTuner found less than 15% internal storage free. Open the cleaner to review files safely.</string>
+    <string name="automation_battery_access_title">Night battery profile needs access</string>
+    <string name="automation_battery_access_body">Open ApexTuner and grant Modify system settings if you want automatic night profiles.</string>
+    <string name="automation_backup_access_title">Scheduled backup needs folder access</string>
+    <string name="automation_backup_access_body">The saved folder grant is no longer writable. Choose the backup folder again in Settings.</string>
+    <string name="automation_channel_name">Automation</string>
+    <string name="automation_channel_description">Low-storage and scheduled-maintenance notices from ApexTuner.</string>
+    <string name="status_widget_apextuner">ApexTuner</string>
+    <string name="status_widget_summary">Battery %1$s  •  RAM %2$s</string>
+    <string name="status_widget_percent">%1$d%%</string>
+    <string name="status_widget_unavailable">—</string>
+    <string name="status_widget_internal_free">Internal free %1$s</string>
+    <string name="status_widget_premium_title">ApexTuner Premium</string>
+    <string name="status_widget_locked">Unlock the home-screen status widget</string>
+    <string name="status_widget_restore_premium">Open ApexTuner to restore or upgrade Premium.</string>
+    <string name="smart_automation_title">Smart automation rules</string>
+    <string name="smart_automation_body">Rules are opt-in and run at Android-safe intervals. Configure the threshold and cooldown, use Dry run to verify behavior first, then enable live actions when ready. Automatic profile changes are restored only while ApexTuner still owns the change.</string>
+    <string name="smart_automation_dry_run">Dry run</string>
+    <string name="smart_automation_dry_run_body">Evaluate and log this rule without changing settings or posting its normal action.</string>
+    <string name="smart_automation_recent">Recent rule activity</string>
+    <string name="smart_automation_no_events">No smart-rule events recorded yet.</string>
+    <string name="smart_automation_event">%1$s • %2$s</string>
+    <string name="smart_automation_allow_notifications">Allow automation notifications</string>
+    <string name="smart_automation_threshold">Trigger threshold</string>
+    <string name="smart_automation_cooldown">Minimum cooldown</string>
+    <string name="smart_automation_status_dry_run">Dry run active • logs matches without performing the action</string>
+    <string name="smart_automation_status_live">Live automation active</string>
+
+    <string name="smart_automation_summary">%1$d enabled • %2$d live • %3$d dry run</string>
+    <string name="smart_automation_notifications_blocked">A live notification rule is enabled, but Android notification permission is off. The rule can evaluate, but its reminder cannot be shown.</string>
+    <string name="smart_automation_notifications_optional">Notification permission is optional until you enable a live notification rule.</string>
+    <string name="smart_automation_condition">Condition: %1$s</string>
+    <string name="smart_automation_action">Action: %1$s</string>
+    <string name="smart_automation_enabled">Rule enabled</string>
+    <string name="smart_automation_enabled_body">Evaluate this condition at Android-safe background intervals.</string>
+    <string name="smart_automation_action_battery_live">Apply ApexTuner Battery profile and restore the owned Balanced baseline when the condition clears.</string>
+    <string name="smart_automation_action_battery_dry">Would apply the Battery profile; Dry run logs the match only.</string>
+    <string name="smart_automation_action_notification_dry">Would post the configured reminder; Dry run logs the match only.</string>
+    <string name="smart_automation_action_notification_live">Post the configured local reminder.</string>
+    <string name="smart_automation_modify_settings_required">This live rule needs Modify system settings access. Until access is granted, ApexTuner will not apply the Battery profile.</string>
+
+    <string name="smart_automation_action_capture_live">Capture a local device-health snapshot for later trend and anomaly correlation.</string>
+    <string name="smart_automation_action_capture_dry">Would capture a local device-health snapshot; Dry run logs the match only.</string>
+
+    <string name="ui_back" formatted="false">Back</string>
+    <string name="battery_widget_telemetry_unavailable">Battery capacity telemetry unavailable on this device</string>
+</resources>

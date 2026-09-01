@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="ui_all_operations_use_android_s_storage_access_framework_a" formatted="false">All operations use Android\'s Storage Access Framework and stay inside folders you explicitly grant.</string>
+    <string name="ui_cancel_transfer" formatted="false">Cancel transfer</string>
+    <string name="ui_choose_a_folder_with_android_s_system_picker_apextuner" formatted="false">Choose a folder with Android\'s system picker. ApexTuner receives access only to that tree; no broad storage permission is requested.</string>
+    <string name="ui_choose_another_folder" formatted="false">Choose another folder</string>
+    <string name="ui_choose_folder" formatted="false">Choose folder</string>
+    <string name="ui_copy" formatted="false">Copy</string>
+    <string name="ui_extract_zip" formatted="false">Extract ZIP</string>
+    <string name="ui_file_manager" formatted="false">File manager</string>
+    <string name="ui_files" formatted="false">Files</string>
+    <string name="ui_move" formatted="false">Move</string>
+    <string name="ui_name_archive_name" formatted="false">Name / archive name</string>
+    <string name="ui_new_folder" formatted="false">New folder</string>
+    <string name="ui_paste_here" formatted="false">Paste here</string>
+    <string name="ui_rename" formatted="false">Rename</string>
+    <string name="ui_selected" formatted="false">Selected</string>
+    <string name="ui_zip" formatted="false">ZIP</string>
+    <string name="ui_back" formatted="false">Back</string>
+    <string name="ui_cancel_file_operation" formatted="false">Cancel file operation</string>
+    <string name="file_manager_loading_location">Loading %1$s…</string>
+    <string name="file_manager_granted_folders">granted folders</string>
+    <string name="file_transfer_staged">%1$s staged: %2$s</string>
+    <string name="file_transfer_move">Move</string>
+    <string name="file_transfer_copy">Copy</string>
+</resources>

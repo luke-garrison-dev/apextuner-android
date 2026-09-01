@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="ui_a_rollback_safe_cache_clear_is_not_exposed_by_android_a" formatted="false">A rollback-safe cache clear is not exposed by Android. ApexTuner will not fake reversibility or perform a destructive reset.</string>
+    <string name="ui_advanced_access" formatted="false">Advanced access</string>
+    <string name="ui_android_may_hide_clipboard_contents_when_apextuner_is_n" formatted="false">Android may hide clipboard contents when ApexTuner is not the focused app/default IME. Clearing is user-triggered and does not keep a clipboard history.</string>
+    <string name="ui_android_s_system_capture_consent_is_required_every_time" formatted="false">Android\'s system capture consent is required every time. ApexTuner records video only (no microphone) and saves an H.264 MP4 to Movies/ApexTuner at a bounded 1080p-class resolution.</string>
+    <string name="ui_apextuner_does_not_disable_android_thermal_protection_f" formatted="false">ApexTuner does not disable Android thermal protection, force-kill other apps, or claim global FPS/CPU priority that stock Android cannot provide safely.</string>
+    <string name="ui_apextuner_will_also_attempt_a_safety_restore_after_six" formatted="false">ApexTuner will also attempt a safety restore after six hours if the session is not ended manually.</string>
+    <string name="ui_authoritative_public_signals_only_no_invented_security" formatted="false">Authoritative public signals only; no invented security score.</string>
+    <string name="ui_back_to_tools" formatted="false">Back to Tools</string>
+    <string name="ui_backend" formatted="false">Backend</string>
+    <string name="ui_battery" formatted="false">Battery</string>
+    <string name="ui_battery_applies_reversible_stock_android_settings_perfo" formatted="false">Battery applies reversible stock-Android settings. Performance/Gaming adjust only safe session settings; CPU/GPU governors remain locked without a privileged session.</string>
+    <string name="ui_cancel" formatted="false">Cancel</string>
+    <string name="ui_clear_clipboard_now" formatted="false">Clear clipboard now</string>
+    <string name="ui_clipboard_cleaner" formatted="false">Clipboard cleaner</string>
+    <string name="ui_confirm" formatted="false">Confirm</string>
+    <string name="ui_cpu_cores" formatted="false">CPU cores</string>
+    <string name="ui_cpu_governor_frequency_targets_are_range_checked_agains" formatted="false">CPU governor/frequency targets are range-checked against a live snapshot. Thermal policy remains platform managed.</string>
+    <string name="ui_cpu_performance" formatted="false">CPU &amp; Performance</string>
+    <string name="ui_device_posture" formatted="false">Device posture</string>
+    <string name="ui_dismiss" formatted="false">Dismiss</string>
+    <string name="ui_end_session_restore" formatted="false">End session &amp; restore</string>
+    <string name="ui_find_a_launchable_app" formatted="false">Find a launchable app</string>
+    <string name="ui_force_stop" formatted="false">Force-stop</string>
+    <string name="ui_freeze" formatted="false">Freeze</string>
+    <string name="ui_game_session_booster" formatted="false">Game Session Booster</string>
+    <string name="ui_game_session_booster_applies_only_reversible_android_se" formatted="false">Game Session Booster applies only reversible Android settings and optional Do Not Disturb, then restores the previous state when the session ends.</string>
+    <string name="ui_gaming" formatted="false">Gaming</string>
+    <string name="ui_grant_do_not_disturb_access" formatted="false">Grant Do Not Disturb access</string>
+    <string name="ui_grant_modify_system_settings" formatted="false">Grant Modify system settings</string>
+    <string name="ui_guidance" formatted="false">Guidance</string>
+    <string name="ui_i_o_schedulers" formatted="false">I/O schedulers</string>
+    <string name="ui_inspect" formatted="false">Inspect</string>
+    <string name="ui_launch" formatted="false">Launch</string>
+    <string name="ui_modify_system_settings_access" formatted="false">Modify system settings access</string>
+    <string name="ui_modify_system_settings_granted" formatted="false">Modify system settings access granted</string>
+    <string name="ui_no_launchable_apps_match_this_filter" formatted="false">No launchable apps match this filter.</string>
+    <string name="ui_open" formatted="false">Open</string>
+    <string name="ui_open_android_security_settings" formatted="false">Open Android security settings</string>
+    <string name="ui_open_app_permissions_settings" formatted="false">Open app permissions/settings</string>
+    <string name="ui_open_privacy_settings" formatted="false">Open privacy settings</string>
+    <string name="ui_per_app_actions" formatted="false">Per-app actions</string>
+    <string name="ui_performance" formatted="false">Performance</string>
+    <string name="ui_premium_feature" formatted="false">Premium feature</string>
+    <string name="ui_privacy_security" formatted="false">Privacy &amp; Security</string>
+    <string name="ui_pro_cpu_tuning" formatted="false">Pro CPU tuning</string>
+    <string name="ui_read_only_android_and_hardware_facts_unsupported_oem_da" formatted="false">Read-only Android and hardware facts. Unsupported OEM data is shown as unavailable.</string>
+    <string name="ui_read_only_hardware_truth_first_privileged_tuning_only_a" formatted="false">Read-only hardware truth first; privileged tuning only after explicit authorization.</string>
+    <string name="ui_reading_cpu_and_kernel_signals" formatted="false">Reading CPU and kernel signals…</string>
+    <string name="ui_reading_device_information" formatted="false">Reading device information…</string>
+    <string name="ui_request_shizuku" formatted="false">Request Shizuku</string>
+    <string name="ui_restore" formatted="false">Restore</string>
+    <string name="ui_restore_baseline" formatted="false">Restore baseline</string>
+    <string name="ui_retry" formatted="false">Retry</string>
+    <string name="ui_reversible_animation_scales" formatted="false">Reversible animation scales</string>
+    <string name="ui_reversible_user_controlled_session_tuning_without_fake" formatted="false">Reversible, user-controlled session tuning without fake RAM kills or thermal bypasses.</string>
+    <string name="ui_safe_profiles" formatted="false">Safe profiles</string>
+    <string name="ui_screen_recording" formatted="false">Screen recording</string>
+    <string name="ui_session_active" formatted="false">Session active</string>
+    <string name="ui_session_controls" formatted="false">Session controls</string>
+    <string name="ui_single_app_explicit_actions_only_protected_system_packa" formatted="false">Single-app, explicit actions only. Protected/system packages are excluded.</string>
+    <string name="ui_start_screen_recording" formatted="false">Start screen recording</string>
+    <string name="ui_stop_save_recording" formatted="false">Stop &amp; save recording</string>
+    <string name="ui_system_dalvik_cache" formatted="false">System / Dalvik cache</string>
+    <string name="ui_system_information" formatted="false">System Information</string>
+    <string name="ui_system_insight_and_capability_aware_controls_grouped_by" formatted="false">System insight and capability-aware controls, grouped by what you want to improve. Every tool is designed to stay readable on phones, tablets and large-font layouts.</string>
+    <string name="ui_system_security_surfaces" formatted="false">System security surfaces</string>
+    <string name="ui_test_root" formatted="false">Test root</string>
+    <string name="ui_text_0_5" formatted="false">0.5×</string>
+    <string name="ui_text_1" formatted="false">1×</string>
+    <string name="ui_tools" formatted="false">Tools</string>
+    <string name="ui_typed_allow_listed_shizuku_root_operations_only_pro_onl" formatted="false">Typed, allow-listed Shizuku/root operations only. Pro-only mutations are user-triggered and reversible where Android exposes a reversible primitive.</string>
+    <string name="ui_verified_read_only_checks" formatted="false">Verified read-only checks</string>
+    <string name="ui_view_apextuner_premium" formatted="false">View ApexTuner Premium</string>
+    <string name="ui_why_unavailable" formatted="false">Why unavailable</string>
+    <string name="recording_status_summary">Status: %1$s%2$s</string>
+    <string name="performance_core">Core %1$d</string>
+    <string name="performance_current">Current</string>
+    <string name="performance_range">Range</string>
+    <string name="performance_unavailable">Unavailable</string>
+    <string name="performance_mhz">%1$d MHz</string>
+    <string name="performance_mhz_range">%1$d–%2$d MHz</string>
+    <string name="advanced_shizuku_permission">Shizuku permission: %1$s</string>
+    <string name="advanced_permission_granted">granted</string>
+    <string name="advanced_permission_not_granted">not granted</string>
+    <string name="advanced_root_status">Root: %1$s</string>
+    <string name="advanced_verified_policies">Verified policies: %1$d; thermal: %2$s</string>
+    <string name="game_session_channel_name">Game sessions</string>
+    <string name="game_session_notification_title">ApexTuner game session</string>
+    <string name="game_session_default_app">Game</string>
+    <string name="game_session_notification_body">%1$s • %2$s</string>
+    <string name="game_session_end_restore">End &amp; restore</string>
+    <string name="recording_notification_preparing">Preparing screen recording…</string>
+    <string name="recording_notification_active">Recording screen • video only</string>
+    <string name="recording_channel_name">Screen recording</string>
+    <string name="recording_notification_title">ApexTuner screen recording</string>
+    <string name="recording_notification_stop_save">Stop &amp; save</string>
+    <string name="game_thermal_warning_title">Game session thermal warning</string>
+    <string name="game_thermal_warning_body">%1$s reached %2$.1f °C battery temperature. Android thermal protection remains fully active.</string>
+    <string name="game_choose_app_profile">Choose an app below to configure its saved Game Booster profile.</string>
+    <string name="game_option_profile">Gaming profile</string>
+    <string name="game_option_profile_body">Applies ApexTuner’s reversible Gaming system profile. Android and OEM thermal protection remain authoritative.</string>
+    <string name="game_option_dnd">Silence interruptions</string>
+    <string name="game_option_dnd_body">Uses Android Do Not Disturb when access is granted and restores only the state ApexTuner owns.</string>
+    <string name="game_thermal_threshold">Thermal warning: %1$.1f °C</string>
+    <string name="game_launch_saved_profile">Launch with saved profile</string>
+    <string name="game_configure">Configure</string>
+    <string name="game_recent_sessions">Recent session analytics</string>
+    <string name="game_session_metrics">%1$d min • battery %2$s • peak %3$s • traffic %4$s</string>
+    <string name="game_metric_unavailable">—</string>
+    <string name="security_patch_level">Security patch</string>
+    <string name="security_patch_age">%1$s • %2$d days old</string>
+    <string name="security_advanced_protection">Android Advanced Protection</string>
+    <string name="security_enabled">Enabled</string>
+    <string name="security_disabled">Disabled</string>
+    <string name="security_not_supported">Not supported by this Android version</string>
+    <string name="security_unavailable">Unavailable</string>
+    <string name="diagnostic_report_title">Diagnostic Report</string>
+    <string name="diagnostic_report_body">Capture a privacy-conscious device snapshot, compare before/after changes, and export local JSON or HTML evidence.</string>
+    <string name="diagnostic_sections">Report sections</string>
+    <string name="diagnostic_before_after">Before / after verification</string>
+    <string name="diagnostic_before_after_body">Capture a baseline before a change, then refresh to verify measurable differences without claiming unsupported performance gains.</string>
+    <string name="diagnostic_capture_baseline">Capture baseline</string>
+    <string name="diagnostic_refresh">Refresh current</string>
+    <string name="diagnostic_clear_baseline">Clear baseline</string>
+    <string name="diagnostic_battery_delta">Battery delta</string>
+    <string name="diagnostic_memory_delta">Available memory delta</string>
+    <string name="diagnostic_storage_delta">Available storage delta</string>
+    <string name="diagnostic_temperature_delta">Battery temperature delta</string>
+    <string name="diagnostic_network_delta">Network traffic since baseline</string>
+    <string name="diagnostic_export">Export report</string>
+    <string name="diagnostic_privacy_note">The report is generated locally and excludes contact contents, filenames, notification contents, account identifiers, and raw installed-app inventory.</string>
+    <string name="diagnostic_export_json">Export JSON</string>
+    <string name="diagnostic_export_html">Export HTML</string>
+
+    <string name="tools_group_device">Device intelligence</string>
+    <string name="tools_group_device_body">Understand battery, memory, CPU, thermal behavior and hardware facts.</string>
+    <string name="tools_group_connectivity">Connectivity &amp; security</string>
+    <string name="tools_group_connectivity_body">Inspect network quality, control local firewall behavior and review Android security posture.</string>
+    <string name="tools_group_data">Data, history &amp; reports</string>
+    <string name="tools_group_data_body">Work with local files, contacts, notification history and shareable diagnostics.</string>
+    <string name="tools_group_sessions">Sessions &amp; advanced controls</string>
+    <string name="tools_group_sessions_body">Run reversible game-session tuning and, when enabled, privileged diagnostic controls.</string>
+
+
+    <string name="diagnostic_sections_summary">%1$d of %2$d sections selected</string>
+    <string name="diagnostic_select_all">Select all</string>
+    <string name="diagnostic_clear_sections">Clear</string>
+    <string name="diagnostic_refresh_after">Refresh after changes</string>
+    <string name="diagnostic_no_baseline">Capture a baseline first. ApexTuner will not invent a comparison from unrelated snapshots.</string>
+    <string name="diagnostic_baseline_ready">Baseline ready. Make the change you want to evaluate, then tap Refresh after changes.</string>
+    <string name="diagnostic_comparison_window">Comparison window: %1$s</string>
+    <string name="diagnostic_delta_note">These are measured deltas, not proof that one setting caused the change. Battery, memory, temperature and network activity can vary naturally.</string>
+    <string name="diagnostic_select_section_first">Select at least one report section before exporting.</string>
+
+</resources>

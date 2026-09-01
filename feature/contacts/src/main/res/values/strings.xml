@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="ui_analyzing_contacts_on_device" formatted="false">Analyzing contacts on-device…</string>
+    <string name="ui_cancel" formatted="false">Cancel</string>
+    <string name="ui_contacts_access_is_used_only_while_this_tool_is_open_or" formatted="false">Contacts access is used only while this tool is open or when you explicitly merge/undo.</string>
+    <string name="ui_duplicate_contacts" formatted="false">Duplicate contacts</string>
+    <string name="ui_grant_contacts_access" formatted="false">Grant contacts access</string>
+    <string name="ui_merge" formatted="false">Merge</string>
+    <string name="ui_merge_these_contacts" formatted="false">Merge these contacts?</string>
+    <string name="ui_names_phone_numbers_and_email_addresses_remain_on_this" formatted="false">Names, phone numbers, and email addresses remain on this device and are never logged or uploaded.</string>
+    <string name="ui_retry" formatted="false">Retry</string>
+    <string name="ui_review_merge" formatted="false">Review merge</string>
+    <string name="ui_similarity_is_only_a_review_heuristic_apextuner_never_a" formatted="false">Similarity is only a review heuristic. ApexTuner never auto-merges contacts.</string>
+    <string name="ui_undo_last_merge" formatted="false">Undo last merge</string>
+    <string name="ui_back" formatted="false">Back</string>
+    <string name="contacts_review_candidate_count">%1$d review candidates</string>
+    <string name="contacts_merge_confirmation_body">%1$s and %2$s will be linked through Android\'s contact aggregation provider. Nothing is uploaded. You can undo this merge until you leave this screen.</string>
+    <string name="contacts_similarity_summary">%1$s • %2$.0f%%</string>
+    <string name="contacts_discard_failed_undo">Discard failed undo record</string>
+    <string name="contacts_discard_failed_undo_explanation">Use this only if Android repeatedly refuses this undo. It keeps the current contact aggregation and lets you reach earlier merge undos.</string>
+</resources>

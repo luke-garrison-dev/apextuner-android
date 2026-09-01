@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="apps_title">App Manager</string>
+    <string name="apps_subtitle">Privacy-conscious app inventory, permissions, storage, usage and network insight.</string>
+    <string name="apps_loading">Reading Android app inventory…</string>
+    <string name="apps_retry">Retry</string>
+    <string name="apps_search">Search apps or package names</string>
+    <string name="apps_usage_access">Enable Usage Access</string>
+    <string name="apps_no_results">No apps match the current filters.</string>
+    <string name="apps_clear_filters">Clear search and filters</string>
+    <string name="ui_android_authorized_actions" formatted="false">Android-authorized actions</string>
+    <string name="ui_apextuner_cannot_silently_clear_another_app_s_data_cach" formatted="false">ApexTuner cannot silently clear another app\'s data/cache, revoke its permissions, disable it, or force-stop it as a normal Play-distributed app. Those operations remain Android/system-owner or explicit advanced-privilege actions.</string>
+    <string name="ui_app_settings" formatted="false">App settings</string>
+    <string name="ui_close" formatted="false">Close</string>
+    <string name="ui_dangerous_permissions" formatted="false">Dangerous permissions</string>
+    <string name="ui_deeper_app_insight_is_optional" formatted="false">Deeper app insight is optional</string>
+    <string name="ui_dismiss" formatted="false">Dismiss</string>
+    <string name="ui_filter" formatted="false">Filter</string>
+    <string name="ui_launch" formatted="false">Launch</string>
+    <string name="ui_none_declared_or_visible_to_android" formatted="false">None declared or visible to Android.</string>
+    <string name="ui_notification_settings" formatted="false">Notification settings</string>
+    <string name="ui_request_uninstall" formatted="false">Request uninstall</string>
+    <string name="ui_sort" formatted="false">Sort</string>
+    <string name="ui_storage" formatted="false">Storage</string>
+    <string name="ui_usage_access_unlocks_last_used_selected_app_storage_and" formatted="false">Usage Access unlocks last-used, selected-app storage and 30-day network history. ApexTuner processes those statistics locally.</string>
+    <string name="apps_visible_count">%1$d visible apps</string>
+    <string name="apps_usage_unavailable">Usage unavailable</string>
+    <string name="apps_permission_summary">%1$s • %2$d/%3$d dangerous permissions granted</string>
+    <string name="apps_network_period">Network — %1$d days</string>
+    <string name="apps_wifi">Wi‑Fi</string>
+    <string name="apps_mobile">Mobile</string>
+    <string name="apps_network_received_sent">↓ %1$s  ↑ %2$s</string>
+    <string name="apps_insight_filter">Privacy &amp; resource insight</string>
+    <string name="apps_inspector_summary">Target SDK %1$d • Installer: %2$s</string>
+    <string name="apps_installer_unknown">unknown</string>
+
+    <string name="apps_inventory_insights_title">Inventory insights</string>
+    <string name="apps_inventory_counts">%1$d visible • %2$d user • %3$d system</string>
+    <string name="apps_inventory_attention">%1$d permission-heavy • %2$d legacy target SDK • %3$d unknown installer</string>
+    <string name="apps_inventory_recent">Last 30 days: %1$d installed • %2$d updated</string>
+    <string name="apps_inventory_unused">Unused for at least 30 days: %1$d</string>
+    <string name="apps_inventory_unused_locked">Grant Usage Access to calculate the 30-day unused count.</string>
+    <string name="apps_inventory_note">These are review signals, not an opaque risk score. Open an app to inspect the underlying permissions, usage, storage and network evidence.</string>
+
+    <string name="apps_review_center_title">App Intelligence Review Center</string>
+    <string name="apps_review_center_body">Prioritizes apps using visible evidence such as long inactivity, granted dangerous permissions, legacy target SDK and unidentified installer source. This is not a malware score.</string>
+    <string name="apps_review_center_empty">No app currently combines the available review signals.</string>
+
+</resources>

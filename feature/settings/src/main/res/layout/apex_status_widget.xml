@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/apex_widget_background"
+    android:orientation="vertical"
+    android:padding="14dp">
+
+    <TextView
+        android:id="@+id/widget_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ApexTuner"
+        android:textColor="#FFFFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/widget_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="#FFE3F4FA"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/widget_storage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:textColor="#FFB8CBD5"
+        android:textSize="13sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/widget_open"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FF17495D"
+            android:minHeight="48dp"
+            android:text="Open"
+            android:textAllCaps="false"
+            android:textColor="#FFE5FAFF" />
+
+        <Button
+            android:id="@+id/widget_refresh"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FF3B2F6F"
+            android:minHeight="48dp"
+            android:text="Refresh"
+            android:textAllCaps="false"
+            android:textColor="#FFF1ECFF" />
+    </LinearLayout>
+</LinearLayout>

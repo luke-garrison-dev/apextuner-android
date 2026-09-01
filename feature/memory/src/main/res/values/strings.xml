@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="memory_title">Memory Intelligence</string>
+    <string name="memory_subtitle">System pressure, swap, and process visibility without fake task-killing claims.</string>
+    <string name="ui_apextuner_process" formatted="false">ApexTuner process</string>
+    <string name="ui_back_to_tools" formatted="false">Back to Tools</string>
+    <string name="ui_memory_guidance" formatted="false">Memory guidance</string>
+    <string name="ui_processes_reported_by_android" formatted="false">Processes reported by Android</string>
+    <string name="ui_reading_android_memory_signals" formatted="false">Reading Android memory signals…</string>
+    <string name="ui_retry" formatted="false">Retry</string>
+    <string name="ui_system_ram" formatted="false">System RAM</string>
+    <string name="ui_this_process_list_is_diagnostic_and_may_be_filtered_by" formatted="false">This process list is diagnostic and may be filtered by Android/OEM policy. ApexTuner does not claim per-app RAM when the platform does not expose it.</string>
+    <string name="memory_unnamed_process">Unnamed process</string>
+    <string name="memory_process_summary">PID %1$d • %2$s%3$s</string>
+    <string name="memory_apextuner_suffix"> • ApexTuner</string>
+</resources>

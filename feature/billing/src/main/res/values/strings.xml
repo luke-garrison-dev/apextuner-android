@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="ui_apextuner_grants_access_only_for_purchases_reported_as" formatted="false">ApexTuner grants access only for the lifetime Premium purchase reported as PURCHASED by Google Play, never while it is PENDING. This build is intentionally client-only: purchase acknowledgement occurs through Play Billing on-device and no purchase token is sent to an ApexTuner server.</string>
+    <string name="ui_apextuner_premium" formatted="false">ApexTuner Premium</string>
+    <string name="ui_back" formatted="false">Back</string>
+    <string name="ui_billing_security_model" formatted="false">Billing security model</string>
+    <string name="ui_current_entitlement" formatted="false">Current entitlement</string>
+    <string name="ui_google_play_billing_unavailable" formatted="false">Google Play Billing unavailable</string>
+    <string name="ui_loading_eligible_google_play_offers" formatted="false">Loading Google Play purchase option…</string>
+    <string name="ui_premium_unlocks" formatted="false">Premium unlocks</string>
+    <string name="ui_refresh" formatted="false">Refresh</string>
+    <string name="ui_restore_manage" formatted="false">Restore purchase</string>
+    <string name="ui_restore_purchases" formatted="false">Restore lifetime purchase</string>
+    <string name="ui_restore_re_queries_active_google_play_purchases_pending" formatted="false">Restore re-queries your one-time lifetime Premium purchase from Google Play. A pending transaction does not unlock Premium until Play reports PURCHASED.</string>
+    <string name="ui_retry" formatted="false"> Retry</string>
+    <string name="ui_unlock_the_advanced_optimization_toolset_through_google" formatted="false">Unlock the complete advanced optimization toolset with one lifetime purchase through Google Play.</string>
+    <string name="billing_active">Active</string>
+    <string name="billing_buy_lifetime">Buy lifetime Premium</string>
+    <string name="billing_lifetime_unavailable">Lifetime Premium unavailable</string>
+    <string name="billing_pending_purchase_block">A Google Play purchase is pending. Premium remains locked until Play reports PURCHASED.</string>
+    <string name="billing_other_purchase_starting">Another Google Play purchase is starting. Complete or cancel it first.</string>
+    <string name="billing_starting_google_play">Starting Google Play…</string>
+</resources>

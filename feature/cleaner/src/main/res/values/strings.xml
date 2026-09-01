@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="cleaner_quick_scan_tile_label">Apex Quick Scan</string>
+    <string name="cleaner_quick_scan_tile_subtitle">Open and scan</string>
+    <string name="cleaner_quick_scan_tile_description">Open ApexTuner Cleaner and start a quick scan</string>
+    <string name="ui_a_storage_cleaner_that_only_acts_on_content_android_act" formatted="false">A storage cleaner that only acts on content Android actually grants access to.</string>
+    <string name="ui_accessible_storage_summary" formatted="false">Accessible storage summary</string>
+    <string name="ui_add_files" formatted="false">Add files</string>
+    <string name="ui_add_folder" formatted="false">Add folder</string>
+    <string name="ui_android_is_applying_the_confirmed_operation_only_to_the" formatted="false">Android is applying the confirmed operation only to the selected items. ApexTuner will re-scan storage when it finishes.</string>
+    <string name="ui_apextuner_never_deletes_an_unselected_file" formatted="false">ApexTuner never deletes an unselected file.</string>
+    <string name="ui_applying_removal" formatted="false">Applying removal</string>
+    <string name="ui_blur_detection_is_a_weak_heuristic_review_every_candida" formatted="false">Blur detection is a weak heuristic. Review every candidate individually; ApexTuner never bulk-selects this category.</string>
+    <string name="ui_calculating_an_on_device_size_estimate" formatted="false">Calculating an on-device size estimate…</string>
+    <string name="ui_cancel" formatted="false">Cancel</string>
+    <string name="ui_cancel_scan" formatted="false">Cancel scan</string>
+    <string name="ui_clear_selection" formatted="false">Clear selection</string>
+    <string name="ui_compress_media" formatted="false">Compress media</string>
+    <string name="ui_continue" formatted="false">Continue</string>
+    <string name="ui_dismiss" formatted="false">Dismiss</string>
+    <string name="ui_grant_a_media_category_folder_or_file_before_scanning" formatted="false">Grant a media category, folder, or file before scanning.</string>
+    <string name="ui_if_staging_verification_or_rollback_preparation_fails_t" formatted="false">If staging, verification, or rollback preparation fails, the replacement is not started.</string>
+    <string name="ui_image_pixels_keep_their_visible_orientation_but_re_enco" formatted="false">Image pixels keep their visible orientation, but re-encoding may not preserve every embedded EXIF metadata field. Use Save as copy when metadata preservation matters.</string>
+    <string name="ui_important_files_from_user_granted_document_providers_do" formatted="false">Important: files from user-granted document providers do not have a universal Android trash API. If the provider reports delete support, those selected files are permanently deleted after confirmation.</string>
+    <string name="ui_keep_newest_select_other_removable_copies" formatted="false">Keep newest • select other removable copies</string>
+    <string name="ui_keep_original" formatted="false">Keep original</string>
+    <string name="ui_low_sharpness_can_also_be_intentional_portraits_motion" formatted="false">Low sharpness can also be intentional (portraits, motion, depth-of-field). This photo is never auto-selected.</string>
+    <string name="ui_near_duplicate_hashing_reached_the_100_000_image_safety" formatted="false">Near-duplicate hashing reached the 100,000-image safety ceiling. These results are partial; narrow storage access for a complete pass.</string>
+    <string name="ui_no_categorized_accessible_files" formatted="false">No categorized accessible files.</string>
+    <string name="ui_not_now" formatted="false">Not now</string>
+    <string name="ui_only_the_photos_and_videos_android_currently_exposes_to" formatted="false">Only the photos and videos Android currently exposes to ApexTuner are included in this scan.</string>
+    <string name="ui_open" formatted="false">Open</string>
+    <string name="ui_optimize" formatted="false">Optimize</string>
+    <string name="ui_output" formatted="false">Output</string>
+    <string name="ui_perceptual_similarity_is_only_a_review_hint_apextuner_n" formatted="false">Perceptual similarity is only a review hint. ApexTuner never auto-selects items from this category.</string>
+    <string name="ui_permissions_are_incremental_you_can_scan_media_grant_se" formatted="false">Permissions are incremental. You can scan media, grant selected folders, or grant individual documents without giving unrestricted file-system access.</string>
+    <string name="ui_persisted_user_grants" formatted="false">Persisted user grants</string>
+    <string name="ui_photo_quality_analysis_reached_the_100_000_image_safety" formatted="false">Photo-quality analysis reached the 100,000-image safety ceiling. These results are partial; narrow storage access for a complete pass.</string>
+    <string name="ui_potential_review_counts_only_currently_removable_candid" formatted="false">Potential review counts only currently removable candidates and is not a promise of immediately free disk space. When Android can prove a SAF URI maps to the same MediaStore item, ApexTuner normalizes that alias in byte totals; unknown providers remain isolated for safety. Media moved to Trash continues using storage until permanently removed.</string>
+    <string name="ui_quality_target" formatted="false">Quality target</string>
+    <string name="ui_remove" formatted="false">Remove</string>
+    <string name="ui_replace_original" formatted="false">Replace original?</string>
+    <string name="ui_replace_original_af2015" formatted="false">Replace original</string>
+    <string name="ui_review_removal" formatted="false">Review removal</string>
+    <string name="ui_safety_scan_limit_reached" formatted="false">Safety scan limit reached</string>
+    <string name="ui_save_as_copy_creates_an_additional_file_and_does_not_re" formatted="false">Save as copy creates an additional file and does not reclaim storage while the original remains. The estimated reduction becomes reclaimed space only if you explicitly replace or later remove the original.</string>
+    <string name="ui_select_photos_videos" formatted="false">Select photos/videos</string>
+    <string name="ui_selected_photos_access_is_active" formatted="false">Selected Photos access is active</string>
+    <string name="ui_selection" formatted="false">Selection</string>
+    <string name="ui_share" formatted="false">Share</string>
+    <string name="ui_storage_access" formatted="false">Storage access</string>
+    <string name="ui_storage_analyzer" formatted="false">Storage analyzer</string>
+    <string name="ui_storage_scan" formatted="false">Storage scan</string>
+    <string name="ui_the_estimate_is_advisory_because_codec_efficiency_varie" formatted="false">The estimate is advisory because codec efficiency varies by content and device. ApexTuner commits only if the staged result is actually smaller than the original.</string>
+    <string name="ui_the_photo_picker_provides_a_privacy_preserving_read_onl" formatted="false">The Photo Picker provides a privacy-preserving read-only fallback for selected photos/videos. Downloads and social-media cleanup use only folders or files you explicitly grant through Android\'s document picker. Android 11+ may block restricted roots such as Downloads root and Android/data; ApexTuner does not bypass those protections.</string>
+    <string name="ui_the_scan_stopped_at_the_bounded_item_limit_to_protect_m" formatted="false">The scan stopped at the bounded item limit to protect memory and responsiveness. Narrow folder access and scan again for a complete pass.</string>
+    <string name="ui_this_android_source_combination_supports_only_permanent" formatted="false">This Android/source combination supports only permanent deletion for the selected items.</string>
+    <string name="ui_this_is_distinct_from_save_as_copy_apextuner_will_first" formatted="false">This is distinct from Save as copy. ApexTuner will first create the complete compressed result and a rollback snapshot, then overwrite only this original after Android grants any required write access.</string>
+    <string name="ui_unlock_premium" formatted="false">Unlock Premium</string>
+    <string name="ui_exact_duplicates" formatted="false">Exact duplicates</string>
+    <string name="ui_near_duplicate_photos" formatted="false">Near-duplicate photos</string>
+    <string name="ui_blurry_low_quality_photos" formatted="false">Blurry / low-quality photos</string>
+    <string name="ui_large_files" formatted="false">Large files</string>
+    <string name="ui_review_candidates" formatted="false">Review candidates</string>
+    <string name="ui_app_cache_estimate" formatted="false">App cache estimate</string>
+    <string name="ui_no_exact_duplicates_found" formatted="false">No exact duplicates found</string>
+    <string name="ui_no_duplicate_result_yet" formatted="false">No duplicate result yet</string>
+    <string name="ui_no_near_duplicate_photos_found" formatted="false">No near-duplicate photos found</string>
+    <string name="ui_no_similar_photo_result_yet" formatted="false">No similar-photo result yet</string>
+    <string name="ui_no_blurry_photos_flagged" formatted="false">No blurry photos flagged</string>
+    <string name="ui_no_photo_quality_result_yet" formatted="false">No photo-quality result yet</string>
+    <string name="ui_photos_videos" formatted="false">Photos &amp; videos</string>
+    <string name="ui_music_audio" formatted="false">Music &amp; audio</string>
+    <string name="ui_legacy_media_deletion" formatted="false">Legacy media deletion</string>
+    <string name="ui_cache_statistics" formatted="false">Cache statistics</string>
+    <string name="ui_save_as_copy" formatted="false">Save as copy</string>
+    <string name="ui_move_media_to_system_trash" formatted="false">Move media to system Trash</string>
+    <string name="ui_delete_media_permanently" formatted="false">Delete media permanently</string>
+    <string name="cleaner_premium_title">%1$s • Premium</string>
+    <string name="cleaner_exact_copy_count">%1$d exact copies</string>
+    <string name="cleaner_reclaimable_copies">Currently removable copies: %1$s</string>
+    <string name="cleaner_similar_photo_count">%1$d visually similar photos</string>
+    <string name="cleaner_max_dhash_distance">Maximum dHash distance from reference: %1$d/64</string>
+    <string name="cleaner_selected_summary">%1$d items • %2$s</string>
+    <string name="reencode_preset_balanced">Balanced</string>
+    <string name="reencode_preset_compact">Compact</string>
+    <string name="cleaner_scan_progress">%1$s • %2$d items%3$s</string>
+    <string name="cleaner_scan_indexed_suffix"> • %1$s indexed</string>
+    <string name="cleaner_laplacian_variance">Laplacian variance: %1$s</string>
+    <string name="cleaner_item_source_summary">%1$s • %2$s%3$s</string>
+    <string name="cleaner_read_only_suffix"> • Read-only</string>
+    <string name="cleaner_original_size">Original: %1$s</string>
+    <string name="cleaner_estimated_reduction">Estimated reduction: ≈ %1$s (%2$d%%)</string>
+    <string name="cleaner_selected_item_bullet">• %1$s</string>
+    <string name="cleaner_more_selected_items">…and %1$d more selected items</string>
+    <string name="cleaner_photo_review_intelligence">Photo review intelligence</string>
+    <string name="cleaner_photo_review_intelligence_body">Review-only clustering for similar photos, screenshot batches, burst filenames and repeated downloads. Suggestions favor measured sharpness when available, then resolution and recency; nothing is automatically deleted.</string>
+    <string name="cleaner_photo_review_group">%1$s • %2$d items • suggested keep: %3$s • review potential %4$s</string>
+    <string name="cleaner_photo_review_more">+%1$d additional review groups</string>
+    <string name="cleaner_smart_review_title">Smart Review</string>
+    <string name="cleaner_smart_review_body">A single, non-destructive overview of the strongest storage opportunities. Exact duplicates are byte-verified; photo similarity, blur and other candidates always require manual review.</string>
+    <string name="cleaner_smart_review_exact">Exact duplicate opportunity</string>
+    <string name="cleaner_smart_review_photos">Photo review candidates</string>
+    <string name="cleaner_smart_review_large">Large files</string>
+    <string name="cleaner_smart_review_candidates">Other review candidates</string>
+    <string name="cleaner_smart_review_value">%1$d • %2$s</string>
+    <string name="cleaner_smart_review_not_analyzed">Not analyzed yet</string>
+    <string name="cleaner_smart_review_compressible">%1$d large image/video candidates have %2$s of source data eligible for copy/replace review. This is source size, not promised savings.</string>
+    <string name="cleaner_review_exact">Exact duplicates</string>
+    <string name="cleaner_review_photos">Photo review</string>
+    <string name="cleaner_review_large">Large files</string>
+    <string name="cleaner_review_other">Other candidates</string>
+
+</resources>

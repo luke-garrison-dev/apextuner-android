@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="battery_title">Battery Intelligence</string>
+    <string name="battery_subtitle">Live, local analysis with safe and reversible controls.</string>
+    <string name="battery_loading">Reading battery and usage signals…</string>
+    <string name="battery_error">Battery data could not be read.</string>
+    <string name="battery_retry">Retry</string>
+    <string name="battery_power_profile">Battery profile controls</string>
+    <string name="battery_profile_body">On Android 13 and newer, ApexTuner\'s Battery profile only shortens the screen timeout to at most 30 seconds. On Android 12L and earlier, it can also disable the legacy global haptic-feedback setting. It does not enable Android Battery Saver, force Doze, change CPU/GPU behavior, disable radios, or pause global sync. ApexTuner stores the exact original managed values for Restore Balanced.</string>
+    <string name="battery_profile_status_active">ApexTuner status: %1$s profile active</string>
+    <string name="battery_profile_status_balanced">ApexTuner status: Balanced — no profile override is active</string>
+    <string name="battery_profile_status_changed_externally">ApexTuner status: %1$s no longer matches the live system settings. Re-apply it or Restore Balanced.</string>
+    <string name="battery_apply_saver">Apply Battery profile</string>
+    <string name="battery_restore_balanced">Restore Balanced</string>
+    <string name="battery_write_access">Allow system-setting changes</string>
+    <string name="battery_open_saver">Open Android Battery Saver</string>
+    <string name="battery_open_usage">Open system battery usage</string>
+    <string name="battery_recent_activity">Recent app activity</string>
+    <string name="battery_recent_activity_note">Foreground time is a usage signal, not measured per-app battery drain.</string>
+    <string name="battery_usage_access">Usage access is required to rank recent app activity.</string>
+    <string name="battery_open_usage_access">Grant Usage Access</string>
+    <string name="battery_health">Health</string>
+    <string name="battery_charge">Charge</string>
+    <string name="battery_current">Current</string>
+    <string name="battery_temperature">Temperature</string>
+    <string name="battery_voltage">Voltage</string>
+    <string name="battery_cycles">Cycles</string>
+    <string name="battery_remaining">Estimated remaining</string>
+    <string name="battery_power_save">Android Battery Saver</string>
+    <string name="battery_on">On</string>
+    <string name="battery_off">Off</string>
+    <string name="battery_unavailable">Unavailable</string>
+    <string name="battery_recommendations">Recommendations</string>
+    <string name="ui_back_to_tools" formatted="false">Back to Tools</string>
+    <string name="ui_battery_health_trend" formatted="false">Battery health trend</string>
+    <string name="ui_capacity_estimate_is_unavailable_on_enough_days_to_draw" formatted="false">Capacity estimate is unavailable on enough days to draw a meaningful line.</string>
+    <string name="ui_full_charge_capacity_is_an_estimate_derived_locally_fro" formatted="false">Full-charge capacity is an estimate derived locally from Android\'s charge counter and battery percentage; OEM support and accuracy vary.</string>
+    <string name="ui_live_battery" formatted="false">Live battery</string>
+    <string name="battery_foreground_last_24h">Foreground in last 24h: %1$s</string>
+    <string name="battery_insufficient_history">Insufficient history: %1$d/%2$d daily snapshots. ApexTuner will not fabricate a trend line.</string>
+    <string name="battery_charging_sessions">Charging sessions</string>
+    <string name="battery_charging_sessions_body">Session analytics combine foreground observations with battery-conscious background samples. Values are estimates when Android does not expose complete charger telemetry.</string>
+    <string name="battery_charging_sessions_empty">No completed charging session has been observed yet.</string>
+    <string name="battery_session_period">%1$s → %2$s</string>
+    <string name="battery_session_level">Charge: %1$s → %2$s</string>
+    <string name="battery_session_added">Estimated added: %1$s</string>
+    <string name="battery_session_temperature">Temperature avg / peak: %1$s / %2$s</string>
+    <string name="battery_session_confidence">Estimate confidence: %1$s • %2$d samples</string>
+    <string name="battery_charging_intelligence">Charging intelligence</string>
+    <string name="battery_charging_intelligence_body">Compares completed sessions against your own local charging history. Rates are observations, not charger certification.</string>
+    <string name="battery_completed_sessions">Completed sessions</string>
+    <string name="battery_typical_rate">Typical observed rate</string>
+    <string name="battery_latest_rate">Latest observed rate</string>
+    <string name="battery_average_peak_temp">Average peak temperature</string>
+
+    <string name="battery_health_telemetry_unavailable">Android does not expose a usable battery cycle count or charge-counter capacity estimate on this device. ApexTuner will keep checking daily, but it will not invent a battery-health history from unavailable telemetry.</string>
+</resources>
