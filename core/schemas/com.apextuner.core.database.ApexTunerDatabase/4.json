@@ -1,0 +1,787 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "90f12118322147eee755ada16358ba7c",
+    "entities": [
+      {
+        "tableName": "scan_sessions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `scanType` TEXT NOT NULL, `startedAtEpochMillis` INTEGER NOT NULL, `completedAtEpochMillis` INTEGER, `itemsScanned` INTEGER NOT NULL, `bytesEligible` INTEGER NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scanType",
+            "columnName": "scanType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAtEpochMillis",
+            "columnName": "startedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "completedAtEpochMillis",
+            "columnName": "completedAtEpochMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "itemsScanned",
+            "columnName": "itemsScanned",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bytesEligible",
+            "columnName": "bytesEligible",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "optimization_history",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `actionType` TEXT NOT NULL, `scope` TEXT NOT NULL, `createdAtEpochMillis` INTEGER NOT NULL, `outcome` TEXT NOT NULL, `bytesChanged` INTEGER NOT NULL, `reversibleUntilEpochMillis` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actionType",
+            "columnName": "actionType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scope",
+            "columnName": "scope",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAtEpochMillis",
+            "columnName": "createdAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outcome",
+            "columnName": "outcome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bytesChanged",
+            "columnName": "bytesChanged",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reversibleUntilEpochMillis",
+            "columnName": "reversibleUntilEpochMillis",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "notification_history",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `packageName` TEXT NOT NULL, `title` TEXT NOT NULL, `text` TEXT NOT NULL, `postedAtEpochMillis` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postedAtEpochMillis",
+            "columnName": "postedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_notification_history_postedAtEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "postedAtEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_notification_history_postedAtEpochMillis` ON `${TABLE_NAME}` (`postedAtEpochMillis`)"
+          },
+          {
+            "name": "index_notification_history_packageName",
+            "unique": false,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_notification_history_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          }
+        ]
+      },
+      {
+        "tableName": "battery_health_snapshots",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`epochDay` INTEGER NOT NULL, `capturedAtEpochMillis` INTEGER NOT NULL, `cycleCount` INTEGER, `estimatedFullChargeCapacityMicroampHours` INTEGER, `sourceLevelPercent` INTEGER, PRIMARY KEY(`epochDay`))",
+        "fields": [
+          {
+            "fieldPath": "epochDay",
+            "columnName": "epochDay",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capturedAtEpochMillis",
+            "columnName": "capturedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cycleCount",
+            "columnName": "cycleCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "estimatedFullChargeCapacityMicroampHours",
+            "columnName": "estimatedFullChargeCapacityMicroampHours",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "sourceLevelPercent",
+            "columnName": "sourceLevelPercent",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "epochDay"
+          ]
+        }
+      },
+      {
+        "tableName": "device_health_samples",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `capturedAtEpochMillis` INTEGER NOT NULL, `cpuUsagePercent` REAL, `memoryUsedPercent` REAL NOT NULL, `internalStorageAvailableBytes` INTEGER NOT NULL, `internalStorageTotalBytes` INTEGER NOT NULL, `batteryLevelPercent` INTEGER, `batteryTemperatureCelsius` REAL, `batteryCurrentMicroamps` INTEGER, `batteryCharging` INTEGER NOT NULL, `thermalStatus` TEXT NOT NULL, `networkMetered` INTEGER NOT NULL, `networkValidated` INTEGER NOT NULL, `totalRxBytes` INTEGER, `totalTxBytes` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capturedAtEpochMillis",
+            "columnName": "capturedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cpuUsagePercent",
+            "columnName": "cpuUsagePercent",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "memoryUsedPercent",
+            "columnName": "memoryUsedPercent",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "internalStorageAvailableBytes",
+            "columnName": "internalStorageAvailableBytes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "internalStorageTotalBytes",
+            "columnName": "internalStorageTotalBytes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "batteryLevelPercent",
+            "columnName": "batteryLevelPercent",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "batteryTemperatureCelsius",
+            "columnName": "batteryTemperatureCelsius",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "batteryCurrentMicroamps",
+            "columnName": "batteryCurrentMicroamps",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "batteryCharging",
+            "columnName": "batteryCharging",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thermalStatus",
+            "columnName": "thermalStatus",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkMetered",
+            "columnName": "networkMetered",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkValidated",
+            "columnName": "networkValidated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalRxBytes",
+            "columnName": "totalRxBytes",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "totalTxBytes",
+            "columnName": "totalTxBytes",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_device_health_samples_capturedAtEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "capturedAtEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_device_health_samples_capturedAtEpochMillis` ON `${TABLE_NAME}` (`capturedAtEpochMillis`)"
+          }
+        ]
+      },
+      {
+        "tableName": "charging_sessions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `startedAtEpochMillis` INTEGER NOT NULL, `endedAtEpochMillis` INTEGER, `startLevelPercent` INTEGER, `endLevelPercent` INTEGER, `startChargeCounterMicroampHours` INTEGER, `endChargeCounterMicroampHours` INTEGER, `startCycleCount` INTEGER, `endCycleCount` INTEGER, `maxTemperatureCelsius` REAL, `temperatureSumCelsius` REAL NOT NULL, `temperatureSampleCount` INTEGER NOT NULL, `maxAbsCurrentMicroamps` INTEGER, `sampleCount` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAtEpochMillis",
+            "columnName": "startedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endedAtEpochMillis",
+            "columnName": "endedAtEpochMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "startLevelPercent",
+            "columnName": "startLevelPercent",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "endLevelPercent",
+            "columnName": "endLevelPercent",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "startChargeCounterMicroampHours",
+            "columnName": "startChargeCounterMicroampHours",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "endChargeCounterMicroampHours",
+            "columnName": "endChargeCounterMicroampHours",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "startCycleCount",
+            "columnName": "startCycleCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "endCycleCount",
+            "columnName": "endCycleCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "maxTemperatureCelsius",
+            "columnName": "maxTemperatureCelsius",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "temperatureSumCelsius",
+            "columnName": "temperatureSumCelsius",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "temperatureSampleCount",
+            "columnName": "temperatureSampleCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxAbsCurrentMicroamps",
+            "columnName": "maxAbsCurrentMicroamps",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "sampleCount",
+            "columnName": "sampleCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_charging_sessions_startedAtEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "startedAtEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_charging_sessions_startedAtEpochMillis` ON `${TABLE_NAME}` (`startedAtEpochMillis`)"
+          },
+          {
+            "name": "index_charging_sessions_endedAtEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "endedAtEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_charging_sessions_endedAtEpochMillis` ON `${TABLE_NAME}` (`endedAtEpochMillis`)"
+          }
+        ]
+      },
+      {
+        "tableName": "automation_rules",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `enabled` INTEGER NOT NULL, `conditionType` TEXT NOT NULL, `thresholdValue` REAL, `actionType` TEXT NOT NULL, `actionArgument` TEXT, `cooldownMillis` INTEGER NOT NULL, `dryRun` INTEGER NOT NULL, `lastTriggeredAtEpochMillis` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conditionType",
+            "columnName": "conditionType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thresholdValue",
+            "columnName": "thresholdValue",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "actionType",
+            "columnName": "actionType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actionArgument",
+            "columnName": "actionArgument",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "cooldownMillis",
+            "columnName": "cooldownMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dryRun",
+            "columnName": "dryRun",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastTriggeredAtEpochMillis",
+            "columnName": "lastTriggeredAtEpochMillis",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "automation_events",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `ruleId` TEXT NOT NULL, `ruleName` TEXT NOT NULL, `createdAtEpochMillis` INTEGER NOT NULL, `outcome` TEXT NOT NULL, `detail` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ruleId",
+            "columnName": "ruleId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ruleName",
+            "columnName": "ruleName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAtEpochMillis",
+            "columnName": "createdAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outcome",
+            "columnName": "outcome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detail",
+            "columnName": "detail",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_automation_events_createdAtEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "createdAtEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_automation_events_createdAtEpochMillis` ON `${TABLE_NAME}` (`createdAtEpochMillis`)"
+          },
+          {
+            "name": "index_automation_events_ruleId",
+            "unique": false,
+            "columnNames": [
+              "ruleId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_automation_events_ruleId` ON `${TABLE_NAME}` (`ruleId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "network_quality_runs",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `capturedAtEpochMillis` INTEGER NOT NULL, `host` TEXT NOT NULL, `port` INTEGER NOT NULL, `attempts` INTEGER NOT NULL, `successes` INTEGER NOT NULL, `minLatencyMillis` INTEGER, `medianLatencyMillis` INTEGER, `averageLatencyMillis` REAL, `p95LatencyMillis` INTEGER, `jitterMillis` REAL, `dnsLatencyMillis` INTEGER, `ipv4Count` INTEGER NOT NULL, `ipv6Count` INTEGER NOT NULL, `networkMetered` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capturedAtEpochMillis",
+            "columnName": "capturedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "host",
+            "columnName": "host",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "port",
+            "columnName": "port",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attempts",
+            "columnName": "attempts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "successes",
+            "columnName": "successes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minLatencyMillis",
+            "columnName": "minLatencyMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "medianLatencyMillis",
+            "columnName": "medianLatencyMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "averageLatencyMillis",
+            "columnName": "averageLatencyMillis",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "p95LatencyMillis",
+            "columnName": "p95LatencyMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "jitterMillis",
+            "columnName": "jitterMillis",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "dnsLatencyMillis",
+            "columnName": "dnsLatencyMillis",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ipv4Count",
+            "columnName": "ipv4Count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ipv6Count",
+            "columnName": "ipv6Count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "networkMetered",
+            "columnName": "networkMetered",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_network_quality_runs_capturedAtEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "capturedAtEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_network_quality_runs_capturedAtEpochMillis` ON `${TABLE_NAME}` (`capturedAtEpochMillis`)"
+          }
+        ]
+      },
+      {
+        "tableName": "game_session_records",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `packageName` TEXT NOT NULL, `appLabel` TEXT NOT NULL, `startedAtEpochMillis` INTEGER NOT NULL, `endedAtEpochMillis` INTEGER NOT NULL, `startBatteryLevelPercent` INTEGER, `endBatteryLevelPercent` INTEGER, `peakBatteryTemperatureCelsius` REAL, `startRxBytes` INTEGER, `endRxBytes` INTEGER, `startTxBytes` INTEGER, `endTxBytes` INTEGER, `gamingProfileUsed` INTEGER NOT NULL, `dndUsed` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appLabel",
+            "columnName": "appLabel",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAtEpochMillis",
+            "columnName": "startedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endedAtEpochMillis",
+            "columnName": "endedAtEpochMillis",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startBatteryLevelPercent",
+            "columnName": "startBatteryLevelPercent",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "endBatteryLevelPercent",
+            "columnName": "endBatteryLevelPercent",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "peakBatteryTemperatureCelsius",
+            "columnName": "peakBatteryTemperatureCelsius",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "startRxBytes",
+            "columnName": "startRxBytes",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "endRxBytes",
+            "columnName": "endRxBytes",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "startTxBytes",
+            "columnName": "startTxBytes",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "endTxBytes",
+            "columnName": "endTxBytes",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "gamingProfileUsed",
+            "columnName": "gamingProfileUsed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dndUsed",
+            "columnName": "dndUsed",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_game_session_records_startedAtEpochMillis",
+            "unique": false,
+            "columnNames": [
+              "startedAtEpochMillis"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_session_records_startedAtEpochMillis` ON `${TABLE_NAME}` (`startedAtEpochMillis`)"
+          },
+          {
+            "name": "index_game_session_records_packageName",
+            "unique": false,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_session_records_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '90f12118322147eee755ada16358ba7c')"
+    ]
+  }
+}
