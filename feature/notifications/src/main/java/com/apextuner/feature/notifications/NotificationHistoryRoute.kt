@@ -49,11 +49,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apextuner.core.ui.ApexLayout
 import java.text.DateFormat
 import java.util.Date
+import androidx.annotation.StringRes
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun NotificationHistoryRoute(
     onBack: (() -> Unit)? = null,
+    @StringRes backLabelRes: Int = R.string.ui_back_to_tools,
     onOpenSettings: () -> Unit,
     onUpgrade: () -> Unit,
     viewModel: NotificationHistoryViewModel = hiltViewModel(),
@@ -88,7 +90,7 @@ fun NotificationHistoryRoute(
         ) {
             item {
                 if (onBack != null) {
-                    OutlinedButton(onClick = onBack) { Text(stringResource(R.string.ui_back_to_tools)) }
+                    OutlinedButton(onClick = onBack) { Text(stringResource(backLabelRes)) }
                 }
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -176,9 +178,9 @@ fun NotificationHistoryRoute(
                     Card(Modifier.fillMaxWidth()) {
                         Text(
                             if (state.collectionActive) {
-                                "No notification entries have been recorded yet."
+                                stringResource(R.string.notification_history_empty_active)
                             } else {
-                                "No stored notification history."
+                                stringResource(R.string.notification_history_empty_inactive)
                             },
                             modifier = Modifier.padding(18.dp),
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -375,7 +377,7 @@ private fun MutedAppsCard(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
-                    TextButton(onClick = { onUnmute(packageName) }) { Text(stringResource(R.string.ui_unmute)) }
+                    TextButton(onClick = { onUnmute(packageName) }) { Text(stringResource(R.string.ui_unmute_in_apextuner)) }
                 }
             }
             if (packages.size > MAX_MUTED_APPS_SHOWN) {
@@ -427,7 +429,7 @@ private fun NotificationHistoryCard(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 TextButton(onClick = if (muted) onUnmute else onMute) {
-                    Text(if (muted) "Unmute in ApexTuner" else "Mute in ApexTuner")
+                    Text(if (muted) stringResource(R.string.ui_unmute_in_apextuner) else stringResource(R.string.ui_mute_in_apextuner))
                 }
                 TextButton(onClick = onClearPackage) {
                     Text(stringResource(R.string.ui_clear_app_history))

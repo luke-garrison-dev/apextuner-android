@@ -18,4 +18,5 @@
     <string name="contacts_similarity_summary">%1$s • %2$.0f%%</string>
     <string name="contacts_discard_failed_undo">Discard failed undo record</string>
     <string name="contacts_discard_failed_undo_explanation">Use this only if Android repeatedly refuses this undo. It keeps the current contact aggregation and lets you reach earlier merge undos.</string>
+    <string name="contacts_no_likely_duplicates">No likely duplicates on this device.</string>
 </resources>

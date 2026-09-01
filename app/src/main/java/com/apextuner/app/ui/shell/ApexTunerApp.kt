@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,6 +48,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.apextuner.app.AppLaunchRequest
+import com.apextuner.app.R
 import com.apextuner.app.navigation.TopLevelDestination
 import com.apextuner.core.model.EntitlementState
 import com.apextuner.core.navigation.AppLaunchContract
@@ -79,6 +81,7 @@ import com.apextuner.feature.tools.systeminfo.SystemInfoRoute
 
 private const val PREMIUM_ROUTE = "premium"
 private const val SETTINGS_AUTOMATION_ROUTE = "settings/automation"
+private const val SETTINGS_NOTIFICATIONS_ROUTE = "settings/notifications"
 
 @Composable
 fun ApexTunerApp(
@@ -186,8 +189,8 @@ fun ApexTunerApp(
                                         restoreState = true
                                     }
                                 },
-                                icon = { Icon(destination.icon, contentDescription = destination.label, modifier = Modifier.size(26.dp)) },
-                                label = if (compactNavigationRail) null else ({ Text(destination.label, style = MaterialTheme.typography.labelMedium) }),
+                                icon = { Icon(destination.icon, contentDescription = stringResource(destination.labelRes), modifier = Modifier.size(26.dp)) },
+                                label = if (compactNavigationRail) null else ({ Text(stringResource(destination.labelRes), style = MaterialTheme.typography.labelMedium) }),
                                 alwaysShowLabel = !compactNavigationRail,
                                 colors = railItemColors,
                             )
@@ -230,8 +233,8 @@ fun ApexTunerApp(
                                                 restoreState = true
                                             }
                                         },
-                                        icon = { Icon(destination.icon, contentDescription = destination.label, modifier = Modifier.size(27.dp)) },
-                                        label = if (showAllBottomLabels) ({ Text(destination.label, maxLines = 1, softWrap = false, style = bottomNavigationLabelStyle) }) else null,
+                                        icon = { Icon(destination.icon, contentDescription = stringResource(destination.labelRes), modifier = Modifier.size(27.dp)) },
+                                        label = if (showAllBottomLabels) ({ Text(stringResource(destination.labelRes), maxLines = 1, softWrap = false, style = bottomNavigationLabelStyle) }) else null,
                                         alwaysShowLabel = showAllBottomLabels,
                                         colors = barItemColors,
                                     )
@@ -376,13 +379,25 @@ fun ApexTunerApp(
                         composable(TopLevelDestination.Settings.route) {
                             SettingsRoute(
                                 onPremium = openPremium,
-                                onNotificationHistory = { navController.navigate("tools/notifications") { launchSingleTop = true } },
+                                onNotificationHistory = { navController.navigate(SETTINGS_NOTIFICATIONS_ROUTE) { launchSingleTop = true } },
+                            )
+                        }
+                        composable(SETTINGS_NOTIFICATIONS_ROUTE) {
+                            NotificationHistoryRoute(
+                                onBack = { navController.popBackStack() },
+                                backLabelRes = com.apextuner.feature.notifications.R.string.ui_back,
+                                onOpenSettings = {
+                                    navController.navigate(TopLevelDestination.Settings.route) {
+                                        launchSingleTop = true
+                                    }
+                                },
+                                onUpgrade = openPremium,
                             )
                         }
                         composable(SETTINGS_AUTOMATION_ROUTE) {
                             SettingsRoute(
                                 onPremium = openPremium,
-                                onNotificationHistory = { navController.navigate("tools/notifications") { launchSingleTop = true } },
+                                onNotificationHistory = { navController.navigate(SETTINGS_NOTIFICATIONS_ROUTE) { launchSingleTop = true } },
                                 initialSection = SettingsSection.SmartAutomation,
                                 onBack = { navController.popBackStack() },
                             )
@@ -472,12 +487,12 @@ private fun AppIdentityHeader(
         )
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "ApexTuner",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = if (compact) "Device tuning" else "Clear, safe device tuning",
+                text = stringResource(if (compact) R.string.app_tagline_compact else R.string.app_tagline),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -492,7 +507,7 @@ private fun AppIdentityHeader(
             ),
         ) {
             Text(
-                text = if (isPremium) "Premium active" else "Free edition",
+                text = stringResource(if (isPremium) R.string.app_edition_premium else R.string.app_edition_free),
                 modifier = Modifier.padding(horizontal = 11.dp, vertical = 5.dp),
                 style = MaterialTheme.typography.labelSmall,
             )

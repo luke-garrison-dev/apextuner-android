@@ -12,7 +12,7 @@
     <string name="ui_restore_manage" formatted="false">Restore purchase</string>
     <string name="ui_restore_purchases" formatted="false">Restore lifetime purchase</string>
     <string name="ui_restore_re_queries_active_google_play_purchases_pending" formatted="false">Restore re-queries your one-time lifetime Premium purchase from Google Play. A pending transaction does not unlock Premium until Play reports PURCHASED.</string>
-    <string name="ui_retry" formatted="false"> Retry</string>
+    <string name="ui_retry" formatted="false">Retry</string>
     <string name="ui_unlock_the_advanced_optimization_toolset_through_google" formatted="false">Unlock the complete advanced optimization toolset with one lifetime purchase through Google Play.</string>
     <string name="billing_active">Active</string>
     <string name="billing_buy_lifetime">Buy lifetime Premium</string>
@@ -20,4 +20,17 @@
     <string name="billing_pending_purchase_block">A Google Play purchase is pending. Premium remains locked until Play reports PURCHASED.</string>
     <string name="billing_other_purchase_starting">Another Google Play purchase is starting. Complete or cancel it first.</string>
     <string name="billing_starting_google_play">Starting Google Play…</string>
+    <string name="billing_tier_premium">Premium</string>
+    <string name="billing_tier_free">Free edition</string>
+    <string name="billing_verified_play">Verified by Google Play in this session</string>
+    <string name="billing_cached_offline">Recent encrypted local entitlement • Play re-verification pending</string>
+    <string name="billing_play_unavailable_verify">Google Play verification unavailable</string>
+    <string name="billing_verification_pending">Verification pending</string>
+    <string name="billing_host_unavailable">A host Activity could not be resolved. Reopen Premium from the app and try again.</string>
+    <string name="billing_lifetime_missing">Google Play did not return the lifetime product or an eligible purchase option.</string>
+    <string name="billing_unlock_cleaner">Exact duplicates, large-file cleanup and advanced media tools</string>
+    <string name="billing_unlock_automation">Scheduled maintenance and smart automation</string>
+    <string name="billing_unlock_firewall">Local per-app firewall and advanced access tools</string>
+    <string name="billing_unlock_monitor">Floating real-time monitor, widget and Quick Settings action</string>
+    <string name="billing_unlock_night_profile">Capability-aware scheduled maintenance and reversible night profile</string>
 </resources>

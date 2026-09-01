@@ -109,6 +109,8 @@
     <string name="automation_channel_name">Automation</string>
     <string name="automation_channel_description">Low-storage and scheduled-maintenance notices from ApexTuner.</string>
     <string name="status_widget_apextuner">ApexTuner</string>
+    <string name="status_widget_open">Open</string>
+    <string name="status_widget_refresh">Refresh</string>
     <string name="status_widget_summary">Battery %1$s  •  RAM %2$s</string>
     <string name="status_widget_percent">%1$d%%</string>
     <string name="status_widget_unavailable">—</string>
@@ -147,4 +149,9 @@
 
     <string name="ui_back" formatted="false">Back</string>
     <string name="battery_widget_telemetry_unavailable">Battery capacity telemetry unavailable on this device</string>
+    <string name="settings_edition_premium">Premium active</string>
+    <string name="settings_edition_free">Free edition</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_system">Match system</string>
 </resources>

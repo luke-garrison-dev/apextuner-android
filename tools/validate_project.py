@@ -124,12 +124,12 @@ for module in EXPECTED_MODULES:
 app_build = text("app/build.gradle.kts")
 check('applicationId = "com.apextuner.app"' in app_build, "Application ID must be com.apextuner.app")
 check(re.search(r"targetSdk\s*=\s*36\b", app_build) is not None, "App targetSdk must be 36")
-check(re.search(r"versionCode\s*=\s*41\b", app_build) is not None, "Current audited app versionCode must be 41")
-check('versionName = "1.1.4"' in app_build, "Current audited app versionName must be 1.1.4")
+check(re.search(r"versionCode\s*=\s*43\b", app_build) is not None, "Current audited app versionCode must be 43")
+check('versionName = "1.1.6"' in app_build, "Current audited app versionName must be 1.1.6")
 readme = text("README.md")
-check("Release candidate source version: **1.1.4** (`versionCode 41`)" in readme, "README product identity must match delivered app version 1.1.4 / versionCode 41")
-release_identity = text("docs/RELEASE_IDENTITY_1.1.4.md")
-check("`versionCode`: `41`" in release_identity and "`versionName`: `1.1.4`" in release_identity and "`com.apextuner.app`" in release_identity, "Current release identity document must match app build metadata")
+check("Release candidate source version: **1.1.6** (`versionCode 43`)" in readme, "README product identity must match delivered app version 1.1.6 / versionCode 43")
+release_identity = text("docs/RELEASE_IDENTITY_1.1.6.md")
+check("`versionCode`: `43`" in release_identity and "`versionName`: `1.1.6`" in release_identity and "`com.apextuner.app`" in release_identity, "Current release identity document must match app build metadata")
 check("isMinifyEnabled = true" in app_build and "isShrinkResources = true" in app_build, "Release minify/resource shrinking must stay enabled")
 
 # Checkpoint-3 lifecycle/background resilience invariants.
@@ -844,7 +844,7 @@ if (ROOT / "gradlew.bat").is_file():
     check("GRADLE_VERSION=9.5.0" in bootstrap_bat and expected_gradle_sha in bootstrap_bat, "Windows Gradle bootstrap must pin version 9.5.0 and its official checksum")
     check("Get-FileHash -Algorithm SHA256" in bootstrap_bat, "Windows Gradle bootstrap must SHA-256 verify the distribution")
 
-# Final holistic UX/profile-coordination invariants (versionCode 41).
+# Final holistic UX/profile-coordination invariants (versionCode 43).
 cleaner_route_final = text("feature/cleaner/src/main/java/com/apextuner/feature/cleaner/OptimizeRoute.kt")
 check(
     "LaunchedEffect(autoStartScanToken, cleanerReady)" in cleaner_route_final
@@ -925,6 +925,27 @@ check("telemetryRefreshMillis" in monitor_service_final, "Foreground refresh pre
 check("REFRESH_MILLIS = 5_000L" in battery_vm_final, "Battery diagnostics must retain the conservative 5-second cadence")
 check("REFRESH_MILLIS = 10_000L" in memory_vm_final, "Memory diagnostics must retain the conservative 10-second cadence")
 check("REFRESH_MILLIS = 5_000L" in performance_vm_final, "CPU/Performance diagnostics must retain the conservative 5-second cadence")
+
+# First-run copy must not dump Kotlin enum names or force a false recording state.
+battery_route_ux = text("feature/battery/src/main/java/com/apextuner/feature/battery/BatteryRoute.kt")
+check("b.health.name" not in battery_route_ux and "formatBatteryHealth(" in battery_route_ux, "Battery health must use readable labels instead of raw enum names")
+check("progress.phase.name" not in cleaner_route_final and "cleanerPhaseLabel(" in cleaner_route_final, "Cleaner scan progress must not show raw Phase enum names")
+check("usage.category.name" not in cleaner_route_final and "cleanerCategoryLabel(" in cleaner_route_final, "Cleaner category breakdown must not show raw CleanerCategory enum names")
+settings_route_ux = text("feature/settings/src/main/java/com/apextuner/feature/settings/SettingsRoute.kt")
+check("entitlement.tier.name.replace" not in settings_route_ux and "settings_edition_premium" in settings_route_ux, "Settings premium status must not derive labels from EntitlementTier enum names")
+check("themeModeLabel(" in settings_route_ux and "settings_theme_system" in text("feature/settings/src/main/res/values/strings.xml"), "Theme chips must label System as Match system")
+billing_route_ux = text("feature/billing/src/main/java/com/apextuner/feature/billing/BillingRoute.kt")
+check("entitlement.tier.name" not in billing_route_ux and "billing_tier_premium" in billing_route_ux, "Premium screen must not show EntitlementTier enum names")
+check("PremiumLifetime" not in billing_route_ux, "Premium screen must not mention the PremiumLifetime enum identifier")
+nav_destinations = text("app/src/main/java/com/apextuner/app/navigation/TopLevelDestination.kt")
+check("labelRes" in nav_destinations and "destination.labelRes" in app_shell_final, "Top-level navigation labels must come from string resources")
+check("dashboard_brand_name" in dashboard_route and "dashboard_hero_subtitle" in dashboard_route, "Dashboard first-run hero copy must come from string resources")
+check("val optimizePrefix = stringResource(R.string.dashboard_hero_optimize_prefix)" in dashboard_route, "Dashboard hero annotated string must resolve resources outside buildAnnotatedString")
+check("val timelineChartDesc = stringResource(" in dashboard_route, "Health timeline chart description must resolve the string resource outside the semantics lambda")
+check('ScreenRecordingState.Recording,\n                                                "Android could not deliver the stop request' not in game_route_final, "Failed screen-recording stop must not force the Recording state")
+check("recording.state," in game_route_final and "Android could not deliver the stop request" in game_route_final, "Failed screen-recording stop must preserve the current lifecycle state")
+check("formatThermalStatus(" in text("feature/tools/src/main/java/com/apextuner/feature/tools/performance/PerformanceRoute.kt"), "CPU/Performance thermal status must use readable labels")
+check("filter.displayName()" in text("feature/appmanager/src/main/java/com/apextuner/feature/appmanager/AppManagerRoute.kt"), "App Manager kind filters must use readable All/User/System app labels")
 
 if errors:
     print(f"ApexTuner validation: FAIL ({len(errors)} failures across {checks} checks)")

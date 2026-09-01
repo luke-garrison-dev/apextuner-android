@@ -142,7 +142,12 @@ class DataUsageAlertWorker @AssistedInject constructor(
             val info = applicationContext.packageManager.getApplicationInfo(packageName, 0)
             applicationContext.packageManager.getApplicationLabel(info).toString()
         }.getOrDefault(packageName)
-        val body = "$label used ${ByteSizeFormatter.format(current)} this month, crossing your ${ByteSizeFormatter.format(threshold)} alert."
+        val body = applicationContext.getString(
+            R.string.data_usage_notification_body,
+            label,
+            ByteSizeFormatter.format(current),
+            ByteSizeFormatter.format(threshold),
+        )
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.stat_notify_more)
             .setContentTitle(applicationContext.getString(R.string.data_usage_notification_title))

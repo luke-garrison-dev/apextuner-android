@@ -74,6 +74,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.annotation.StringRes
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.apextuner.core.ui.ApexLayout
@@ -361,14 +362,14 @@ private fun CleanerScreen(
     }
 }
 
-private enum class CleanerView(val label: String) {
-    Overview("Overview"),
-    Duplicates("Exact duplicates"),
-    SimilarPhotos("Similar photos"),
-    BlurryPhotos("Blurry photos"),
-    Large("Large"),
-    Review("Review"),
-    All("All"),
+private enum class CleanerView(@StringRes val labelRes: Int) {
+    Overview(R.string.cleaner_view_overview),
+    Duplicates(R.string.ui_exact_duplicates),
+    SimilarPhotos(R.string.ui_near_duplicate_photos),
+    BlurryPhotos(R.string.ui_blurry_low_quality_photos),
+    Large(R.string.ui_large_files),
+    Review(R.string.ui_review_candidates),
+    All(R.string.cleaner_view_all),
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -559,7 +560,7 @@ private fun CleanerContent(
                         FilterChip(
                             selected = view == candidate,
                             onClick = { view = candidate },
-                            label = { Text(candidate.label) },
+                            label = { Text(stringResource(candidate.labelRes)) },
                         )
                     }
                 }
@@ -572,9 +573,9 @@ private fun CleanerContent(
                         InsightCard(
                             icon = Icons.Outlined.ContentCopy,
                             title = stringResource(R.string.ui_exact_duplicates),
-                            value = if (!scan.duplicateAnalysisCompleted) "Not analyzed" else "${scan.duplicateGroups.size} groups",
+                            value = if (!scan.duplicateAnalysisCompleted) stringResource(R.string.cleaner_smart_review_not_analyzed) else "${scan.duplicateGroups.size} groups",
                             description = "Two-stage streaming SHA-256 verifies byte-for-byte equality before any copy is suggested for removal.",
-                            action = if (state.isScanning) null else if (premiumEnabled) "Find duplicates" else "Unlock Premium",
+                            action = if (state.isScanning) null else if (premiumEnabled) stringResource(R.string.cleaner_action_find_duplicates) else stringResource(R.string.ui_unlock_premium),
                             onAction = if (premiumEnabled) onFindDuplicates else onUpgrade,
                         )
                     }
@@ -582,9 +583,9 @@ private fun CleanerContent(
                         InsightCard(
                             icon = Icons.Outlined.PhotoLibrary,
                             title = stringResource(R.string.ui_near_duplicate_photos),
-                            value = if (!scan.nearDuplicateAnalysisCompleted) "Not analyzed" else "${scan.nearDuplicateGroups.size} groups",
+                            value = if (!scan.nearDuplicateAnalysisCompleted) stringResource(R.string.cleaner_smart_review_not_analyzed) else "${scan.nearDuplicateGroups.size} groups",
                             description = "Conservative 64-bit perceptual dHash groups visually similar accessible photos. Results stay separate from exact duplicates and are manual-review only.",
-                            action = if (state.isScanning) null else if (premiumEnabled) "Find similar photos" else "Unlock Premium",
+                            action = if (state.isScanning) null else if (premiumEnabled) stringResource(R.string.cleaner_action_find_similar_photos) else stringResource(R.string.ui_unlock_premium),
                             onAction = if (premiumEnabled) onFindDuplicates else onUpgrade,
                         )
                     }
@@ -592,9 +593,9 @@ private fun CleanerContent(
                         InsightCard(
                             icon = Icons.Outlined.PhotoLibrary,
                             title = stringResource(R.string.ui_blurry_low_quality_photos),
-                            value = if (!scan.blurryPhotoAnalysisCompleted) "Not analyzed" else "${scan.blurryPhotos.size} candidates",
+                            value = if (!scan.blurryPhotoAnalysisCompleted) stringResource(R.string.cleaner_smart_review_not_analyzed) else "${scan.blurryPhotos.size} candidates",
                             description = "A conservative Laplacian-variance sharpness heuristic flags potentially blurry photos for individual review only. It shares the same bounded decode used for perceptual hashing.",
-                            action = if (state.isScanning) null else if (premiumEnabled) "Analyze photo quality" else "Unlock Premium",
+                            action = if (state.isScanning) null else if (premiumEnabled) stringResource(R.string.cleaner_action_analyze_photo_quality) else stringResource(R.string.ui_unlock_premium),
                             onAction = if (premiumEnabled) onFindDuplicates else onUpgrade,
                         )
                     }
@@ -604,7 +605,7 @@ private fun CleanerContent(
                             title = stringResource(R.string.ui_large_files),
                             value = "${scan.largeFiles.size} files",
                             description = "Files at least 10 MB, sorted by size. Nothing is auto-selected.",
-                            action = if (premiumEnabled) null else "Unlock Premium",
+                            action = if (premiumEnabled) null else stringResource(R.string.ui_unlock_premium),
                             onAction = onUpgrade,
                         )
                     }
@@ -695,7 +696,7 @@ private fun CleanerContent(
                                     EmptyResultCard(
                                         title = stringResource(R.string.ui_no_similar_photo_result_yet),
                                         body = "Run duplicate analysis to compute a small 64-bit dHash from one bounded, downsampled decode per accessible image.",
-                                        action = "Find similar photos",
+                                        action = stringResource(R.string.cleaner_action_find_similar_photos),
                                         onAction = onFindDuplicates,
                                     )
                                 }
@@ -1005,7 +1006,7 @@ private fun ScanCard(
                     ""
                 }
                 Text(
-                    stringResource(R.string.cleaner_scan_progress, progress.phase.name, progress.itemsScanned, indexedSuffix),
+                    stringResource(R.string.cleaner_scan_progress, cleanerPhaseLabel(progress.phase), progress.itemsScanned, indexedSuffix),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -1088,7 +1089,7 @@ private fun CategoryBreakdown(categories: List<CategoryUsage>, totalBytes: Long)
             categories.forEach { usage ->
                 val fraction = if (totalBytes > 0) (usage.bytes.toDouble() / totalBytes.toDouble()).coerceIn(0.0, 1.0) else 0.0
                 ApexMetricRow(
-                    label = usage.category.name,
+                    label = cleanerCategoryLabel(usage.category),
                     value = "${ByteSizeFormatter.format(usage.bytes)} • ${usage.itemCount}",
                 )
                 LinearProgressIndicator(progress = { fraction.toFloat() }, modifier = Modifier.fillMaxWidth())
@@ -1377,7 +1378,7 @@ private fun CleanerItemRow(
             Text(detail, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             val readOnlySuffix = if (!item.canDelete) stringResource(R.string.cleaner_read_only_suffix) else ""
             Text(
-                stringResource(R.string.cleaner_item_source_summary, item.category.name, source, readOnlySuffix),
+                stringResource(R.string.cleaner_item_source_summary, cleanerCategoryLabel(item.category), source, readOnlySuffix),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
@@ -1906,3 +1907,31 @@ private fun formatDuration(durationMillis: Long): String {
     val seconds = totalSeconds % 60L
     return "$minutes:${seconds.toString().padStart(2, '0')}"
 }
+
+@Composable
+private fun cleanerPhaseLabel(phase: CleanerScanProgress.Phase): String = stringResource(
+    when (phase) {
+        CleanerScanProgress.Phase.Discovering -> R.string.cleaner_phase_discovering
+        CleanerScanProgress.Phase.Media -> R.string.cleaner_phase_media
+        CleanerScanProgress.Phase.Documents -> R.string.cleaner_phase_documents
+        CleanerScanProgress.Phase.Analyzing -> R.string.cleaner_phase_analyzing
+        CleanerScanProgress.Phase.Hashing -> R.string.cleaner_phase_hashing
+        CleanerScanProgress.Phase.PerceptualHashing -> R.string.cleaner_phase_similar_photos
+    },
+)
+
+@Composable
+private fun cleanerCategoryLabel(category: CleanerCategory): String = stringResource(
+    when (category) {
+        CleanerCategory.Image -> R.string.cleaner_category_image
+        CleanerCategory.Video -> R.string.cleaner_category_video
+        CleanerCategory.Audio -> R.string.cleaner_category_audio
+        CleanerCategory.Document -> R.string.cleaner_category_document
+        CleanerCategory.Archive -> R.string.cleaner_category_archive
+        CleanerCategory.Apk -> R.string.cleaner_category_apk
+        CleanerCategory.Temporary -> R.string.cleaner_category_temporary
+        CleanerCategory.Log -> R.string.cleaner_category_log
+        CleanerCategory.EmptyFolder -> R.string.cleaner_category_empty_folder
+        CleanerCategory.Other -> R.string.cleaner_category_other
+    },
+)

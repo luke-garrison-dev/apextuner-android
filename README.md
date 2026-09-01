@@ -5,7 +5,7 @@ ApexTuner is a Kotlin/Jetpack Compose Android device-health, diagnostics, optimi
 ## Product identity
 
 - Product name: **ApexTuner**
-- Release candidate source version: **1.1.4** (`versionCode 41`)
+- Release candidate source version: **1.1.6** (`versionCode 43`)
 - Before every Android Studio/CI release build, run `python tools/release_gate.py` from the project root, then run the real Gradle build (`gradlew.bat clean testDebugUnitTest assembleDebug` on Windows or `./gradlew clean testDebugUnitTest assembleDebug` on macOS/Linux).
 - Android application ID: `com.apextuner.app`
 - Kotlin/Android namespaces: `com.apextuner.*`
@@ -292,7 +292,7 @@ Required local tooling:
 - SDK Build Tools 36.0.0
 - network access on first command-line bootstrap so the verified Gradle 9.5.0 distribution can be downloaded
 
-Open the repository root directly in Android Studio. For command-line builds, the package includes verified `gradlew` / `gradlew.bat` bootstrap launchers. They pin Gradle 9.5.0 and reject the downloaded distribution unless its SHA-256 equals the official Gradle checksum also recorded in `gradle/wrapper/gradle-wrapper.properties`. No unverified `gradle-wrapper.jar` is shipped.
+Open the repository root directly in Android Studio. This package ships the canonical Gradle 9.5.0 `gradle-wrapper.jar` (SHA-256 `497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7`) so Android Studio Sync uses the official Wrapper Main class. Command-line `gradlew` / `gradlew.bat` still verify Gradle 9.5.0 against the official distribution SHA-256 in `gradle/wrapper/gradle-wrapper.properties` before executing it.
 
 macOS/Linux:
 
@@ -312,7 +312,7 @@ For organizations that require the canonical generated Gradle Wrapper JAR, `grad
 
 ## Release validation boundary
 
-This environment does not provide an Android SDK/emulator or a trusted generated wrapper JAR. Therefore this package does **not** claim a successful AGP Android compilation, emulator matrix, instrumented test run or physical-device test.
+This environment does not provide an Android SDK or emulator, so this package does **not** claim a successful AGP Android compilation, emulator matrix, instrumented test run or physical-device test. The canonical Gradle 9.5.0 `gradle-wrapper.jar` is included so Android Studio can Sync the project.
 
 Completed source-level/JVM regression checks and required remaining gates are summarized in `docs/FINAL_VALIDATION.md`. The 1.0.20 Battery Profile correctness repair is documented in `docs/BUILD_REPAIR_1.0.20.md`; the preceding holistic application audit remains in `docs/ENTERPRISE_AUDIT_1.0.15.md`.
 

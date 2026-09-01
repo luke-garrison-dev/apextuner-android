@@ -32,3 +32,10 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     testImplementation(libs.junit4)
 }
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.add("-jvm-default=no-compatibility")
+    }
+}

@@ -1,14 +1,19 @@
 package com.apextuner.feature.network
 
 import androidx.compose.ui.res.stringResource
+import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.VpnService
+import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -92,6 +97,56 @@ fun NetworkRoute(
     var dataCapSearch by rememberSaveable { mutableStateOf("") }
     var pendingFirewallStart by remember { mutableStateOf(false) }
     var showFirewallDisclosure by rememberSaveable { mutableStateOf(false) }
+    var pendingCapSave by remember { mutableStateOf<Pair<String, String>?>(null) }
+    var pendingFirewallAfterPermission by remember { mutableStateOf(false) }
+    val notificationsAllowed = {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            false
+        } else {
+            NotificationManagerCompat.from(context).areNotificationsEnabled()
+        }
+    }
+    val notificationPermissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        val pending = pendingCapSave
+        pendingCapSave = null
+        if (pending != null) {
+            viewModel.setMonthlyDataCap(
+                pending.first,
+                pending.second,
+                notificationsAllowed = granted && NotificationManagerCompat.from(context).areNotificationsEnabled(),
+            )
+        }
+        if (pendingFirewallAfterPermission) {
+            pendingFirewallAfterPermission = false
+            showFirewallDisclosure = true
+        }
+    }
+    val saveMonthlyCap = { packageName: String, megabytes: String ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            pendingCapSave = packageName to megabytes
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            viewModel.setMonthlyDataCap(packageName, megabytes, notificationsAllowed())
+        }
+    }
+    val requestFirewallStart = {
+        val snapshot = (state as? NetworkUiState.Ready)?.snapshot
+        val selected = snapshot?.firewallStatus?.selectedPackages.orEmpty()
+        if (selected.isEmpty()) {
+            FirewallRuntimeRegistry.update(FirewallRuntimeState.Error, error = "Select at least one app before starting the firewall.")
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            pendingFirewallAfterPermission = true
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            showFirewallDisclosure = true
+        }
+    }
     val vpnConsent = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (pendingFirewallStart) {
             pendingFirewallStart = false
@@ -161,7 +216,7 @@ fun NetworkRoute(
                             }
                             TextButton(onClick = viewModel::refresh, enabled = !current.refreshing) {
                                 Icon(Icons.Outlined.Refresh, contentDescription = null)
-                                Text(if (current.refreshing) "Refreshing…" else "Refresh", Modifier.padding(start = 6.dp))
+                                Text(if (current.refreshing) stringResource(R.string.network_refreshing) else stringResource(R.string.network_refresh), Modifier.padding(start = 6.dp))
                             }
                         }
                     }
@@ -238,8 +293,8 @@ fun NetworkRoute(
                         if (capApps.isEmpty()) {
                             item {
                                 InfoCard(
-                                    if (dataCapSearch.isBlank()) "Search for an app to create a monthly data alert."
-                                    else "No matching launcher app was found.",
+                                    if (dataCapSearch.isBlank()) stringResource(R.string.network_search_for_app_alert)
+                                    else stringResource(R.string.network_no_matching_app),
                                 )
                             }
                         } else {
@@ -248,7 +303,7 @@ fun NetworkRoute(
                                     app = app,
                                     capBytes = snapshot.monthlyDataCaps[app.packageName],
                                     usageBytes = snapshot.monthlyDataCapUsage[app.packageName],
-                                    onSave = { megabytes -> viewModel.setMonthlyDataCap(app.packageName, megabytes) },
+                                    onSave = { megabytes -> saveMonthlyCap(app.packageName, megabytes) },
                                 )
                             }
                         }
@@ -275,14 +330,7 @@ fun NetworkRoute(
                             FirewallHeader(
                                 snapshot = snapshot,
                                 context = context,
-                                onStart = {
-                                    val selected = snapshot.firewallStatus.selectedPackages
-                                    if (selected.isEmpty()) {
-                                        FirewallRuntimeRegistry.update(FirewallRuntimeState.Error, error = "Select at least one app before starting the firewall.")
-                                    } else {
-                                        showFirewallDisclosure = true
-                                    }
-                                },
+                                onStart = { requestFirewallStart() },
                                 onStop = { stopFirewallSafely(context) },
                                 onProfile = viewModel::setFirewallProfile,
                                 search = firewallSearch,
@@ -410,7 +458,7 @@ private fun DataCapAppCard(
                 modifier = Modifier.fillMaxWidth(),
             )
             OutlinedButton(onClick = { onSave(capMegabytes) }) {
-                Text(if (capBytes == null) "Save alert" else "Update / remove alert")
+                Text(if (capBytes == null) stringResource(R.string.network_save_alert) else stringResource(R.string.network_update_remove_alert))
             }
         }
     }

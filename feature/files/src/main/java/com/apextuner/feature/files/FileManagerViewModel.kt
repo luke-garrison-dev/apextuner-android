@@ -24,6 +24,7 @@ class FileManagerViewModel @Inject constructor(
     private var navigationJob: Job? = null
     private var transferSource: SafNode? = null
     private var transferMove: Boolean = false
+    private var lastReady: FileManagerUiState.Ready? = null
 
     init {
         viewModelScope.launch { loadInitial() }
@@ -35,20 +36,20 @@ class FileManagerViewModel @Inject constructor(
         operationJob = viewModelScope.launch {
             try {
                 if (!repository.persistTree(uri)) {
-                    _state.value = FileManagerUiState.Error("Android did not grant persistent access to this folder.")
+                    reportGrantFailure("Android did not grant persistent access to this folder.")
                     return@launch
                 }
                 val roots = repository.persistedTrees()
                 val selected = roots.firstOrNull { sameTree(it.uri, uri) }
                 if (selected == null) {
-                    _state.value = FileManagerUiState.Error("Android granted access, but this folder could not be resolved safely.")
+                    reportGrantFailure("Android granted access, but this folder could not be resolved safely.")
                 } else {
                     openLocation(selected, clearHistory = true)
                 }
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Throwable) {
-                _state.value = FileManagerUiState.Error(error.message ?: "Folder access could not be saved.")
+                reportGrantFailure(error.message ?: "Folder access could not be saved.")
             }
         }
     }
@@ -56,8 +57,7 @@ class FileManagerViewModel @Inject constructor(
     fun open(node: SafNode) {
         if (operationJob?.isActive == true || navigationJob?.isActive == true) return
         if (!node.isDirectory) {
-            val ready = _state.value as? FileManagerUiState.Ready ?: return
-            _state.value = ready.copy(selected = if (ready.selected?.uri == node.uri) null else node)
+            select(node)
             return
         }
         val ready = _state.value as? FileManagerUiState.Ready ?: return
@@ -68,12 +68,20 @@ class FileManagerViewModel @Inject constructor(
     }
 
     fun navigateBack(): Boolean {
+        if (_state.value is FileManagerUiState.NoAccess) return false
         if (operationJob?.isActive == true) {
             val ready = _state.value as? FileManagerUiState.Ready
             if (ready != null) {
-                _state.value = ready.copy(message = "Cancel the active file operation before navigating.")
+                publishReady(ready.copy(message = "Cancel the active file operation before navigating."))
             }
             return true
+        }
+        if (_state.value is FileManagerUiState.Error) {
+            val fallback = lastReady
+            if (fallback != null) {
+                publishReady(fallback.copy(busyMessage = null))
+                return true
+            }
         }
         navigationJob?.cancel()
         val previous = if (backStack.isEmpty()) null else backStack.removeLast()
@@ -85,7 +93,7 @@ class FileManagerViewModel @Inject constructor(
     fun select(node: SafNode) {
         if (operationJob?.isActive == true || navigationJob?.isActive == true) return
         val ready = _state.value as? FileManagerUiState.Ready ?: return
-        _state.value = ready.copy(selected = if (ready.selected?.uri == node.uri) null else node)
+        publishReady(ready.copy(selected = if (ready.selected?.uri == node.uri) null else node))
     }
 
     fun createFolder(name: String) = runOperation("Creating folder…") { ready ->
@@ -107,7 +115,7 @@ class FileManagerViewModel @Inject constructor(
         transferSource = null
         transferMove = false
         val ready = _state.value as? FileManagerUiState.Ready ?: return
-        _state.value = ready.copy(transferSource = null, transferMove = false, message = "Pending transfer cleared.")
+        publishReady(ready.copy(transferSource = null, transferMove = false, message = "Pending transfer cleared."))
     }
 
     fun pasteHere() = runOperation(if (transferMove) "Moving…" else "Copying…") { ready ->
@@ -124,17 +132,19 @@ class FileManagerViewModel @Inject constructor(
     private fun stageTransfer(move: Boolean) {
         val ready = _state.value as? FileManagerUiState.Ready ?: return
         val source = ready.selected ?: run {
-            _state.value = ready.copy(message = "Select a file or folder first.")
+            publishReady(ready.copy(message = "Select a file or folder first."))
             return
         }
         transferSource = source
         transferMove = move
-        _state.value = ready.copy(
-            transferSource = source,
-            transferMove = move,
-            selected = null,
-            message = if (move) "Move staged. Open the destination folder, then tap Paste here."
-            else "Copy staged. Open the destination folder, then tap Paste here.",
+        publishReady(
+            ready.copy(
+                transferSource = source,
+                transferMove = move,
+                selected = null,
+                message = if (move) "Move staged. Open the destination folder, then tap Paste here."
+                else "Copy staged. Open the destination folder, then tap Paste here.",
+            ),
         )
     }
 
@@ -168,17 +178,38 @@ class FileManagerViewModel @Inject constructor(
         if (clearHistory) backStack.clear()
         _state.value = FileManagerUiState.Loading(location)
         try {
-            _state.value = FileManagerUiState.Ready(
-                location = location,
-                entries = repository.list(Uri.parse(location.uri)),
-                transferSource = transferSource,
-                transferMove = transferMove,
+            publishReady(
+                FileManagerUiState.Ready(
+                    location = location,
+                    entries = repository.list(Uri.parse(location.uri)),
+                    transferSource = transferSource,
+                    transferMove = transferMove,
+                ),
             )
         } catch (cancelled: CancellationException) {
             throw cancelled
         } catch (error: Throwable) {
-            _state.value = FileManagerUiState.Error(error.message ?: "This folder could not be read.")
+            val fallback = lastReady
+            if (fallback != null) {
+                publishReady(fallback.copy(busyMessage = null, message = error.message ?: "This folder could not be read."))
+            } else {
+                _state.value = FileManagerUiState.Error(error.message ?: "This folder could not be read.")
+            }
         }
+    }
+
+    private fun reportGrantFailure(message: String) {
+        val ready = (_state.value as? FileManagerUiState.Ready) ?: lastReady
+        if (ready != null) {
+            publishReady(ready.copy(busyMessage = null, message = message))
+        } else {
+            _state.value = FileManagerUiState.Error(message)
+        }
+    }
+
+    private fun publishReady(ready: FileManagerUiState.Ready) {
+        lastReady = ready
+        _state.value = ready
     }
 
     private fun runOperation(
@@ -188,28 +219,32 @@ class FileManagerViewModel @Inject constructor(
         val ready = _state.value as? FileManagerUiState.Ready ?: return
         if (operationJob?.isActive == true) return
         operationJob = viewModelScope.launch {
-            _state.value = ready.copy(busyMessage = busy, message = null)
+            publishReady(ready.copy(busyMessage = busy, message = null))
             try {
                 val message = block(ready)
                 val entries = repository.list(Uri.parse(ready.location.uri))
-                _state.value = ready.copy(
-                    entries = entries,
-                    selected = null,
-                    transferSource = transferSource,
-                    transferMove = transferMove,
-                    busyMessage = null,
-                    message = message,
+                publishReady(
+                    ready.copy(
+                        entries = entries,
+                        selected = null,
+                        transferSource = transferSource,
+                        transferMove = transferMove,
+                        busyMessage = null,
+                        message = message,
+                    ),
                 )
             } catch (cancelled: CancellationException) {
-                _state.value = ready.copy(
-                    transferSource = transferSource,
-                    transferMove = transferMove,
-                    busyMessage = null,
-                    message = "Operation cancelled.",
+                publishReady(
+                    ready.copy(
+                        transferSource = transferSource,
+                        transferMove = transferMove,
+                        busyMessage = null,
+                        message = "Operation cancelled.",
+                    ),
                 )
                 throw cancelled
             } catch (error: Throwable) {
-                _state.value = ready.copy(busyMessage = null, message = error.message ?: "File operation failed.")
+                publishReady(ready.copy(busyMessage = null, message = error.message ?: "File operation failed."))
             }
         }
     }

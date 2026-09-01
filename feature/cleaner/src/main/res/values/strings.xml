@@ -110,5 +110,26 @@
     <string name="cleaner_review_photos">Photo review</string>
     <string name="cleaner_review_large">Large files</string>
     <string name="cleaner_review_other">Other candidates</string>
+    <string name="cleaner_phase_discovering">Discovering files</string>
+    <string name="cleaner_phase_media">Scanning media</string>
+    <string name="cleaner_phase_documents">Scanning documents</string>
+    <string name="cleaner_phase_analyzing">Analyzing storage</string>
+    <string name="cleaner_phase_hashing">Checking exact duplicates</string>
+    <string name="cleaner_phase_similar_photos">Checking similar photos</string>
+    <string name="cleaner_category_image">Images</string>
+    <string name="cleaner_category_video">Videos</string>
+    <string name="cleaner_category_audio">Audio</string>
+    <string name="cleaner_category_document">Documents</string>
+    <string name="cleaner_category_archive">Archives</string>
+    <string name="cleaner_category_apk">APKs</string>
+    <string name="cleaner_category_temporary">Temporary files</string>
+    <string name="cleaner_category_log">Logs</string>
+    <string name="cleaner_category_empty_folder">Empty folders</string>
+    <string name="cleaner_category_other">Other</string>
+    <string name="cleaner_view_overview">Overview</string>
+    <string name="cleaner_view_all">All</string>
+    <string name="cleaner_action_find_duplicates">Find duplicates</string>
+    <string name="cleaner_action_find_similar_photos">Find similar photos</string>
+    <string name="cleaner_action_analyze_photo_quality">Analyze photo quality</string>
 
 </resources>

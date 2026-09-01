@@ -20,13 +20,13 @@ class GameBoosterViewModel @Inject constructor(
     private val controller: GameSessionController,
     @param:IoDispatcher private val io: CoroutineDispatcher,
 ) : ViewModel() {
-    private val apps = MutableStateFlow<List<GameApp>>(emptyList())
+    private val catalog = MutableStateFlow(AppsCatalog())
     private val message = MutableStateFlow<String?>(null)
     private val busy = MutableStateFlow(false)
     private val panel = MutableStateFlow(GameBoosterPanelState())
 
-    val state: StateFlow<GameBoosterUiState> = combine(controller.state, apps, message, busy, panel) { session, appList, msg, isBusy, editor ->
-        GameBoosterUiState(session, appList, msg, isBusy, editor.selectedApp, editor.options, editor.recentSessions)
+    val state: StateFlow<GameBoosterUiState> = combine(controller.state, catalog, message, busy, panel) { session, appsCatalog, msg, isBusy, editor ->
+        GameBoosterUiState(session, appsCatalog.apps, msg, isBusy, editor.selectedApp, editor.options, editor.recentSessions, appsCatalog.loaded)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), GameBoosterUiState())
 
     init {
@@ -36,9 +36,14 @@ class GameBoosterViewModel @Inject constructor(
 
     fun refreshApps() {
         viewModelScope.launch {
-            try { apps.value = withContext(io) { controller.visibleGames() } }
-            catch (cancelled: CancellationException) { throw cancelled }
-            catch (_: Throwable) { message.value = "Android did not expose the launchable app list." }
+            try {
+                catalog.value = AppsCatalog(withContext(io) { controller.visibleGames() }, loaded = true)
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Throwable) {
+                catalog.value = catalog.value.copy(loaded = true)
+                message.value = "Android did not expose the launchable app list."
+            }
         }
     }
 
@@ -104,8 +109,15 @@ class GameBoosterViewModel @Inject constructor(
         }
     }
 
+    fun setUserMessage(value: String) { message.value = value }
+
     fun dismissMessage() { message.value = null }
 }
+
+private data class AppsCatalog(
+    val apps: List<GameApp> = emptyList(),
+    val loaded: Boolean = false,
+)
 
 private data class GameBoosterPanelState(
     val selectedApp: GameApp? = null,
@@ -121,4 +133,5 @@ data class GameBoosterUiState(
     val selectedApp: GameApp? = null,
     val selectedOptions: GameSessionOptions = GameSessionOptions(),
     val recentSessions: List<GameSessionInsight> = emptyList(),
+    val appsLoaded: Boolean = false,
 )

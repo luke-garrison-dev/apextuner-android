@@ -30,6 +30,19 @@
     <string name="battery_on">On</string>
     <string name="battery_off">Off</string>
     <string name="battery_unavailable">Unavailable</string>
+    <string name="battery_average_current">Average current</string>
+    <string name="battery_charge_counter">Charge counter</string>
+    <string name="battery_energy_counter">Energy counter</string>
+    <string name="battery_side_power">Battery-side power</string>
+    <string name="battery_technology">Technology</string>
+    <string name="battery_standby_bucket">ApexTuner standby bucket</string>
+    <string name="battery_health_good">Good</string>
+    <string name="battery_health_cold">Cold</string>
+    <string name="battery_health_dead">Dead</string>
+    <string name="battery_health_overheat">Overheat</string>
+    <string name="battery_health_over_voltage">Over-voltage</string>
+    <string name="battery_health_failure">Failure</string>
+    <string name="battery_health_unknown">Health unavailable</string>
     <string name="battery_recommendations">Recommendations</string>
     <string name="ui_back_to_tools" formatted="false">Back to Tools</string>
     <string name="ui_battery_health_trend" formatted="false">Battery health trend</string>

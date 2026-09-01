@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">ApexTuner</string>
+    <string name="app_tagline">Clear, safe device tuning</string>
+    <string name="app_tagline_compact">Device tuning</string>
+    <string name="app_edition_premium">Premium active</string>
+    <string name="app_edition_free">Free edition</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_optimize">Optimize</string>
+    <string name="nav_apps">Apps</string>
+    <string name="nav_tools">Tools</string>
+    <string name="nav_settings">Settings</string>
 </resources>

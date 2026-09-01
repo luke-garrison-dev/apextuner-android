@@ -266,7 +266,7 @@ private fun AppManagerScreen(
                                 verticalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
                                 AppKindFilter.entries.forEach { filter ->
-                                    FilterChip(selected = state.kindFilter == filter, onClick = { onFilter(filter) }, label = { Text(filter.name) })
+                                    FilterChip(selected = state.kindFilter == filter, onClick = { onFilter(filter) }, label = { Text(filter.displayName()) })
                                 }
                             }
                             Text(stringResource(R.string.apps_insight_filter), fontWeight = FontWeight.SemiBold)
@@ -482,6 +482,12 @@ private fun InfoCard(text: String) {
 @Composable
 private fun MetricRow(label: String, value: String) {
     ApexMetricRow(label = label, value = value)
+}
+
+private fun AppKindFilter.displayName(): String = when (this) {
+    AppKindFilter.All -> "All apps"
+    AppKindFilter.User -> "User apps"
+    AppKindFilter.System -> "System apps"
 }
 
 private fun AppSort.displayName(): String = when (this) {

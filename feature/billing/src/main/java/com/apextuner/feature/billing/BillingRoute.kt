@@ -94,7 +94,11 @@ fun BillingRoute(
             }
             item {
                 EntitlementCard(
-                    entitlement.tier.name,
+                    if (entitlement.isPremium) {
+                        stringResource(R.string.billing_tier_premium)
+                    } else {
+                        stringResource(R.string.billing_tier_free)
+                    },
                     entitlement.verification,
                     entitlement.message,
                 )
@@ -138,7 +142,7 @@ fun BillingRoute(
                             if (host == null) {
                                 viewModel.reportPurchaseError(
                                     offering.key,
-                                    "A host Activity could not be resolved. Reopen Premium from the app and try again.",
+                                    context.getString(R.string.billing_host_unavailable),
                                 )
                             } else {
                                 viewModel.purchase(host, offering.key)
@@ -153,7 +157,7 @@ fun BillingRoute(
                     UnavailableOfferingCard(
                         title = stringResource(R.string.billing_lifetime_unavailable),
                         message = catalog.productErrors[BillingCatalog.PREMIUM_LIFETIME_PRODUCT_ID]
-                            ?: "Google Play did not return the lifetime product or an eligible purchase option.",
+                            ?: stringResource(R.string.billing_lifetime_missing),
                         onRetry = viewModel::refreshCatalog,
                     )
                 }
@@ -247,19 +251,19 @@ private fun EntitlementCard(
                 )
             }
             Text(
-                tierName.replace("PremiumLifetime", "Premium Lifetime"),
+                tierName,
                 style = MaterialTheme.typography.titleLarge,
             )
             Text(
                 when (verification) {
                     EntitlementVerification.VerifiedByPlayClient ->
-                        "Verified by Google Play in this session"
+                        stringResource(R.string.billing_verified_play)
                     EntitlementVerification.CachedOfflineGrace ->
-                        "Recent encrypted local entitlement • Play re-verification pending"
+                        stringResource(R.string.billing_cached_offline)
                     EntitlementVerification.PlayUnavailable ->
-                        "Google Play verification unavailable"
+                        stringResource(R.string.billing_play_unavailable_verify)
                     EntitlementVerification.NotChecked ->
-                        "Verification pending"
+                        stringResource(R.string.billing_verification_pending)
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -279,11 +283,11 @@ private fun FeatureSummaryCard() {
                 fontWeight = FontWeight.SemiBold,
             )
             listOf(
-                "Exact duplicates, large-file cleanup and advanced media tools",
-                "Scheduled maintenance and smart automation",
-                "Local per-app firewall and advanced access tools",
-                "Floating real-time monitor, widget and Quick Settings action",
-                "Capability-aware scheduled maintenance and reversible night profile",
+                stringResource(R.string.billing_unlock_cleaner),
+                stringResource(R.string.billing_unlock_automation),
+                stringResource(R.string.billing_unlock_firewall),
+                stringResource(R.string.billing_unlock_monitor),
+                stringResource(R.string.billing_unlock_night_profile),
             ).forEach { text ->
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),

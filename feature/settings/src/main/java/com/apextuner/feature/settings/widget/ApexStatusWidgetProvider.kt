@@ -75,6 +75,8 @@ class ApexStatusWidgetProvider : AppWidgetProvider() {
                 setTextViewText(R.id.widget_title, context.getString(R.string.status_widget_apextuner))
                 setTextViewText(R.id.widget_status, context.getString(R.string.status_widget_summary, battery?.let { context.getString(R.string.status_widget_percent, it) } ?: context.getString(R.string.status_widget_unavailable), ramUsed?.let { context.getString(R.string.status_widget_percent, it) } ?: context.getString(R.string.status_widget_unavailable)))
                 setTextViewText(R.id.widget_storage, context.getString(R.string.status_widget_internal_free, free?.let(ByteSizeFormatter::format) ?: context.getString(R.string.status_widget_unavailable)))
+                setTextViewText(R.id.widget_open, context.getString(R.string.status_widget_open))
+                setTextViewText(R.id.widget_refresh, context.getString(R.string.status_widget_refresh))
                 setOnClickPendingIntent(R.id.widget_open, launchPendingIntent(context, 7401))
                 setOnClickPendingIntent(R.id.widget_refresh, refreshPendingIntent(context))
             }
@@ -85,6 +87,8 @@ class ApexStatusWidgetProvider : AppWidgetProvider() {
                 setTextViewText(R.id.widget_title, context.getString(R.string.status_widget_premium_title))
                 setTextViewText(R.id.widget_status, context.getString(R.string.status_widget_locked))
                 setTextViewText(R.id.widget_storage, context.getString(R.string.status_widget_restore_premium))
+                setTextViewText(R.id.widget_open, context.getString(R.string.status_widget_open))
+                setTextViewText(R.id.widget_refresh, context.getString(R.string.status_widget_refresh))
                 setOnClickPendingIntent(R.id.widget_open, launchPendingIntent(context, 7402))
                 setOnClickPendingIntent(R.id.widget_refresh, refreshPendingIntent(context))
             }

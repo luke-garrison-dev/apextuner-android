@@ -13,8 +13,8 @@ android {
         applicationId = "com.apextuner.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 41
-        versionName = "1.1.4"
+        versionCode = 43
+        versionName = "1.1.6"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
@@ -95,6 +95,7 @@ dependencies {
 }
 kotlin {
     compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         freeCompilerArgs.add("-jvm-default=no-compatibility")
     }
 }
