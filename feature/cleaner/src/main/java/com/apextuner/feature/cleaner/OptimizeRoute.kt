@@ -1690,28 +1690,26 @@ private fun ReencodeProgressDialog(
     progress: MediaReencodeProgress,
     onCancel: () -> Unit,
 ) {
-    val title = when (progress.phase) {
-        MediaReencodeProgress.Phase.Preparing -> "Preparing compression"
-        MediaReencodeProgress.Phase.Transcoding -> "Compressing media"
-        MediaReencodeProgress.Phase.SavingCopy -> "Saving compressed copy"
-        MediaReencodeProgress.Phase.SnapshottingOriginal -> "Preparing rollback snapshot"
-        MediaReencodeProgress.Phase.ReplacingOriginal -> "Replacing original"
-        MediaReencodeProgress.Phase.Verifying -> "Verifying replacement"
-    }
-    val body = when (progress.phase) {
-        MediaReencodeProgress.Phase.Preparing ->
-            "ApexTuner is validating the source and preparing a temporary staged output."
-        MediaReencodeProgress.Phase.Transcoding ->
-            "The re-encode runs entirely on this device. You can cancel while transcoding."
-        MediaReencodeProgress.Phase.SavingCopy ->
-            "The staged result is being copied to the selected Android storage destination."
-        MediaReencodeProgress.Phase.SnapshottingOriginal ->
-            "ApexTuner is copying and verifying the original into temporary app storage. You can still cancel because the source has not been changed."
-        MediaReencodeProgress.Phase.ReplacingOriginal ->
-            "The destructive commit has started after explicit confirmation and verified rollback preparation. Cancellation is disabled until rollback-safe finalization finishes."
-        MediaReencodeProgress.Phase.Verifying ->
-            "ApexTuner is verifying the committed bytes before reporting success."
-    }
+    val title = stringResource(
+        when (progress.phase) {
+            MediaReencodeProgress.Phase.Preparing -> R.string.reencode_phase_preparing
+            MediaReencodeProgress.Phase.Transcoding -> R.string.reencode_phase_transcoding
+            MediaReencodeProgress.Phase.SavingCopy -> R.string.reencode_phase_saving_copy
+            MediaReencodeProgress.Phase.SnapshottingOriginal -> R.string.reencode_phase_snapshotting
+            MediaReencodeProgress.Phase.ReplacingOriginal -> R.string.reencode_phase_replacing
+            MediaReencodeProgress.Phase.Verifying -> R.string.reencode_phase_verifying
+        },
+    )
+    val body = stringResource(
+        when (progress.phase) {
+            MediaReencodeProgress.Phase.Preparing -> R.string.reencode_phase_preparing_body
+            MediaReencodeProgress.Phase.Transcoding -> R.string.reencode_phase_transcoding_body
+            MediaReencodeProgress.Phase.SavingCopy -> R.string.reencode_phase_saving_copy_body
+            MediaReencodeProgress.Phase.SnapshottingOriginal -> R.string.reencode_phase_snapshotting_body
+            MediaReencodeProgress.Phase.ReplacingOriginal -> R.string.reencode_phase_replacing_body
+            MediaReencodeProgress.Phase.Verifying -> R.string.reencode_phase_verifying_body
+        },
+    )
 
     AlertDialog(
         onDismissRequest = {},

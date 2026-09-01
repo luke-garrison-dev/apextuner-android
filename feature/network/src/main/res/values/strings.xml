@@ -94,4 +94,15 @@
     <string name="network_update_remove_alert">Update / remove alert</string>
     <string name="network_refresh">Refresh</string>
     <string name="network_refreshing">Refreshing…</string>
+
+    <string name="network_metric_state">State</string>
+    <string name="network_metric_selected_apps">Selected apps</string>
+    <string name="firewall_state_stopped">Stopped</string>
+    <string name="firewall_state_starting">Starting</string>
+    <string name="firewall_state_active">Active</string>
+    <string name="firewall_state_error">Error</string>
+    <string name="firewall_profile_home">Home Wi‑Fi</string>
+    <string name="firewall_profile_mobile">Mobile data</string>
+    <string name="firewall_profile_public">Public Wi‑Fi</string>
 </resources>
+

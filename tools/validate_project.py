@@ -124,12 +124,12 @@ for module in EXPECTED_MODULES:
 app_build = text("app/build.gradle.kts")
 check('applicationId = "com.apextuner.app"' in app_build, "Application ID must be com.apextuner.app")
 check(re.search(r"targetSdk\s*=\s*36\b", app_build) is not None, "App targetSdk must be 36")
-check(re.search(r"versionCode\s*=\s*43\b", app_build) is not None, "Current audited app versionCode must be 43")
-check('versionName = "1.1.6"' in app_build, "Current audited app versionName must be 1.1.6")
+check(re.search(r"versionCode\s*=\s*44\b", app_build) is not None, "Current audited app versionCode must be 44")
+check('versionName = "1.1.7"' in app_build, "Current audited app versionName must be 1.1.7")
 readme = text("README.md")
-check("Release candidate source version: **1.1.6** (`versionCode 43`)" in readme, "README product identity must match delivered app version 1.1.6 / versionCode 43")
-release_identity = text("docs/RELEASE_IDENTITY_1.1.6.md")
-check("`versionCode`: `43`" in release_identity and "`versionName`: `1.1.6`" in release_identity and "`com.apextuner.app`" in release_identity, "Current release identity document must match app build metadata")
+check("Release candidate source version: **1.1.7** (`versionCode 44`)" in readme, "README product identity must match delivered app version 1.1.7 / versionCode 44")
+release_identity = text("docs/RELEASE_IDENTITY_1.1.7.md")
+check("`versionCode`: `44`" in release_identity and "`versionName`: `1.1.7`" in release_identity and "`com.apextuner.app`" in release_identity, "Current release identity document must match app build metadata")
 check("isMinifyEnabled = true" in app_build and "isShrinkResources = true" in app_build, "Release minify/resource shrinking must stay enabled")
 
 # Checkpoint-3 lifecycle/background resilience invariants.
@@ -691,7 +691,7 @@ for module in EXPECTED_MODULES:
         string_names.update(node.get("name") for node in root.findall("string") if node.get("name"))
     references: set[str] = set()
     for source in module_root.glob("src/main/java/**/*.kt"):
-        references.update(re.findall(r"\bR\.string\.([A-Za-z0-9_]+)", source.read_text(encoding="utf-8")))
+        references.update(re.findall(r"(?<![\w.])R\.string\.([A-Za-z0-9_]+)", source.read_text(encoding="utf-8")))
     missing = sorted(references - string_names)
     check(not missing, f"{module}: unresolved module-local R.string references: {missing}")
 
@@ -821,8 +821,10 @@ for binary in ROOT.rglob("*.jar"):
             wrapper_jar_sha == expected_wrapper_jar_sha,
             f"Gradle wrapper JAR checksum mismatch: {binary.relative_to(ROOT)}",
         )
-for generated in ["build", ".gradle", ".idea", ".git", "__pycache__"]:
+for generated in ["build", ".gradle", ".idea", "__pycache__"]:
     check(not any(p.name == generated for p in ROOT.rglob(generated)), f"Generated/developer directory should not be shipped: {generated}")
+nested_git = [p for p in ROOT.rglob(".git") if p != ROOT / ".git"]
+check(not nested_git, f"Nested git metadata should not be shipped: {nested_git[:4]}")
 compiled_artifacts = [
     p.relative_to(ROOT).as_posix()
     for pattern in ("*.pyc", "*.pyo", "*.class", "*.apk", "*.aab")
@@ -844,7 +846,7 @@ if (ROOT / "gradlew.bat").is_file():
     check("GRADLE_VERSION=9.5.0" in bootstrap_bat and expected_gradle_sha in bootstrap_bat, "Windows Gradle bootstrap must pin version 9.5.0 and its official checksum")
     check("Get-FileHash -Algorithm SHA256" in bootstrap_bat, "Windows Gradle bootstrap must SHA-256 verify the distribution")
 
-# Final holistic UX/profile-coordination invariants (versionCode 43).
+# Final holistic UX/profile-coordination invariants (versionCode 44).
 cleaner_route_final = text("feature/cleaner/src/main/java/com/apextuner/feature/cleaner/OptimizeRoute.kt")
 check(
     "LaunchedEffect(autoStartScanToken, cleanerReady)" in cleaner_route_final
@@ -942,8 +944,8 @@ check("labelRes" in nav_destinations and "destination.labelRes" in app_shell_fin
 check("dashboard_brand_name" in dashboard_route and "dashboard_hero_subtitle" in dashboard_route, "Dashboard first-run hero copy must come from string resources")
 check("val optimizePrefix = stringResource(R.string.dashboard_hero_optimize_prefix)" in dashboard_route, "Dashboard hero annotated string must resolve resources outside buildAnnotatedString")
 check("val timelineChartDesc = stringResource(" in dashboard_route, "Health timeline chart description must resolve the string resource outside the semantics lambda")
-check('ScreenRecordingState.Recording,\n                                                "Android could not deliver the stop request' not in game_route_final, "Failed screen-recording stop must not force the Recording state")
-check("recording.state," in game_route_final and "Android could not deliver the stop request" in game_route_final, "Failed screen-recording stop must preserve the current lifecycle state")
+check("ScreenRecordingState.Recording," not in game_route_final.split("if (!stopDelivered)")[-1][:400], "Failed screen-recording stop must not force the Recording state")
+check("recording.state," in game_route_final and "R.string.recording_stop_failed" in game_route_final, "Failed screen-recording stop must preserve the current lifecycle state")
 check("formatThermalStatus(" in text("feature/tools/src/main/java/com/apextuner/feature/tools/performance/PerformanceRoute.kt"), "CPU/Performance thermal status must use readable labels")
 check("filter.displayName()" in text("feature/appmanager/src/main/java/com/apextuner/feature/appmanager/AppManagerRoute.kt"), "App Manager kind filters must use readable All/User/System app labels")
 

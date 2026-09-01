@@ -46,4 +46,38 @@
     <string name="apps_review_center_body">Prioritizes apps using visible evidence such as long inactivity, granted dangerous permissions, legacy target SDK and unidentified installer source. This is not a malware score.</string>
     <string name="apps_review_center_empty">No app currently combines the available review signals.</string>
 
+
+    <string name="apps_filter_all">All apps</string>
+    <string name="apps_filter_user">User apps</string>
+    <string name="apps_filter_system">System apps</string>
+    <string name="apps_sort_name">Name</string>
+    <string name="apps_sort_review">Review priority</string>
+    <string name="apps_sort_last_used">Last used</string>
+    <string name="apps_sort_updated">Updated</string>
+    <string name="apps_sort_permissions">Permissions</string>
+    <string name="apps_sort_target_sdk">Target SDK</string>
+    <string name="apps_insight_all">All</string>
+    <string name="apps_insight_review">Review</string>
+    <string name="apps_insight_unused">Unused 30d</string>
+    <string name="apps_insight_permission_heavy">Permission-heavy</string>
+    <string name="apps_insight_installed">Installed 30d</string>
+    <string name="apps_insight_updated">Updated 30d</string>
+    <string name="apps_insight_legacy">Legacy target</string>
+    <string name="apps_insight_installer_unknown">Installer unknown</string>
+    <string name="apps_datetime_unavailable">Unavailable</string>
+
+    <string name="apps_kind_system">System</string>
+    <string name="apps_kind_user">User</string>
+    <string name="apps_metric_version">Version</string>
+    <string name="apps_metric_sdk">Target / min SDK</string>
+    <string name="apps_metric_installed">Installed</string>
+    <string name="apps_metric_updated">Updated</string>
+    <string name="apps_metric_installer">Installer</string>
+    <string name="apps_metric_app">App</string>
+    <string name="apps_metric_data">Data</string>
+    <string name="apps_metric_cache">Cache</string>
+    <string name="apps_details_unavailable">Details are unavailable.</string>
+    <string name="apps_version_unknown">?</string>
 </resources>
+
+

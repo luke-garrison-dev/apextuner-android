@@ -13,8 +13,8 @@ android {
         applicationId = "com.apextuner.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 43
-        versionName = "1.1.6"
+        versionCode = 44
+        versionName = "1.1.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true

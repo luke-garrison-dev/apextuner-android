@@ -189,4 +189,42 @@
     <string name="ui_loading_launchable_apps">Loading launchable apps…</string>
     <string name="ui_no_launchable_apps">No launchable apps were found on this device.</string>
 
+
+    <string name="system_profile_balanced">Balanced</string>
+    <string name="system_profile_battery">Battery</string>
+    <string name="system_profile_performance">Performance</string>
+    <string name="system_profile_gaming">Gaming</string>
+    <string name="recording_state_idle">Idle</string>
+    <string name="recording_state_starting">Starting</string>
+    <string name="recording_state_recording">Recording</string>
+    <string name="recording_state_stopping">Stopping</string>
+    <string name="recording_state_failed">Failed</string>
+    <string name="recording_stop_failed">Android could not deliver the stop request. Keep ApexTuner visible and try again.</string>
+    <string name="advanced_checking_access">Checking advanced access…</string>
+    <string name="advanced_backend_shizuku">Shizuku</string>
+    <string name="advanced_backend_root">Root</string>
+    <string name="advanced_root_not_checked">Not checked yet</string>
+    <string name="advanced_root_granted">Granted</string>
+    <string name="advanced_root_denied">Denied or unavailable</string>
+    <string name="advanced_root_timed_out">Timed out</string>
+    <string name="advanced_confirm_freeze">Freeze %1$s?</string>
+    <string name="advanced_confirm_freeze_body">ApexTuner will disable only %1$s for the current user through the selected privileged backend. The exact prior enabled state is saved for explicit restoration.</string>
+    <string name="advanced_confirm_unfreeze">Restore %1$s?</string>
+    <string name="advanced_confirm_unfreeze_body">ApexTuner will restore the PackageManager enabled state saved when this app was frozen.</string>
+    <string name="advanced_confirm_force_stop">Force-stop %1$s?</string>
+    <string name="advanced_confirm_force_stop_body">ApexTuner will ask Android to force-stop only %1$s. This is a one-time user action and is never scheduled or used as a RAM booster.</string>
+    <string name="advanced_confirm_profile">Apply %1$s CPU profile?</string>
+    <string name="advanced_confirm_profile_body">ApexTuner will snapshot verified CPU governor/frequency values, change only allow-listed cpufreq policy controls, and retain a rollback baseline. Android thermal protections remain enabled and platform-managed.</string>
+    <string name="advanced_confirm_restore">Restore privileged tuning?</string>
+    <string name="advanced_confirm_restore_body">ApexTuner will restore the saved CPU governor/frequency baseline and the normal system-profile baseline. Thermal protections are never modified.</string>
+    <string name="performance_metric_cpu_usage">CPU usage</string>
+    <string name="performance_metric_gpu">GPU utilization</string>
+    <string name="performance_metric_thermal">Thermal status</string>
+    <string name="performance_metric_tcp">TCP congestion</string>
+    <string name="performance_metric_root">Root binary detected</string>
+    <string name="performance_metric_governor">Governor</string>
+    <string name="performance_sampling">Sampling…</string>
+    <string name="performance_root_potential">Potentially — not authorized</string>
+    <string name="performance_root_no">No</string>
 </resources>
+

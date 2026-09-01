@@ -24,6 +24,7 @@ import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -66,8 +67,11 @@ fun FileManagerRoute(
                     ) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.ui_back)) }
                 },
                 actions = {
-                    IconButton(onClick = viewModel::cancelOperation) {
-                        Icon(Icons.Outlined.Cancel, contentDescription = stringResource(R.string.ui_cancel_file_operation))
+                    val busy = (state as? FileManagerUiState.Ready)?.busyMessage != null
+                    if (busy) {
+                        IconButton(onClick = viewModel::cancelOperation) {
+                            Icon(Icons.Outlined.Cancel, contentDescription = stringResource(R.string.ui_cancel_file_operation))
+                        }
                     }
                 },
             )
@@ -79,8 +83,20 @@ fun FileManagerRoute(
                 onGrant = { treePicker.launch(null) },
             )
             is FileManagerUiState.Loading -> {
-                Column(Modifier.fillMaxSize().padding(padding).padding(20.dp)) {
-                    Text(stringResource(R.string.file_manager_loading_location, current.location?.displayName ?: stringResource(R.string.file_manager_granted_folders)))
+                Column(
+                    Modifier.fillMaxSize().padding(padding).padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    CircularProgressIndicator()
+                    Text(
+                        if (current.location == null) {
+                            stringResource(R.string.file_manager_opening)
+                        } else {
+                            stringResource(R.string.file_manager_loading_location, current.location.displayName)
+                        },
+                        modifier = Modifier.padding(top = 16.dp),
+                    )
                 }
             }
             is FileManagerUiState.Error -> {

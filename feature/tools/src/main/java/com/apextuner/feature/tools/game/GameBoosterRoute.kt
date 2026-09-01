@@ -230,7 +230,7 @@ fun GameBoosterRoute(
                         Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                             Text(stringResource(R.string.ui_screen_recording), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
                             Text(stringResource(R.string.ui_android_s_system_capture_consent_is_required_every_time), style = MaterialTheme.typography.bodySmall)
-                            Text(stringResource(R.string.recording_status_summary, recording.state.name, recording.message?.let { " • $it" } ?: ""), style = MaterialTheme.typography.bodySmall)
+                            Text(stringResource(R.string.recording_status_summary, recordingStateLabel(recording.state), recording.message?.let { " • $it" } ?: ""), style = MaterialTheme.typography.bodySmall)
                             if (recording.state in setOf(ScreenRecordingState.Recording, ScreenRecordingState.Starting, ScreenRecordingState.Stopping)) {
                                 OutlinedButton(
                                     onClick = {
@@ -243,7 +243,7 @@ fun GameBoosterRoute(
                                         if (!stopDelivered) {
                                             ScreenRecordingRuntime.set(
                                                 recording.state,
-                                                "Android could not deliver the stop request. Keep ApexTuner visible and try again.",
+                                                context.getString(R.string.recording_stop_failed),
                                             )
                                         }
                                     },
@@ -307,3 +307,14 @@ private fun Context.openSetting(action: String, packageSpecific: Boolean = false
     }
     runCatching { startActivity(intent) }.onFailure { runCatching { startActivity(Intent(Settings.ACTION_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) } }
 }
+
+@Composable
+private fun recordingStateLabel(state: ScreenRecordingState): String = stringResource(
+    when (state) {
+        ScreenRecordingState.Idle -> R.string.recording_state_idle
+        ScreenRecordingState.Starting -> R.string.recording_state_starting
+        ScreenRecordingState.Recording -> R.string.recording_state_recording
+        ScreenRecordingState.Stopping -> R.string.recording_state_stopping
+        ScreenRecordingState.Failed -> R.string.recording_state_failed
+    },
+)
