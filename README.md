@@ -335,7 +335,7 @@ The cumulative project also includes:
 - Premium real-time floating monitor, Quick Settings tile, passive home-screen widget, and WorkManager-based scheduled maintenance/profile automation.
 - System Information covering device/build/kernel/CPU/RAM/storage/display/sensors/cameras/battery/DRM and supported security posture.
 - Premium Game Session Booster using reversible profiles, optional DND integration, safe game launch, persisted session restoration, and a failsafe worker.
-- User-consented MediaProjection screen recording to MediaStore using H.264 surface encoding, no microphone permission, bounded geometry/bitrate, foreground-service ownership, and cleanup of failed output.
+- User-consented MediaProjection screen recording to MediaStore using H.264 surface encoding, no microphone permission, bounded geometry/bitrate, foreground-service ownership, serialized startup/stop/finalization lifecycle, idempotent cleanup, and deletion of failed or incompletely finalized output.
 - SAF local backup/restore for ApexTuner preferences and informational visible-app inventory; security-sensitive billing/Keystore/privileged state is deliberately excluded.
 - APK backup for exposed applications, including base + split APKs in a streamed ZIP with SHA-256 metadata.
 - Conventional JUnit tests, Compose instrumentation smoke tests, and GitHub Actions CI for lint/unit/build plus emulator coverage across API 26, 28, 30, 33, 35, and 36.

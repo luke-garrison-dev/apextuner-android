@@ -21,7 +21,6 @@ import android.media.projection.MediaProjectionManager
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
-import android.os.HandlerThread
 import android.os.IBinder
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
@@ -33,7 +32,6 @@ import androidx.core.app.ServiceCompat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.concurrent.atomic.AtomicBoolean
 
 class ScreenRecordingService : Service() {
     @Volatile private var session: RecordingSession? = null
@@ -85,17 +83,34 @@ class ScreenRecordingService : Service() {
             // the same fail-closed startup path as encoder/projection initialization.
             ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, type)
 
-            val created = RecordingSession(this, resultCode, resultData) { result ->
-                session = null
-                if (result.success) ScreenRecordingRuntime.set(ScreenRecordingState.Idle, "Saved to Movies/ApexTuner")
-                else ScreenRecordingRuntime.set(ScreenRecordingState.Failed, result.message)
-                stopForeground(STOP_FOREGROUND_REMOVE)
-                stopSelf()
-            }
+            val created = RecordingSession(
+                service = this,
+                resultCode = resultCode,
+                resultData = resultData,
+                onStarted = { owner ->
+                    if (session === owner) {
+                        ScreenRecordingRuntime.set(ScreenRecordingState.Recording)
+                        getSystemService(NotificationManager::class.java).notify(
+                            NOTIFICATION_ID,
+                            buildNotification(getString(com.apextuner.feature.tools.R.string.recording_notification_active)),
+                        )
+                    }
+                },
+                onStopping = { owner ->
+                    if (session === owner) ScreenRecordingRuntime.set(ScreenRecordingState.Stopping)
+                },
+                onFinished = { owner, result ->
+                    if (session === owner) {
+                        session = null
+                        if (result.success) ScreenRecordingRuntime.set(ScreenRecordingState.Idle, "Saved to Movies/ApexTuner")
+                        else ScreenRecordingRuntime.set(ScreenRecordingState.Failed, result.message)
+                        stopForeground(STOP_FOREGROUND_REMOVE)
+                        stopSelf()
+                    }
+                },
+            )
             session = created
             created.start()
-            ScreenRecordingRuntime.set(ScreenRecordingState.Recording)
-            getSystemService(NotificationManager::class.java).notify(NOTIFICATION_ID, buildNotification(getString(com.apextuner.feature.tools.R.string.recording_notification_active)))
         } catch (error: Throwable) {
             val message = error.message ?: "Screen recording could not start."
             val created = session
@@ -110,8 +125,10 @@ class ScreenRecordingService : Service() {
     }
 
     private fun requestStop(reason: String) {
-        ScreenRecordingRuntime.set(ScreenRecordingState.Stopping)
-        session?.requestStop(reason) ?: run { ScreenRecordingRuntime.set(ScreenRecordingState.Idle); stopSelf() }
+        session?.requestStop(reason) ?: run {
+            ScreenRecordingRuntime.set(ScreenRecordingState.Idle)
+            stopSelf()
+        }
     }
 
     private fun createChannel() {
@@ -156,18 +173,19 @@ class ScreenRecordingService : Service() {
         private val service: ScreenRecordingService,
         resultCode: Int,
         resultData: Intent,
-        private val onFinished: (SessionResult) -> Unit,
+        private val onStarted: (RecordingSession) -> Unit,
+        private val onStopping: (RecordingSession) -> Unit,
+        private val onFinished: (RecordingSession, SessionResult) -> Unit,
     ) {
-        private val stopRequested = AtomicBoolean(false)
-        private val finished = AtomicBoolean(false)
+        private val lifecycle = RecordingLifecycleGate()
+        @Volatile private var stopRequested = false
+        private val mainHandler = Handler(service.mainLooper)
         private val projectionManager = service.getSystemService(MediaProjectionManager::class.java)
-        // Resolve the user-authorized MediaProjection before starting a callback thread so a
-        // rejected/expired consent token cannot strand a HandlerThread during construction.
+        // Resolve the user-authorized MediaProjection before allocating encoder/output resources so a
+        // rejected or expired consent token fails without leaving partially initialized state.
         private val projection: MediaProjection = requireNotNull(
             projectionManager.getMediaProjection(resultCode, resultData),
         ) { "Android did not return a valid screen-capture session. Request capture permission again." }
-        private val callbackThread = HandlerThread("ApexProjectionCallback").apply { start() }
-        private val callbackHandler = Handler(callbackThread.looper)
         private var codec: MediaCodec? = null
         private var inputSurface: Surface? = null
         private var virtualDisplay: VirtualDisplay? = null
@@ -183,43 +201,71 @@ class ScreenRecordingService : Service() {
         }
 
         fun start() {
-            projection.registerCallback(projectionCallback, callbackHandler)
-            val display = displaySize(service)
-            val plan = selectEncoderPlan(display)
-            val output = createOutput(service)
-            outputUri = output.first
-            pfd = output.second
-            muxer = MediaMuxer(output.second.fileDescriptor, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
+            try {
+                lifecycle.locked {
+                    transitionToStarting()
+                    // Keep MediaProjection lifecycle delivery on the Service main looper. Android
+                    // may revoke projection at any time, but onStop cannot now execute halfway
+                    // through this synchronous startup transaction.
+                    projection.registerCallback(projectionCallback, mainHandler)
+                    val display = displaySize(service)
+                    val plan = selectEncoderPlan(display)
+                    val output = createOutput(service)
+                    outputUri = output.first
+                    pfd = output.second
+                    muxer = MediaMuxer(output.second.fileDescriptor, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
 
-            val format = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, plan.width, plan.height).apply {
-                setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
-                setInteger(MediaFormat.KEY_BIT_RATE, plan.bitrate)
-                setInteger(MediaFormat.KEY_FRAME_RATE, plan.frameRate)
-                setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 2)
+                    val format = MediaFormat.createVideoFormat(MediaFormat.MIMETYPE_VIDEO_AVC, plan.width, plan.height).apply {
+                        setInteger(MediaFormat.KEY_COLOR_FORMAT, MediaCodecInfo.CodecCapabilities.COLOR_FormatSurface)
+                        setInteger(MediaFormat.KEY_BIT_RATE, plan.bitrate)
+                        setInteger(MediaFormat.KEY_FRAME_RATE, plan.frameRate)
+                        setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 2)
+                    }
+                    val encoder = MediaCodec.createByCodecName(plan.codecName)
+                    codec = encoder
+                    encoder.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
+                    val surface = encoder.createInputSurface()
+                    inputSurface = surface
+                    encoder.start()
+                    virtualDisplay = requireNotNull(
+                        projection.createVirtualDisplay(
+                            "ApexTunerRecording",
+                            plan.width,
+                            plan.height,
+                            service.resources.displayMetrics.densityDpi,
+                            DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                            surface,
+                            null,
+                            mainHandler,
+                        ),
+                    ) { "Android could not create a screen-capture display." }
+
+                    // Assign the thread reference before starting it. If the drain loop fails
+                    // immediately, finish() is serialized behind this lifecycle transaction and
+                    // therefore cannot tear resources down before startup has been published.
+                    val thread = Thread(::drainLoop, "ApexRecordingEncoder").apply { isDaemon = true }
+                    drainThread = thread
+                    transitionToRunning()
+                    thread.start()
+                    onStarted(this@RecordingSession)
+                }
+            } catch (error: Throwable) {
+                finish(false, error.message ?: "Screen recording could not start.")
             }
-            val encoder = MediaCodec.createByCodecName(plan.codecName)
-            codec = encoder
-            encoder.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
-            val surface = encoder.createInputSurface()
-            inputSurface = surface
-            encoder.start()
-            virtualDisplay = projection.createVirtualDisplay(
-                "ApexTunerRecording",
-                plan.width,
-                plan.height,
-                service.resources.displayMetrics.densityDpi,
-                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                surface,
-                null,
-                callbackHandler,
-            )
-            drainThread = Thread(::drainLoop, "ApexRecordingEncoder").apply { isDaemon = true; start() }
         }
 
         fun requestStop(reason: String) {
-            if (!stopRequested.compareAndSet(false, true)) return
-            runCatching { codec?.signalEndOfInputStream() }
-            if (drainThread == null) finish(false, reason)
+            var accepted = false
+            var hasDrainThread = false
+            lifecycle.locked {
+                accepted = transitionToStopping()
+                if (!accepted) return@locked
+                stopRequested = true
+                hasDrainThread = drainThread != null
+                onStopping(this@RecordingSession)
+                runCatching { codec?.signalEndOfInputStream() }
+            }
+            if (accepted && !hasDrainThread) finish(false, reason)
         }
 
         private fun drainLoop() {
@@ -230,7 +276,7 @@ class ScreenRecordingService : Service() {
             var samplesWritten = 0L
             try {
                 while (true) {
-                    if (stopRequested.get() && eosDeadline == Long.MAX_VALUE) {
+                    if (stopRequested && eosDeadline == Long.MAX_VALUE) {
                         eosDeadline = android.os.SystemClock.elapsedRealtime() + ENCODER_EOS_TIMEOUT_MILLIS
                     }
                     val index = encoder.dequeueOutputBuffer(info, 20_000L)
@@ -256,7 +302,7 @@ class ScreenRecordingService : Service() {
                             if (eosSeen) break
                         }
                     }
-                    if (stopRequested.get() && android.os.SystemClock.elapsedRealtime() >= eosDeadline) break
+                    if (stopRequested && android.os.SystemClock.elapsedRealtime() >= eosDeadline) break
                 }
                 val valid = eosSeen && muxerStarted && samplesWritten > 0
                 finish(valid, if (valid) "Recording saved." else "The encoder did not finalize a valid video in time.")
@@ -266,45 +312,67 @@ class ScreenRecordingService : Service() {
         }
 
         private fun finish(success: Boolean, message: String) {
-            if (!finished.compareAndSet(false, true)) return
-            stopRequested.set(true)
-            runCatching { virtualDisplay?.release() }
-            virtualDisplay = null
-            runCatching { inputSurface?.release() }
-            inputSurface = null
-            runCatching { codec?.stop() }
-            runCatching { codec?.release() }
-            codec = null
-            if (muxerStarted) runCatching { muxer?.stop() }
-            runCatching { muxer?.release() }
-            muxer = null
-            runCatching { pfd?.close() }
-            pfd = null
-            runCatching { projection.unregisterCallback(projectionCallback) }
-            runCatching { projection.stop() }
-            callbackThread.quitSafely()
-
             var finalSuccess = success
             var finalMessage = message
-            val uri = outputUri
-            if (uri != null) {
-                if (finalSuccess && Build.VERSION.SDK_INT >= 29) {
-                    val published = runCatching {
-                        service.contentResolver.update(
-                            uri,
-                            ContentValues().apply { put(MediaStore.Video.Media.IS_PENDING, 0) },
-                            null,
-                            null,
-                        )
-                    }.getOrDefault(0) > 0
-                    if (!published) {
+            var shouldNotify = false
+
+            lifecycle.locked {
+                if (!transitionToFinished()) return@locked
+                shouldNotify = true
+                stopRequested = true
+
+                // All structural resource release is serialized with startup and stop requests.
+                // The drain loop is the only code that finalizes an active encoder, so a running
+                // codec cannot be stopped underneath dequeue/write operations by another thread.
+                runCatching { virtualDisplay?.release() }
+                virtualDisplay = null
+                runCatching { inputSurface?.release() }
+                inputSurface = null
+                runCatching { codec?.stop() }
+                runCatching { codec?.release() }
+                codec = null
+                if (muxerStarted) {
+                    val muxerStopped = runCatching { muxer?.stop() }.isSuccess
+                    if (finalSuccess && !muxerStopped) {
                         finalSuccess = false
-                        finalMessage = "Android could not publish the completed recording safely."
+                        finalMessage = "Android could not finalize the recording container safely."
                     }
                 }
-                if (!finalSuccess) runCatching { service.contentResolver.delete(uri, null, null) }
+                runCatching { muxer?.release() }
+                muxer = null
+                muxerStarted = false
+                trackIndex = -1
+                runCatching { pfd?.close() }
+                pfd = null
+                runCatching { projection.unregisterCallback(projectionCallback) }
+                runCatching { projection.stop() }
+                drainThread = null
+
+                val uri = outputUri
+                outputUri = null
+                if (uri != null) {
+                    if (finalSuccess && Build.VERSION.SDK_INT >= 29) {
+                        val published = runCatching {
+                            service.contentResolver.update(
+                                uri,
+                                ContentValues().apply { put(MediaStore.Video.Media.IS_PENDING, 0) },
+                                null,
+                                null,
+                            )
+                        }.getOrDefault(0) > 0
+                        if (!published) {
+                            finalSuccess = false
+                            finalMessage = "Android could not publish the completed recording safely."
+                        }
+                    }
+                    if (!finalSuccess) runCatching { service.contentResolver.delete(uri, null, null) }
+                }
             }
-            onFinished(SessionResult(finalSuccess, finalMessage))
+
+            if (shouldNotify) {
+                val result = SessionResult(finalSuccess, finalMessage)
+                mainHandler.post { onFinished(this@RecordingSession, result) }
+            }
         }
 
         private fun displaySize(context: Context): RecordingSize {
